@@ -17,7 +17,7 @@ export default function Index() {
       }}
     >
         <AbsenceButton />
-        <SideMenu/>
+        <AttendanceButton />
     </View>
   );
 }
