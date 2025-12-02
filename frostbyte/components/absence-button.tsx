@@ -18,7 +18,7 @@ export function AbsenceButton(props: AbsenceButtonProps) {
     <TouchableOpacity style={[styles.container, props.style]}>
       <View style={styles.button}>
         <Image
-          source={require("../assets/icons/absence-icon.png")}
+          source={require("../assets/icons/green-absence-icon.png")}
           style={styles.icon}
           resizeMode="contain"
         />
@@ -27,7 +27,6 @@ export function AbsenceButton(props: AbsenceButtonProps) {
     </TouchableOpacity>
   );
 }
-//./assets/icons/abcense-icon.png
 
 const styles = StyleSheet.create({
   button: {
@@ -47,6 +46,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   icon: {
+    color: "rgba(0, 0, 0, 1)",
     width: 40,
     height: 40,
     marginBottom: 8,
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
   text: {
     color: "rgba(0, 0, 0, 1)",
     textAlign: "center",
-    fontFamily: "Roboto",
     fontSize: 20,
     fontStyle: "normal",
     fontWeight: "600",

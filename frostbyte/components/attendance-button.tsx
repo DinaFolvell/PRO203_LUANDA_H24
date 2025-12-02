@@ -8,7 +8,7 @@ export function AttendanceButton(props: AttendanceButtonProps) {
     return (  
         <TouchableOpacity style={[styles.container, props.style]} >  
             <View style={styles.button}>  
-                <Image                    source={require('../assets/icons/attendance-icon.png')}  
+                <Image                    source={require('../assets/icons/green-attendance-icon.png')}  
                     style={styles.icon}  
                     resizeMode="contain"  
                 />  
