@@ -1,4 +1,5 @@
 import { Text, View } from "react-native";
+import {AbsenceButton} from "@/absence-button";
 
 //Inne i (tabs) har vi alle sidene
 //som dashboard, checkout
@@ -14,7 +15,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+        <AbsenceButton />
     </View>
   );
 }
