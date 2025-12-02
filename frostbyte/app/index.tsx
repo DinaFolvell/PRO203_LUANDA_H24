@@ -1,5 +1,5 @@
 // app/index.tsx
-import { AbsenceButton } from '@/components/absence-button';
+import { StatusBar } from '../components/staus-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -7,7 +7,6 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>This is the home screen</Text>
-      <Text style={styles.text}>Test</Text>
     </View>
   );
 }
