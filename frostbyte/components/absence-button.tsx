@@ -9,7 +9,7 @@ export function AbsenceButton(props: AbsenceButtonProps) {
         <TouchableOpacity style={[styles.container, props.style]}>
             <View style={styles.button}>
                 <Image
-                    source={require('./assets/icons/abcense-icon.png')}
+                    source={require('../assets/icons/absence-icon.png')}
                     style={styles.icon}
                     resizeMode="contain"
                 />
