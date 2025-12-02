@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import {AbsenceButton} from "@/absence-button";
+import {AbsenceButton} from "@/components/absence-button";
 
 //Inne i (tabs) har vi alle sidene
 //som dashboard, checkout
