@@ -1,5 +1,6 @@
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import {AbsenceButton} from "@/components/absence-button";
+import { AttendanceButton } from "@/components/attendance-button";
 
 //Inne i (tabs) har vi alle sidene
 //som dashboard, checkout
@@ -16,6 +17,7 @@ export default function Index() {
       }}
     >
         <AbsenceButton />
+        <AttendanceButton />
     </View>
   );
 }
