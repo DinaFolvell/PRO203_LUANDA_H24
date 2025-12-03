@@ -3,12 +3,20 @@ import { AttendanceOverview } from "../components/attendance-overview";
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { AbsenceButton } from "@/components/absence-button";
+import { ChildCard } from "@/components/child-card";
 import { MessagesButton } from "@/components/messages-button";
 import { CareButton } from "@/components/care-button";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <AttendanceButton />
+        <AbsenceButton />
+        <ChildCard />
+    
+      </View>
+    
       <View style={styles.shortcutsBox}>
         <Text style={styles.shortcutsTitle}>Snarveier</Text>
         <View style={styles.buttonContainer}>
