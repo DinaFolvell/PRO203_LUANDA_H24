@@ -11,7 +11,7 @@ export function AttendanceButton(props: AttendanceButtonProps) {
         <View style={styles.button}>
           <Octicons name="checklist" size={35} color="rgba(245, 69, 0, 1)" />
           <Text style={styles.text}>Oppmøte</Text>
-        </View>{" "}
+        </View>
       </TouchableOpacity>
     );  
 }  
