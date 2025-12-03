@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ImageSourcePropType } from "react-native";
+import Feather from '@expo/vector-icons/Feather';
 
 type StatusKey = "tilstede" | "forventet" | "hentet";
 
@@ -75,7 +76,12 @@ export default function AttendanceDropdown() {
           {selected.label}
         </Text>
         <Text style={[styles.arrow, { color: colors.text }]}>
-          {isOpen ? "˄" : "˅"}
+          {isOpen ? (
+            <Feather name="chevron-up" size={20} color={colors.text} />
+            ) : (
+            <Feather name="chevron-down" size={20} color={colors.text} />
+          )}
+
         </Text>
       </TouchableOpacity>
 
