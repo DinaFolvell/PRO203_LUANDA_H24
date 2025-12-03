@@ -1,25 +1,22 @@
 import { AttendanceOverview } from '@/components/attendance-overview';
 import AttendanceDropdown from '@/components/dropdown-menu';
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View} from 'react-native';
 
 export default function CheckInScreen() {
   return (
     <View style={styles.container}>
-      <AttendanceOverview style={styles.overView} />
-      <AttendanceDropdown/>
+      <AttendanceOverview />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: "center", justifyContent: "center" },
-  text: { fontSize: 20 },
-  overView: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1000,
+  container: { 
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  text: { 
+    fontSize: 20 
   },
 });

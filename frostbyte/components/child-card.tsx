@@ -1,30 +1,39 @@
-// Dette kortet er det som vises for hvert barn i rutenettet på oppmøtelisten.
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, ImageSourcePropType } from "react-native";
 
 export interface ChildCardProps {
-  /** Barnets navn som skal vises */
-  name?: string;
-  /** Ekstra stil på root */
+  name: string;
+  image: ImageSourcePropType;
+  attendanceStatus?: "present" | "expected" | "picked_up" | "absent";
   style?: object;
 }
 
-export function ChildCard({ name = "Emma Y J", style }: ChildCardProps) {
+export function ChildCard({
+  name,
+  image,
+  attendanceStatus = "expected",
+  style,
+}: ChildCardProps) {
+
+  const statusColor = {
+    present: "#496F57",
+    expected: "#C28E00",
+    picked_up: "#75339B",
+    absent: "#F50000",
+  }[attendanceStatus];
+
   return (
     <View style={[styles.root, style]}>
       <View style={styles.imageContainer}>
-        <Image
-          source={require("../assets/images/emma.png")}
-          style={styles.image}
-          resizeMode="cover"
-        />
+        <Image source={image} style={styles.image} resizeMode="cover" />
       </View>
 
       <View style={styles.nameContainer}>
         <Text style={styles.nameText}>{name}</Text>
-        <View style={styles.statusVector}>
-          {/* Her kan du legge inn et ikon eller status */}
-        </View>
+
+        <View
+          style={[styles.statusVector, { backgroundColor: statusColor }]}
+        />
       </View>
     </View>
   );
@@ -47,8 +56,8 @@ const styles = StyleSheet.create({
     position: "relative",
     overflow: "hidden",
     borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,  // avrundede hjørner øverst
-    marginBottom: 0, // litt luft mellom bilde og navn/status
+    borderTopRightRadius: 8,
+    marginBottom: 0,
   },
 
   image: {
@@ -58,7 +67,7 @@ const styles = StyleSheet.create({
   },
 
   nameContainer: {
-    flexDirection: "row", // navn og status på samme linje
+    flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
     alignItems: "center",

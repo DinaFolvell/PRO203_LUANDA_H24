@@ -13,8 +13,6 @@ export default function HomeScreen() {
       <View style={styles.buttonContainer}>
         <AttendanceButton />
         <AbsenceButton />
-        <ChildCard />
-    
       </View>
     
       <View style={styles.shortcutsBox}>
