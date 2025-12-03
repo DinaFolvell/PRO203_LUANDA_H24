@@ -3,6 +3,8 @@ import { AttendanceOverview } from "../components/attendance-overview";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { AbsenceButton } from "@/components/absence-button";
+import { MessagesButton } from "@/components/messages-button";
+import { CareButton } from "@/components/care-button";
 
 export default function HomeScreen() {
   return (
@@ -10,8 +12,9 @@ export default function HomeScreen() {
       <View style={styles.buttonContainer}>
         <AttendanceButton />
         <AbsenceButton />
+        <CareButton />
+        <MessagesButton />
       </View>
-      
     </View>
   );
 }
@@ -22,7 +25,9 @@ const styles = StyleSheet.create({
 
   buttonContainer: {
     flexDirection: "row",
-    gap: 16, 
+    flexWrap: "wrap", 
+    justifyContent: "center",
+    gap: 16,
     marginTop: 20,
   },
 });
