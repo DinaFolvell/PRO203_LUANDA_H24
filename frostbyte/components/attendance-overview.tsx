@@ -2,11 +2,11 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import type { ViewStyle, StyleProp } from 'react-native';
 
-import AllScreen from '../screens/all-screen';
-import PresentScreen from '../screens/present-screen';
-import ExpectedScreen from '../screens/expected-screen';
-import PickedUpScreen from '../screens/picked-up-screen';
-import AbsentScreen from '../screens/absent-screen';
+import AllScreen from '../attendance-screens/all-screen';
+import PresentScreen from '../attendance-screens/present-screen';
+import ExpectedScreen from '../attendance-screens/expected-screen';
+import PickedUpScreen from '../attendance-screens/picked-up-screen';
+import AbsentScreen from '../attendance-screens/absent-screen';
 
 export interface AttendanceOverviewProps {
   style?: StyleProp<ViewStyle>;
