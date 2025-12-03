@@ -11,7 +11,7 @@ export default function HomeScreen() {
         <AttendanceButton />
         <AbsenceButton />
       </View>
-      <AttendanceOverview />
+      
     </View>
   );
 }
