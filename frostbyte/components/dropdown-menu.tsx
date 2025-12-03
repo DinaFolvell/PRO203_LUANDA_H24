@@ -94,7 +94,6 @@ export default function AttendanceDropdown() {
                 key={option.value}
                 style={styles.optionRow}
                 onPress={() => handleSelect(option)}
-                activeOpacity={0.8}
               >
                 <Image source={option.image} style={styles.icon} />
                 <Text
@@ -117,6 +116,7 @@ export default function AttendanceDropdown() {
 const styles = StyleSheet.create({
   wrapper: {
     width: 140,
+    position: "relative",
   },
   button: {
     flexDirection: "row",
@@ -135,7 +135,10 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   dropdown: {
-    marginTop: 6,
+    position: "absolute",
+    top: 40,                
+    left: 0,
+    right: 0,
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
     paddingVertical: 8,
