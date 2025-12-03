@@ -3,6 +3,7 @@ import { AttendanceOverview } from "../components/attendance-overview";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { AbsenceButton } from "@/components/absence-button";
+import { ChildCard } from "@/components/child-card";
 
 export default function HomeScreen() {
   return (
@@ -10,8 +11,10 @@ export default function HomeScreen() {
       <View style={styles.buttonContainer}>
         <AttendanceButton />
         <AbsenceButton />
+        <ChildCard />
+    
       </View>
-      
+    
     </View>
   );
 }
