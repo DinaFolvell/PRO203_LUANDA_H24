@@ -72,7 +72,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
 
         <MenuItem
           href="/check-in"
-          label="Utkryssings-liste"
+          label="Oppmøte-liste"
           isActive={isRouteActive("/check-in")}
           icon={
             <Ionicons
