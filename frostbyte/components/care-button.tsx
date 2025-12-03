@@ -9,22 +9,21 @@ import {
 } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-export interface AbsenceButtonProps {
+export interface CareButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export function AbsenceButton(props: AbsenceButtonProps) {
-    
+export function CareButton(props: CareButtonProps) {
   return (
     <TouchableOpacity style={[styles.container, props.style]}>
       <View style={styles.button}>
         <MaterialCommunityIcons
-          name="account-cancel-outline"
+          name="human-baby-changing-table"
           size={40}
           color="rgba(245, 69, 0, 1)"
           style={{ marginBottom: 8 }}
         />
-        <Text style={styles.text}>Fravær</Text>
+        <Text style={styles.text}>Pleie</Text>
       </View>
     </TouchableOpacity>
   );
