@@ -5,26 +5,23 @@ import {
   TouchableOpacity,
   StyleProp,
   ViewStyle,
-  Image,
 } from "react-native";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-
-export interface AbsenceButtonProps {
+import AntDesign from "@expo/vector-icons/AntDesign";
+export interface MessagesButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export function AbsenceButton(props: AbsenceButtonProps) {
-    
+export function MessagesButton(props: MessagesButtonProps) {
   return (
     <TouchableOpacity style={[styles.container, props.style]}>
       <View style={styles.button}>
-        <MaterialCommunityIcons
-          name="account-cancel-outline"
+        <AntDesign
+          name="message"
           size={40}
           color="rgba(245, 69, 0, 1)"
           style={{ marginBottom: 8 }}
         />
-        <Text style={styles.text}>Fravær</Text>
+        <Text style={styles.text}>Meldinger</Text>
       </View>
     </TouchableOpacity>
   );
