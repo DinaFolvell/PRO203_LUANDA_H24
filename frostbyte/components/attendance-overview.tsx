@@ -1,5 +1,12 @@
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import type { ViewStyle, StyleProp } from 'react-native';
+
+import AllScreen from '../screens/AllScreen';
+import PresentScreen from '../screens/PresentScreen';
+import ExpectedScreen from '../screens/ExpectedScreen';
+import PickedUpScreen from '../screens/PickedUpScreen';
+import AbsentScreen from '../screens/AbsentScreen';
 
 export interface AttendanceOverviewProps {
   style?: StyleProp<ViewStyle>;
@@ -19,70 +26,57 @@ const attendanceItems: AttendanceItem[] = [
   { count: 2, label: 'Fravær', icon: require('../assets/icons/red-absent-icon.png') },
 ];
 
-export function AttendanceOverview(props: AttendanceOverviewProps) {
+export function AttendanceOverview({ style }: AttendanceOverviewProps) {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const renderSubpage = () => {
+    switch (activeIndex) {
+      case 0: return <AllScreen />;
+      case 1: return <PresentScreen />;
+      case 2: return <ExpectedScreen />;
+      case 3: return <PickedUpScreen />;
+      case 4: return <AbsentScreen />;
+      default: return null;
+    }
+  };
+
   return (
-    <View style={[styles.root, props.style]}>
-      {attendanceItems.map((item, index) => (
-        <View key={index} style={styles.statusItem}>
-          <View style={[styles.innerWrapper, index === 0 && styles.underline]}>
+    <View style={[styles.root, style]}>
+      <View style={styles.bar}>
+        {attendanceItems.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.statusItem, activeIndex === index && styles.activeItem]}
+            onPress={() => setActiveIndex(index)}
+          >
             <View style={styles.countContainer}>
               <Text style={styles.countText}>{item.count}</Text>
               <Image source={item.icon} style={styles.icon} />
             </View>
             <Text style={styles.labelText}>{item.label}</Text>
-          </View>
-        </View>
-      ))}
+          </TouchableOpacity>
+        ))}
+      </View>
+      <View style={styles.subpageContainer}>{renderSubpage()}</View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: {
-    width: '100%',
+  root: { width: '100%', flex: 1 },
+  bar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingVertical: 16,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#fff',
+    paddingVertical: 12,
+    paddingHorizontal: 8,
   },
-  statusItem: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    rowGap: 4,
-  },
-  innerWrapper: {
-    paddingHorizontal: 2,
-    paddingBottom: 2,
-    alignItems: 'center',
-  },
-  underline: {
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(0, 0, 0, 1)',
-  },
-  countContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    columnGap: 6,
-  },
-  countText: {
-    fontSize: 20,
-    fontWeight: '600',
-    lineHeight: 24,
-    letterSpacing: -0.32,
-    color: 'rgba(0, 0, 0, 1)',
-  },
-  labelText: {
-    fontSize: 16,
-    fontWeight: '600',
-    lineHeight: 20,
-    letterSpacing: -0.24,
-    color: 'rgba(0, 0, 0, 1)',
-  },
-  icon: {
-    width: 20,
-    height: 20,
-    resizeMode: 'contain',
-  },
+  statusItem: { flex: 1, alignItems: 'center', padding: 4 },
+  activeItem: { borderBottomWidth: 2, borderBottomColor: 'black' }, // updated here
+  countContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
+  countText: { fontSize: 18, fontWeight: '600' },
+  labelText: { fontSize: 14, fontWeight: '500' },
+  icon: { width: 20, height: 20, resizeMode: 'contain', marginLeft: 4 },
+  subpageContainer: { flex: 1 },
 });
+
