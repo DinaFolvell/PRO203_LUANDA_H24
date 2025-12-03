@@ -1,0 +1,216 @@
+// app/side-menu.tsx
+import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import type { DrawerContentComponentProps } from "@react-navigation/drawer";
+import { DrawerContentScrollView } from "@react-navigation/drawer";
+import { Link, usePathname, type Href } from "expo-router";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+
+type MenuItemProps = {
+  href: Href;
+  label: string;
+  icon: React.ReactNode;
+  isActive: boolean;
+};
+
+function MenuItem({ href, label, icon, isActive }: MenuItemProps) {
+  return (
+    <Link href={href} asChild>
+      <TouchableOpacity
+        style={[styles.item, isActive && styles.itemActive]}
+        activeOpacity={0.7}
+      > 
+      <View style={styles.item}>
+        <View style={styles.iconWrapper}>{icon}</View>
+
+        <Text
+          style={[styles.itemLabel, isActive && styles.itemLabelActive]}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {label}
+        </Text>
+        </View>
+      </TouchableOpacity>
+    </Link>
+  );
+}
+
+export default function SideMenu(props: DrawerContentComponentProps) {
+  const pathname = usePathname();
+
+  const isRouteActive = (href: Href) => {
+    if (typeof href !== "string") return false;
+    return pathname === href || pathname.startsWith(`${href}/`);
+};
+
+
+  return (
+    <DrawerContentScrollView
+      {...props}
+      contentContainerStyle={styles.container}
+    >
+      {/* Top spacer / header line to match your design */}
+      <View style={styles.topSpacer} />
+
+      {/* MAIN SECTION */}
+      <View style={styles.menuItemContainer}>
+        <MenuItem
+          href="/"
+          label="Oversikt"
+          isActive={isRouteActive("/")}
+          icon={
+            <MaterialIcons
+              name="menu-book"
+              size={30}
+              style={styles.icon}
+            />
+          }
+        />
+
+        <MenuItem
+          href="/check-in"
+          label="Utkryssings-liste"
+          isActive={isRouteActive("/check-in")}
+          icon={
+            <Ionicons
+              name="person"
+              size={30}
+              style={styles.icon}
+            />
+          }
+        />
+
+        <MenuItem
+          href="/"
+          label="Registrer Fravær"
+          isActive={isRouteActive("/")}
+          icon={
+            <MaterialIcons
+              name="smartphone"
+              size={30}
+              style={styles.icon}
+            />
+          }
+        />
+      </View>
+
+      {/* Divider */}
+      <View style={styles.sectionDivider} />
+
+      {/* MIDDLE SECTION */}
+      <View style={styles.menuItemContainer}>
+        <MenuItem
+          href="/"
+          label="Foreldre"
+          isActive={isRouteActive("/")}
+          icon={
+            <Ionicons
+              name="people"
+              size={30}
+              style={styles.icon}
+            />
+          }
+        />
+        <MenuItem
+          href="/"
+          label="Barn"
+          isActive={isRouteActive("/")}
+          icon={
+            <Ionicons
+              name="body"
+              size={30}
+              style={styles.icon}
+            />
+          }
+        />
+        <MenuItem
+          href="/"
+          label="Ansatte"
+          isActive={isRouteActive("/")}
+          icon={
+            <Ionicons
+              name="person"
+              size={30}
+              style={styles.icon}
+            />
+          }
+        />
+      </View>
+      
+    <View style={styles.bottomSectionDivider} />
+      {/* SETTINGS AT BOTTOM */}
+      <View style={styles.bottomSection}>
+        <View style={styles.sectionDivider} />
+        <MenuItem
+          href="/"
+          label="Innstillinger"
+          isActive={isRouteActive("/")}
+          icon={
+            <Feather
+              name="settings"
+              size={20}
+              style={styles.icon}
+            />
+          }
+        />
+      </View>
+    </DrawerContentScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    paddingTop: 16,
+    paddingHorizontal: 24
+  },
+  topSpacer: {
+    height: 100,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#e5e5e5",
+    marginBottom: 8,
+  },
+  item: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+  },
+  menuItemContainer: {
+    paddingHorizontal: 16,
+  },
+  itemActive: {
+    backgroundColor: "#f1f1f1",
+  },
+  iconWrapper: {
+    width: 34,
+    alignItems: "center",
+    marginRight: 12,
+  },
+  icon: {
+    color: "#111111",
+  },
+  itemLabel: {
+    fontSize: 20,
+    color: "#111111",
+    flexShrink: 1,
+  },
+  itemLabelActive: {
+    fontWeight: "400",
+  },
+  sectionDivider: {
+    height: 1,
+    backgroundColor: "#e5e5e5",
+    marginVertical: 12,
+    marginHorizontal: 16,
+  },
+  bottomSection: {
+    marginTop: 24,
+    paddingHorizontal: 16,
+  },
+  bottomSectionDivider: {
+    flexGrow: 1
+  },
+});
