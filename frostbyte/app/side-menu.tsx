@@ -18,20 +18,21 @@ function MenuItem({ href, label, icon, isActive }: MenuItemProps) {
   return (
     <Link href={href} asChild>
       <TouchableOpacity
-        style={[styles.item, isActive && styles.itemActive]}
+        style={StyleSheet.flatten([styles.item, isActive && styles.itemActive])}
         activeOpacity={0.7}
-      > 
-      <View style={styles.item}>
+      >
         <View style={styles.iconWrapper}>{icon}</View>
 
         <Text
-          style={[styles.itemLabel, isActive && styles.itemLabelActive]}
+          style={StyleSheet.flatten([
+            styles.itemLabel,
+            isActive && styles.itemLabelActive,
+          ])}
           numberOfLines={1}
           ellipsizeMode="tail"
         >
           {label}
         </Text>
-        </View>
       </TouchableOpacity>
     </Link>
   );
