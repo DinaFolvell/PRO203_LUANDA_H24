@@ -1,12 +1,13 @@
-import { AttendanceOverview } from "@/components/attendance-overview";
-import AttendanceDropdown from "@/components/dropdown-menu";
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { AttendanceOverview } from '@/components/attendance-overview';
+import AttendanceDropdown from '@/components/dropdown-menu';
+import React from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 
 export default function CheckInScreen() {
   return (
     <View style={styles.container}>
-      <AttendanceOverview style={styles.overView}/>
+      <AttendanceOverview style={styles.overView} />
+      <AttendanceDropdown/>
     </View>
   );
 }
