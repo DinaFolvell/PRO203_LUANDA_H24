@@ -1,21 +1,34 @@
-import { StyleSheet, Text, View, TouchableOpacity, StyleProp, ViewStyle, Image } from 'react-native';  
-  import Octicons from "@expo/vector-icons/Octicons";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  StyleProp,
+  ViewStyle,
+  Image,
+} from "react-native";
+import Octicons from "@expo/vector-icons/Octicons";
+import { useRouter } from "expo-router";
 
-export interface AttendanceButtonProps {  
-    style?: StyleProp<ViewStyle>;  
-}  
-  
-export function AttendanceButton(props: AttendanceButtonProps) {  
-    return (
-      <TouchableOpacity style={[styles.container, props.style]}>
-        <View style={styles.button}>
-          <Octicons name="checklist" size={35} color="rgba(245, 69, 0, 1)" />
-          <Text style={styles.text}>Oppmøte</Text>
-        </View>
-      </TouchableOpacity>
-    );  
-}  
-  
+export interface AttendanceButtonProps {
+  style?: StyleProp<ViewStyle>;
+}
+
+export function AttendanceButton(props: AttendanceButtonProps) {
+  const router = useRouter();
+  return (
+    <TouchableOpacity
+      style={[styles.container, props.style]}
+      onPress={() => router.push("/check-in")}
+    >
+      <View style={styles.button}>
+        <Octicons name="checklist" size={35} color="rgba(245, 69, 0, 1)" />
+        <Text style={styles.text}>Oppmøte</Text>
+      </View>
+    </TouchableOpacity>
+  );
+}
+
 const styles = StyleSheet.create({
   button: {
     width: 165,
