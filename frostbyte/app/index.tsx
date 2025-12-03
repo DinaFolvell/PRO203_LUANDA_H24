@@ -1,7 +1,7 @@
 import { AttendanceButton } from "@/components/attendance-button";
-import { StatusBar } from "../components/staus-bar";
+import { AttendanceOverview } from "../components/attendance-overview";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { AbsenceButton } from "@/components/absence-button";
 
 export default function HomeScreen() {
@@ -11,6 +11,7 @@ export default function HomeScreen() {
         <AttendanceButton />
         <AbsenceButton />
       </View>
+      <AttendanceOverview />
     </View>
   );
 }

@@ -1,17 +1,17 @@
 import { View, Text, Image, StyleSheet } from 'react-native';
 import type { ViewStyle, StyleProp } from 'react-native';
 
-export interface StatusBarProps {
+export interface AttendanceOverviewProps {
   style?: StyleProp<ViewStyle>;
 }
 
-interface StatusItem {
+interface AttendanceItem {
   count: number;
   label: string;
   icon: any;
 }
 
-const statusItems: StatusItem[] = [
+const attendanceItems: AttendanceItem[] = [
   { count: 30, label: 'Alle barn', icon: require('../assets/icons/all-icon.png') },
   { count: 3, label: 'Tilstede', icon: require('../assets/icons/green-present-icon.png') },
   { count: 4, label: 'Forventet', icon: require('../assets/icons/yellow-expected-icon.png') },
@@ -19,12 +19,11 @@ const statusItems: StatusItem[] = [
   { count: 2, label: 'Fravær', icon: require('../assets/icons/red-absent-icon.png') },
 ];
 
-export function StatusBar(props: StatusBarProps) {
+export function AttendanceOverview(props: AttendanceOverviewProps) {
   return (
     <View style={[styles.root, props.style]}>
-      {statusItems.map((item, index) => (
+      {attendanceItems.map((item, index) => (
         <View key={index} style={styles.statusItem}>
-          {/* Inner wrapper with 2px horizontal padding and extra spacing from line */}
           <View style={[styles.innerWrapper, index === 0 && styles.underline]}>
             <View style={styles.countContainer}>
               <Text style={styles.countText}>{item.count}</Text>
@@ -54,8 +53,8 @@ const styles = StyleSheet.create({
     rowGap: 4,
   },
   innerWrapper: {
-    paddingHorizontal: 2, // 2px padding left & right
-    paddingBottom: 2, // extra spacing between content and underline
+    paddingHorizontal: 2,
+    paddingBottom: 2,
     alignItems: 'center',
   },
   underline: {
