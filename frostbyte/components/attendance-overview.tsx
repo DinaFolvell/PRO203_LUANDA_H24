@@ -46,7 +46,7 @@ export function AttendanceOverview({ style }: AttendanceOverviewProps) {
         {attendanceItems.map((item, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.statusItem, activeIndex === index && styles.activeItem]}
+            style={styles.statusItem}
             onPress={() => setActiveIndex(index)}
           >
             <View style={styles.countContainer}>
@@ -54,6 +54,7 @@ export function AttendanceOverview({ style }: AttendanceOverviewProps) {
               <Image source={item.icon} style={styles.icon} />
             </View>
             <Text style={styles.labelText}>{item.label}</Text>
+            {activeIndex === index && <View style={styles.activeMarker} />}
           </TouchableOpacity>
         ))}
       </View>
@@ -72,11 +73,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   statusItem: { flex: 1, alignItems: 'center', padding: 4 },
-  activeItem: { borderBottomWidth: 2, borderBottomColor: 'black' }, // updated here
   countContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
   countText: { fontSize: 18, fontWeight: '600' },
   labelText: { fontSize: 14, fontWeight: '500' },
   icon: { width: 20, height: 20, resizeMode: 'contain', marginLeft: 4 },
+  activeMarker: {
+    height: 2,
+    backgroundColor: 'black',
+    width: '100%',
+    marginTop: 4,
+  },
   subpageContainer: { flex: 1 },
 });
-
