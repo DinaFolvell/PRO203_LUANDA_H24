@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { ViewStyle, StyleProp } from 'react-native';
+import { ChildService } from '../services/childService';
 
 export interface AttendanceOverviewProps {
   style?: StyleProp<ViewStyle>;
@@ -9,20 +10,22 @@ export interface AttendanceOverviewProps {
 }
 
 interface AttendanceItem {
-  count: number;
   label: string;
   icon: any;
+  countKey: 'all' | 'present' | 'expected' | 'picked_up' | 'absent';
 }
 
 const attendanceItems: AttendanceItem[] = [
-  { count: 30, label: 'Alle barn', icon: require('../assets/icons/all-icon.png') },
-  { count: 3, label: 'Tilstede', icon: require('../assets/icons/green-present-icon.png') },
-  { count: 4, label: 'Forventet', icon: require('../assets/icons/yellow-expected-icon.png') },
-  { count: 3, label: 'Hentet', icon: require('../assets/icons/purple-picked-up-icon.png') },
-  { count: 2, label: 'Fravær', icon: require('../assets/icons/red-absent-icon.png') },
+  { label: 'Alle barn', icon: require('../assets/icons/all-icon.png'), countKey: 'all' },
+  { label: 'Tilstede', icon: require('../assets/icons/green-present-icon.png'), countKey: 'present' },
+  { label: 'Forventet', icon: require('../assets/icons/yellow-expected-icon.png'), countKey: 'expected' },
+  { label: 'Hentet', icon: require('../assets/icons/purple-picked-up-icon.png'), countKey: 'picked_up' },
+  { label: 'Fravær', icon: require('../assets/icons/red-absent-icon.png'), countKey: 'absent' },
 ];
 
 export function AttendanceOverview({ style, activeIndex, onIndexChange }: AttendanceOverviewProps) {
+  const counts = useMemo(() => ChildService.getAttendanceCounts(), []);
+
   return (
     <View style={[styles.bar, style]}>
       {attendanceItems.map((item, index) => (
@@ -32,7 +35,7 @@ export function AttendanceOverview({ style, activeIndex, onIndexChange }: Attend
           onPress={() => onIndexChange(index)}
         >
           <View style={styles.countContainer}>
-            <Text style={styles.countText}>{item.count}</Text>
+            <Text style={styles.countText}>{counts[item.countKey]}</Text>
             <Image source={item.icon} style={styles.icon} />
           </View>
           <Text style={styles.labelText}>{item.label}</Text>
@@ -49,9 +52,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: '#fff',
     paddingVertical: 12,
-    paddingHorizontal: 8,
+    paddingHorizontal: 16,
   },
-  statusItem: { flex: 1, alignItems: 'center', padding: 4 },
+  statusItem: { alignItems: 'center', padding: 4 },
   countContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
   countText: { fontSize: 18, fontWeight: '600' },
   labelText: { fontSize: 14, fontWeight: '500' },

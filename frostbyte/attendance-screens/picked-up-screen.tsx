@@ -5,11 +5,14 @@ import { View, StyleSheet } from 'react-native';
 export default function PickedUpScreen() {
   return (
     <View style={styles.container}>
-      <ChildList statusFilter="picked_up" />
+      <ChildList filterStatus="picked_up" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { 
+    flex: 1, 
+    alignItems: 'center' 
+  },
 });

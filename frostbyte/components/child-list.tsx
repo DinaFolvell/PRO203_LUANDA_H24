@@ -1,71 +1,76 @@
-import React from "react";
-import { FlatList, StyleSheet, View} from "react-native";
+import React, { useState, useEffect } from "react";
+import { FlatList, StyleSheet, View, Dimensions } from "react-native";
 import { ChildCard } from "./child-card";
-
-const childrenData = [
-  { id: "1",  name: "Emma Johansen",         image: require("../assets/images/emma.png"), attendance: "present" },
-  { id: "2",  name: "Amalie Sanchez",        image: require("../assets/images/emma.png"), attendance: "present" },
-  { id: "3",  name: "Oliver Kristoffersen",  image: require("../assets/images/emma.png"), attendance: "expected" },
-  { id: "4",  name: "Sophia Lindberg",       image: require("../assets/images/emma.png"), attendance: "picked_up" },
-  { id: "5",  name: "Liam Mikkelsen",        image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "6",  name: "Ava Nygård",            image: require("../assets/images/emma.png"), attendance: "expected" },
-  { id: "7",  name: "Mia Pedersen",          image: require("../assets/images/emma.png"), attendance: "present" },
-  { id: "8",  name: "Isabella Rønning",      image: require("../assets/images/emma.png"), attendance: "picked_up" },
-  { id: "9",  name: "Lucas Solberg",         image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "10", name: "James Ulsrud",          image: require("../assets/images/emma.png"), attendance: "expected" },
-  { id: "11", name: "Hanne Viken",           image: require("../assets/images/emma.png"), attendance: "picked_up" },
-  { id: "12", name: "Benjamin Wold",         image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "13", name: "Henry Aamodt",          image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "14", name: "Ella Dahl",             image: require("../assets/images/emma.png"), attendance: "picked_up" },
-  { id: "15", name: "William Eide",          image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "16", name: "Mateo Iversen",         image: require("../assets/images/emma.png"), attendance: "absent" },
-] as const;
+import { ChildService, AttendanceStatus } from "../services/childService";
 
 interface ChildListProps {
-  statusFilter?: "present" | "expected" | "picked_up" | "absent";
+  filterStatus?: AttendanceStatus;
 }
 
-export function ChildList({ statusFilter }: ChildListProps) {
-  const filteredData = statusFilter 
-    ? childrenData.filter(child => child.attendance === statusFilter)
-    : childrenData;
+export function ChildList({ filterStatus }: ChildListProps) {
+  const [numColumns, setNumColumns] = useState(3);
+  const [cardWidth, setCardWidth] = useState(0);
+
+  const filteredData = filterStatus 
+    ? ChildService.getChildrenByStatus(filterStatus)
+    : ChildService.getAllChildren();
+
+  useEffect(() => {
+    const updateLayout = () => {
+      const screenWidth = Dimensions.get("window").width;
+      const horizontalPadding = 16 * 2;
+      const spacing = 16;
+      const desiredCardWidth = 140;
+
+      let columns = Math.floor((screenWidth + spacing) / (desiredCardWidth + spacing));
+      columns = columns < 3 ? 3 : columns; // always at least 3 columns
+
+      const calculatedCardWidth = (screenWidth - horizontalPadding - spacing * (columns - 1)) / columns;
+      setNumColumns(columns);
+      setCardWidth(calculatedCardWidth);
+    };
+
+    updateLayout();
+
+    const subscription = Dimensions.addEventListener("change", updateLayout);
+    return () => subscription.remove();
+  }, []);
 
   return (
     <FlatList
       data={filteredData}
       keyExtractor={(item) => item.id}
-      numColumns={3}
-      columnWrapperStyle={styles.row}
-      renderItem={({ item }) => (
-        <View style={styles.cardWrapper}>
-          <ChildCard
-            name={item.name}
-            image={item.image}
-            attendanceStatus={item.attendance}
-          />
-        </View>
-      )}
+      numColumns={numColumns}
+      renderItem={({ item, index }) => {
+        const marginRight = (index + 1) % numColumns === 0 ? 0 : 16;
+        return (
+          <View style={[styles.cardWrapper, { width: cardWidth, marginRight }]}>
+            <ChildCard
+              name={item.name}
+              image={item.image}
+              attendanceStatus={item.attendance}
+              style={{ width: cardWidth }}
+            />
+          </View>
+        );
+      }}
       contentContainerStyle={styles.contentContainer}
       style={styles.flatList}
+      columnWrapperStyle={{ marginBottom: 16 }}
+      key={numColumns}
     />
   );
 }
 
 const styles = StyleSheet.create({
   flatList: {
-    flex: 1,
     paddingHorizontal: 16,
+    flex: 1,
   },
   contentContainer: {
     paddingTop: 16,
   },
-  row: {
-    justifyContent: "space-between",
-    marginBottom: 16,
-  },
   cardWrapper: {
-    flex: 1,
-    marginHorizontal: 8,
-    height: 148,
+    aspectRatio: 115 / 148, // optional: maintain original card ratio if needed
   },
 });

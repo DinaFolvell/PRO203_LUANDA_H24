@@ -5,11 +5,14 @@ import { View, StyleSheet } from 'react-native';
 export default function ExpectedScreen() {
   return (
     <View style={styles.container}>
-      <ChildList statusFilter="expected" />
+      <ChildList filterStatus="expected" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { 
+    flex: 1, 
+    alignItems: 'center' 
+  },
 });

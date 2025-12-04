@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ImageSourcePropType } from "react-native";
+import { AttendanceStatus } from "../services/childService";
 
 export interface ChildCardProps {
   name: string;
   image: ImageSourcePropType;
-  attendanceStatus?: "present" | "expected" | "picked_up" | "absent";
+  attendanceStatus?: AttendanceStatus;
   style?: object;
 }
 
@@ -14,26 +15,38 @@ export function ChildCard({
   attendanceStatus = "expected",
   style,
 }: ChildCardProps) {
-
-  const statusColor = {
+  const statusColor: Record<AttendanceStatus, string> = {
     present: "#496F57",
     expected: "#C28E00",
     picked_up: "#75339B",
     absent: "#F50000",
-  }[attendanceStatus];
+  };
+
+  const statusIcons: Record<AttendanceStatus, any> = {
+    present: require("../assets/icons/green-present-icon.png"),
+    expected: require("../assets/icons/yellow-expected-icon.png"),
+    picked_up: require("../assets/icons/purple-picked-up-icon.png"),
+    absent: require("../assets/icons/red-absent-icon.png"),
+  };
+
+  const statusIcon = statusIcons[attendanceStatus];
+  const borderColor = statusColor[attendanceStatus];
 
   return (
-    <View style={[styles.root, style]}>
+    <View style={[styles.root, { borderBottomColor: borderColor }, style]}>
       <View style={styles.imageContainer}>
         <Image source={image} style={styles.image} resizeMode="cover" />
       </View>
 
       <View style={styles.nameContainer}>
-        <Text style={styles.nameText}>{name}</Text>
-
-        <View
-          style={[styles.statusVector, { backgroundColor: statusColor }]}
-        />
+        <Text
+          style={styles.nameText}
+          numberOfLines={1}       // prevents wrapping
+          ellipsizeMode="tail"    // adds "..." if text is too long
+          >
+        {name}
+        </Text>
+        <Image source={statusIcon} style={styles.statusIcon} />
       </View>
     </View>
   );
@@ -41,56 +54,42 @@ export function ChildCard({
 
 const styles = StyleSheet.create({
   root: {
-    width: 115,
-    height: 148,
-    padding: -1,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#ccc",
+    borderBottomWidth: 4,
+    overflow: "hidden",
   },
 
   imageContainer: {
-    width: '100%',   
-    aspectRatio: 1,   
-    backgroundColor: "red",
-    position: "relative",
-    overflow: "hidden",
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    marginBottom: 0,
+    width: "100%",
+    aspectRatio: 1,
   },
 
   image: {
     width: "100%",
     height: "100%",
-    resizeMode: "cover",
   },
 
   nameContainer: {
     flexDirection: "row",
-    width: "100%",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#ffffffff",
     paddingHorizontal: 4,
-    height: 25,
-    borderTopWidth: 2,
-    borderColor: "#ccc",
+    height: 32,
+    borderTopWidth: 1,
   },
 
   nameText: {
-    textAlign: "left",
     color: "#000",
-    fontSize: 12,
-    fontWeight: "400",
+    fontSize: 14,
+    fontWeight: "500",
   },
 
-  statusVector: {
-    width: 24,
-    height: 24,
-    borderRadius: 10,
-    backgroundColor: "green",
+  statusIcon: {
+    width: 16,
+    height: 16,
+    resizeMode: "contain",
   },
 });
-
-
