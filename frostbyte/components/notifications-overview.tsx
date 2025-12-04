@@ -15,38 +15,38 @@ interface NotificationsOverviewProps {
 
 export const mockNotifications: NotificationsProps[] = [
   {
-    name: "Kari Jaquesson",
-    message: "Amalie har med egen mat i dag",
-    isSeen: false,
-  },
-  {
-    name: "Per Hansen",
-    message: "Møte om barnets utvikling kl 14:00",
-    isSeen: false,
-  },
-  {
-    name: "Lisa Andersen",
-    message: "Tusen takk for hyggelig samtale!",
+    name: "Ulrikke Amaliussen",
+    message: "Amalie har med egen mat i dag☺️",
     isSeen: true,
   },
   {
-    name: "Ola Nordmann",
-    message: "Barnet ditt har hatt en fin dag!",
+    name: "Silje Sundeberget",
+    message: "Martine har tatt med seg en ball hjem...",
     isSeen: false,
   },
   {
-    name: "Emma Berg",
-    message: "Husk å levere skjema før fredag",
+    name: "Martin Fossefjell",
+    message: "Dina har mistet ballen igjen..⚽️",
+    isSeen: false,
+  },
+  {
+    name: "Petter Hoffset",
+    message: "Gelilah reiser vekk i uke 49!⛰️",
     isSeen: true,
   },
   {
-    name: "Jonas Pettersen",
-    message: "Tur til skogen på onsdag",
+    name: "Hanna Trei-Skagen",
+    message: "Vi har en ekstra fotball i hus😟 Er det noen...",
     isSeen: false,
   },
   {
-    name: "Maria Olsen",
-    message: "Ny meny for neste uke er klar",
+    name: "Line Ytterland",
+    message: "Hvordan går det med Emma? Hun sov litt då...",
+    isSeen: false,
+  },
+  {
+    name: "Lucas Fjongers",
+    message: "Sigurd har fått svineinfluensa🤧",
     isSeen: true,
   },
 ];
