@@ -1,4 +1,3 @@
-// app/side-menu.tsx
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import type { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
