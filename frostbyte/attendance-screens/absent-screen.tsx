@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native';
 export default function AbsentScreen() {
   return (
     <View style={styles.container}>
-      <ChildList statusFilter="absent" />
+      <ChildList filterStatus="absent" />
     </View>
   );
 }

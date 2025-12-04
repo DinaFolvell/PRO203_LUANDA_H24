@@ -14,7 +14,7 @@ export default function CheckInScreen() {
 
   const renderSubpage = () => {
     switch (activeIndex) {
-      case 0: return <AllScreen />;
+      case 0: return <AllScreen/>;
       case 1: return <PresentScreen />;
       case 2: return <ExpectedScreen />;
       case 3: return <PickedUpScreen />;
