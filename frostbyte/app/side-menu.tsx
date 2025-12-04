@@ -6,7 +6,6 @@ import { Link, usePathname, type Href } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-
 type MenuItemProps = {
   href: Href;
   label: string;
@@ -44,55 +43,38 @@ export default function SideMenu(props: DrawerContentComponentProps) {
   const isRouteActive = (href: Href) => {
     if (typeof href !== "string") return false;
     return pathname === href || pathname.startsWith(`${href}/`);
-};
-
+  };
 
   return (
     <DrawerContentScrollView
       {...props}
       contentContainerStyle={styles.container}
     >
-      {/* Top spacer / header line to match your design */}
       <View style={styles.topSpacer} />
-
-      {/* MAIN SECTION */}
+      {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
       <View style={styles.menuItemContainer}>
         <MenuItem
           href="/"
           label="Oversikt"
-          isActive={isRouteActive("/")}
+          isActive={false}
           icon={
-            <MaterialIcons
-              name="menu-book"
-              size={30}
-              style={styles.icon}
-            />
+            <MaterialIcons name="menu-book" size={30} style={styles.icon} />
           }
         />
-
+        {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
           href="/check-in"
           label="Oppmøte-liste"
           isActive={isRouteActive("/check-in")}
-          icon={
-            <Ionicons
-              name="person"
-              size={30}
-              style={styles.icon}
-            />
-          }
+          icon={<Ionicons name="person" size={30} style={styles.icon} />}
         />
-
+        {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
           href="/"
           label="Registrer Fravær"
-          isActive={isRouteActive("/")}
+          isActive={false}
           icon={
-            <MaterialIcons
-              name="smartphone"
-              size={30}
-              style={styles.icon}
-            />
+            <MaterialIcons name="smartphone" size={30} style={styles.icon} />
           }
         />
       </View>
@@ -100,61 +82,43 @@ export default function SideMenu(props: DrawerContentComponentProps) {
       {/* Divider */}
       <View style={styles.sectionDivider} />
 
+      {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
       {/* MIDDLE SECTION */}
       <View style={styles.menuItemContainer}>
         <MenuItem
           href="/"
           label="Foreldre"
-          isActive={isRouteActive("/")}
-          icon={
-            <Ionicons
-              name="people"
-              size={30}
-              style={styles.icon}
-            />
-          }
+          isActive={false}
+          icon={<Ionicons name="people" size={30} style={styles.icon} />}
         />
+
+        {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
           href="/"
           label="Barn"
-          isActive={isRouteActive("/")}
-          icon={
-            <Ionicons
-              name="body"
-              size={30}
-              style={styles.icon}
-            />
-          }
+          isActive={false}
+          icon={<Ionicons name="body" size={30} style={styles.icon} />}
         />
+        {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
           href="/"
           label="Ansatte"
-          isActive={isRouteActive("/")}
-          icon={
-            <Ionicons
-              name="person"
-              size={30}
-              style={styles.icon}
-            />
-          }
+          isActive={false}
+          icon={<Ionicons name="person" size={30} style={styles.icon} />}
         />
       </View>
-      
-    <View style={styles.bottomSectionDivider} />
+
+      <View style={styles.bottomSectionDivider} />
+
+      {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
       {/* SETTINGS AT BOTTOM */}
       <View style={styles.bottomSection}>
         <View style={styles.sectionDivider} />
         <MenuItem
           href="/"
           label="Innstillinger"
-          isActive={isRouteActive("/")}
-          icon={
-            <Feather
-              name="settings"
-              size={20}
-              style={styles.icon}
-            />
-          }
+          isActive={false}
+          icon={<Feather name="settings" size={20} style={styles.icon} />}
         />
       </View>
     </DrawerContentScrollView>
@@ -165,7 +129,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     paddingTop: 16,
-    paddingHorizontal: 24
+    paddingHorizontal: 24,
   },
   topSpacer: {
     height: 100,
@@ -212,6 +176,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   bottomSectionDivider: {
-    flexGrow: 1
+    flexGrow: 1,
   },
 });
