@@ -15,7 +15,6 @@ export function ChildCard({
   attendanceStatus = "expected",
   style,
 }: ChildCardProps) {
-  // Map attendance status to bottom border color
   const statusColor: Record<AttendanceStatus, string> = {
     present: "#496F57",
     expected: "#C28E00",
@@ -23,7 +22,6 @@ export function ChildCard({
     absent: "#F50000",
   };
 
-  // Map attendance status to icon
   const statusIcons: Record<AttendanceStatus, any> = {
     present: require("../assets/icons/green-present-icon.png"),
     expected: require("../assets/icons/yellow-expected-icon.png"),
@@ -41,9 +39,13 @@ export function ChildCard({
       </View>
 
       <View style={styles.nameContainer}>
-        <Text style={styles.nameText}>{name}</Text>
-
-        {/* Status icon */}
+        <Text
+          style={styles.nameText}
+          numberOfLines={1}       // prevents wrapping
+          ellipsizeMode="tail"    // adds "..." if text is too long
+          >
+        {name}
+        </Text>
         <Image source={statusIcon} style={styles.statusIcon} />
       </View>
     </View>
@@ -52,20 +54,16 @@ export function ChildCard({
 
 const styles = StyleSheet.create({
   root: {
-    width: 115,
-    height: 148,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "#ccc",
-    borderBottomWidth: 4, // dynamic bottom border
+    borderBottomWidth: 4,
+    overflow: "hidden",
   },
 
   imageContainer: {
     width: "100%",
     aspectRatio: 1,
-    overflow: "hidden",
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
   },
 
   image: {
@@ -77,16 +75,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#ffffffff",
     paddingHorizontal: 4,
-    height: 25,
+    height: 32,
     borderTopWidth: 1,
-    borderColor: "#ccc",
   },
 
   nameText: {
     color: "#000",
-    fontSize: 12,
+    fontSize: 14,
+    fontWeight: "500",
   },
 
   statusIcon: {
