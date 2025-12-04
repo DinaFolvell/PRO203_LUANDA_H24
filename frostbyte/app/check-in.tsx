@@ -39,11 +39,11 @@ export default function CheckInScreen() {
 
 const styles = StyleSheet.create({
   container: { 
+    justifyContent: "center",
     flex: 1,
     backgroundColor: "#fff",
   },
   subpageWrapper: {
-    justifyContent: "center", // Center each row
     flex: 1,
   },
 });

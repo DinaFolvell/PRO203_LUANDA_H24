@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   row: {
+    justifyContent: "space-between",
     marginBottom: 16,
   },
   cardWrapper: {
