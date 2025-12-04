@@ -7,7 +7,7 @@ import PresentScreen from '../attendance-screens/present-screen';
 import ExpectedScreen from '../attendance-screens/expected-screen';
 import PickedUpScreen from '../attendance-screens/picked-up-screen';
 import AbsentScreen from '../attendance-screens/absent-screen';
-import { HorizontalChildCard } from '@/components/horizontal-child-card';
+import { HorizontalChildCard } from '../components/horizontal-child-card';
 
 export default function CheckInScreen() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -25,21 +25,18 @@ export default function CheckInScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Attendance Tabs */}
       <AttendanceOverview 
         activeIndex={activeIndex}
         onIndexChange={setActiveIndex}
       />
 
-      {/* Horizontal Card for a child */}
       <HorizontalChildCard
         name="Dina Folvell"
-        image={require("../assets/images/dina.jpg")}
+        image={require("../assets/images/dina.png")}
         attendanceStatus="present"
         style={styles.childCard}
       />
 
-      {/* Subpage Content */}
       <View style={styles.subpageContainer}>
         <ScrollView contentContainerStyle={styles.subpageWrapper}>
           {renderSubpage()}
