@@ -1,20 +1,13 @@
 import { AttendanceButton } from "@/components/attendance-button";
-import { AttendanceOverview } from "../components/attendance-overview";
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { AbsenceButton } from "@/components/absence-button";
-import { ChildCard } from "@/components/child-card";
 import { MessagesButton } from "@/components/messages-button";
 import { CareButton } from "@/components/care-button";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <AttendanceButton />
-        <AbsenceButton />
-      </View>
-    
       <View style={styles.shortcutsBox}>
         <Text style={styles.shortcutsTitle}>Snarveier</Text>
         <View style={styles.buttonContainer}>
@@ -31,7 +24,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: "center", justifyContent: "center" },
   text: { fontSize: 20 },
-  
+
   shortcutsBox: {
     width: "100%",
     backgroundColor: "white",
