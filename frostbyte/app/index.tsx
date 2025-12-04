@@ -16,10 +16,22 @@ export default function HomeScreen() {
         <View style={styles.shortcutsBox}>
           <Text style={styles.shortcutsTitle}>Snarveier</Text>
           <View style={styles.buttonContainer}>
-            <AttendanceButton />
-            <AbsenceButton />
-            <CareButton />
-            <MessagesButton />
+            <View style={styles.buttonRow}>
+              <View style={styles.buttonWrapper}>
+                <AttendanceButton />
+              </View>
+              <View style={styles.buttonWrapper}>
+                <AbsenceButton />
+              </View>
+            </View>
+            <View style={styles.buttonRow}>
+              <View style={styles.buttonWrapper}>
+                <CareButton />
+              </View>
+              <View style={styles.buttonWrapper}>
+                <MessagesButton />
+              </View>
+            </View>
           </View>
         </View>
 
@@ -40,7 +52,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    gap: 16,
   },
 
   shortcutsBox: {
@@ -53,6 +64,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 8,
     elevation: 5,
+    marginBottom: 16,
   },
 
   shortcutsTitle: {
@@ -63,11 +75,17 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 16,
     marginTop: 20,
+  },
+
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 16,
+  },
+
+  buttonWrapper: {
+    marginHorizontal: 4,
   },
 
   notificationsContainer: {
