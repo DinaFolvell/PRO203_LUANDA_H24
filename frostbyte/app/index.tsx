@@ -1,18 +1,26 @@
-import { AttendanceButton } from "@/components/attendance-button";
 import React from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+
 import { AbsenceButton } from "@/components/absence-button";
-import { MessagesButton } from "@/components/messages-button";
+import { AttendanceButton } from "@/components/attendance-button";
 import { CareButton } from "@/components/care-button";
+import DayPlanOverview from "@/components/day-plan-overview";
+import { MessagesButton } from "@/components/messages-button";
 import {
-  NotificationsOverview,
-  mockNotifications,
+    NotificationsOverview,
+    mockNotifications,
 } from "@/components/notifications-overview";
 
 export default function HomeScreen() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
+        {/* Day plan at the top */}
+        <View style={styles.dayPlanBox}>
+          <DayPlanOverview />
+        </View>
+
+        {/* Shortcuts */}
         <View style={styles.shortcutsBox}>
           <Text style={styles.shortcutsTitle}>Snarveier</Text>
           <View style={styles.buttonContainer}>
@@ -35,6 +43,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
+        {/* Notifications */}
         <View style={styles.notificationsContainer}>
           <NotificationsOverview notifications={mockNotifications} />
         </View>
@@ -52,6 +61,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+  },
+
+  dayPlanBox: {
+    width: "100%",
+    backgroundColor: "white",
+    padding: 16,
+    borderRadius: 12,
+    shadowColor: "rgba(0,0,0,0.15)",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 5,
+    marginBottom: 16,
   },
 
   shortcutsBox: {
