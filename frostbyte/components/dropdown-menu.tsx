@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ImageSourcePropType } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
 
-type StatusKey = "tilstede" | "forventet" | "hentet" | "fravær";
+export type StatusKey = "present" | "expected" | "picked_up" | "absent";
 
 type AttendanceOption = {
   key: StatusKey;
@@ -13,25 +13,25 @@ type AttendanceOption = {
 
 const attendance: AttendanceOption[] = [
   { 
-    key: "forventet",
+    key: "expected",
     image: require("../assets/icons/yellow-expected-icon.png"),
     label: "Forventet", 
     value: 1, 
   },
   { 
-    key: "tilstede",
+    key: "present",
     image: require("../assets/icons/green-present-icon.png"),
     label: "Tilstede", 
     value: 2, 
   },
   { 
-    key: "hentet",
+    key: "picked_up",
     image: require("../assets/icons/purple-picked-up-icon.png"),
     label: "Hentet",
     value: 3, 
   },
   { 
-    key: "fravær",
+    key: "absent",
     image: require("../assets/icons/red-absent-icon.png"),
     label: "Fravær",
     value: 4, 
@@ -42,37 +42,50 @@ const statusColors: Record<
   StatusKey,
   { background: string; text: string }
 > = {
-  tilstede: {
+  present: {
     background: "#496F57",
     text: "#FFFFFF",
   },
-  forventet: {
+  expected: {
     background: "#C28E00",
     text: "#FFFFFF",
   },
-  hentet: {
+  picked_up: {
     background: "#75339B",
     text: "#FFFFFF",
   },
-  fravær: {
+  absent: {
     background: "#F50000",
     text: "#FFFFFF",
   },
 };
 
-export default function AttendanceDropdown() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState<AttendanceOption>(attendance[0]);
+type AttendanceDropdownProps = {
+  initialStatus?: StatusKey;
+  onChange?: (status: StatusKey) => void;
+};
+
+export default function AttendanceDropdown({
+    initialStatus = "expected",
+    onChange,
+  }: AttendanceDropdownProps) {
+  
+    const [isOpen, setIsOpen] = useState(false);
+
+  const [selected, setSelected] = useState<AttendanceOption>(
+    attendance.find((opt) => opt.key === initialStatus) ?? attendance[1]
+  );
 
   const colors = statusColors[selected.key];
 
   const handleSelect = (option: AttendanceOption) => {
-    setSelected(option);
-    setIsOpen(false);
-  }
+    setSelected(option);         
+    onChange?.(option.key);      
+    setIsOpen(false);            
+  };
 
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.container, isOpen && styles.containerOpen]}>
       <TouchableOpacity
         onPress={() => setIsOpen((prev) => !prev)}
         style={[
@@ -85,13 +98,13 @@ export default function AttendanceDropdown() {
         <Text style={[styles.buttonText, { color: colors.text }]}>
           {selected.label}
         </Text>
+
         <Text style={[styles.arrow, { color: colors.text }]}>
           {isOpen ? (
             <Feather name="chevron-up" size={20} color={colors.text} />
             ) : (
             <Feather name="chevron-down" size={20} color={colors.text} />
           )}
-
         </Text>
       </TouchableOpacity>
 
@@ -124,9 +137,12 @@ export default function AttendanceDropdown() {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
+  container: {
     width: 140,
     position: "relative",
+  },
+  containerOpen: {
+    zIndex: 1000,
   },
   button: {
     flexDirection: "row",
@@ -152,6 +168,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 8,
     paddingVertical: 8,
+    zIndex: 2000,
+    elevation: 5,
   },
   optionRow: {
     flexDirection: "row",
