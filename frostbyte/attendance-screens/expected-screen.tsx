@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native';
 export default function ExpectedScreen() {
   return (
     <View style={styles.container}>
-      <ChildList statusFilter="expected" />
+      <ChildList filterStatus="expected" />
     </View>
   );
 }

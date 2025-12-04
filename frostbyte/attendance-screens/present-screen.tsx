@@ -5,7 +5,7 @@ import { View, StyleSheet } from 'react-native';
 export default function PresentScreen() {
   return (
     <View style={styles.container}>
-      <ChildList statusFilter="present" />
+      <ChildList filterStatus="present" />
     </View>
   );
 }
