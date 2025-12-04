@@ -21,10 +21,18 @@ const childrenData = [
   { id: "16", name: "Mateo Iversen",         image: require("../assets/images/emma.png"), attendance: "absent" },
 ] as const;
 
-export function ChildList() {
+interface ChildListProps {
+  statusFilter?: "present" | "expected" | "picked_up" | "absent";
+}
+
+export function ChildList({ statusFilter }: ChildListProps) {
+  const filteredData = statusFilter 
+    ? childrenData.filter(child => child.attendance === statusFilter)
+    : childrenData;
+
   return (
     <FlatList
-      data={childrenData}
+      data={filteredData}
       keyExtractor={(item) => item.id}
       numColumns={3}
       columnWrapperStyle={styles.row}

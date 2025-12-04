@@ -1,15 +1,11 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React from 'react';
 import type { ViewStyle, StyleProp } from 'react-native';
-
-import AllScreen from '../attendance-screens/all-screen';
-import PresentScreen from '../attendance-screens/present-screen';
-import ExpectedScreen from '../attendance-screens/expected-screen';
-import PickedUpScreen from '../attendance-screens/picked-up-screen';
-import AbsentScreen from '../attendance-screens/absent-screen';
 
 export interface AttendanceOverviewProps {
   style?: StyleProp<ViewStyle>;
+  activeIndex: number;
+  onIndexChange: (index: number) => void;
 }
 
 interface AttendanceItem {
@@ -26,45 +22,28 @@ const attendanceItems: AttendanceItem[] = [
   { count: 2, label: 'Fravær', icon: require('../assets/icons/red-absent-icon.png') },
 ];
 
-export function AttendanceOverview({ style }: AttendanceOverviewProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const renderSubpage = () => {
-    switch (activeIndex) {
-      case 0: return <AllScreen />;
-      case 1: return <PresentScreen />;
-      case 2: return <ExpectedScreen />;
-      case 3: return <PickedUpScreen />;
-      case 4: return <AbsentScreen />;
-      default: return null;
-    }
-  };
-
+export function AttendanceOverview({ style, activeIndex, onIndexChange }: AttendanceOverviewProps) {
   return (
-    <View style={[styles.root, style]}>
-      <View style={styles.bar}>
-        {attendanceItems.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.statusItem}
-            onPress={() => setActiveIndex(index)}
-          >
-            <View style={styles.countContainer}>
-              <Text style={styles.countText}>{item.count}</Text>
-              <Image source={item.icon} style={styles.icon} />
-            </View>
-            <Text style={styles.labelText}>{item.label}</Text>
-            {activeIndex === index && <View style={styles.activeMarker} />}
-          </TouchableOpacity>
-        ))}
-      </View>
-      <View style={styles.subpageContainer}>{renderSubpage()}</View>
+    <View style={[styles.bar, style]}>
+      {attendanceItems.map((item, index) => (
+        <TouchableOpacity
+          key={index}
+          style={styles.statusItem}
+          onPress={() => onIndexChange(index)}
+        >
+          <View style={styles.countContainer}>
+            <Text style={styles.countText}>{item.count}</Text>
+            <Image source={item.icon} style={styles.icon} />
+          </View>
+          <Text style={styles.labelText}>{item.label}</Text>
+          {activeIndex === index && <View style={styles.activeMarker} />}
+        </TouchableOpacity>
+      ))}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { width: '100%', flex: 1 },
   bar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -83,5 +62,4 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 4,
   },
-  subpageContainer: { flex: 1 },
 });
