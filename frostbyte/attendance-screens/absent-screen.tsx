@@ -1,4 +1,4 @@
-import { ChildList } from '@/components/child-list';
+import { ChildList } from '../components/child-list';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
