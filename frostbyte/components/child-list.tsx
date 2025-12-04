@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, StyleSheet, View} from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { ChildCard } from "./child-card";
 import { ChildService, AttendanceStatus } from "../services/childService";
 
@@ -35,18 +35,16 @@ export function ChildList({ filterStatus }: ChildListProps) {
 
 const styles = StyleSheet.create({
   flatList: {
-    flex: 1,
     paddingHorizontal: 16,
+    flex: 1,
   },
   contentContainer: {
     paddingTop: 16,
   },
   row: {
-    justifyContent: "space-between",
     marginBottom: 16,
   },
   cardWrapper: {
-    flex: 1,
     marginHorizontal: 8,
     height: 148,
   },

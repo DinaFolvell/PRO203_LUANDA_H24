@@ -14,7 +14,7 @@ export default function CheckInScreen() {
 
   const renderSubpage = () => {
     switch (activeIndex) {
-      case 0: return <AllScreen/>;
+      case 0: return <AllScreen />;
       case 1: return <PresentScreen />;
       case 2: return <ExpectedScreen />;
       case 3: return <PickedUpScreen />;
@@ -29,7 +29,8 @@ export default function CheckInScreen() {
         activeIndex={activeIndex}
         onIndexChange={setActiveIndex}
       />
-      <View style={styles.subpageContainer}>
+      
+      <View style={styles.subpageWrapper}>
         {renderSubpage()}
       </View>
     </View>
@@ -41,7 +42,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  subpageContainer: {
+  subpageWrapper: {
+    justifyContent: "center", // Center each row
     flex: 1,
   },
 });
