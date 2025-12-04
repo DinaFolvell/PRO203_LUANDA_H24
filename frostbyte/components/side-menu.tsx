@@ -13,4 +13,3 @@ export default function SideMenu() {
 const styles = StyleSheet.create({
   
 });
- 
