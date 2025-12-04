@@ -56,7 +56,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
         <MenuItem
           href="/"
           label="Oversikt"
-          isActive={false}
+          isActive={isRouteActive("/")}
           icon={
             <MaterialIcons name="menu-book" size={30} style={styles.icon} />
           }
