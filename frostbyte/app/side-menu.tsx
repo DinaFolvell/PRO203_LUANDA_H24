@@ -1,4 +1,3 @@
-// app/side-menu.tsx
 import { Feather, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import type { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
@@ -56,7 +55,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
         <MenuItem
           href="/"
           label="Oversikt"
-          isActive={false}
+          isActive={isRouteActive("/")}
           icon={
             <MaterialIcons name="menu-book" size={30} style={styles.icon} />
           }
