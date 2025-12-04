@@ -1,6 +1,6 @@
 import { AttendanceOverview } from '@/components/attendance-overview';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 
 import AllScreen from '../attendance-screens/all-screen';
 import PresentScreen from '../attendance-screens/present-screen';
@@ -24,22 +24,26 @@ export default function CheckInScreen() {
   };
 
   return (
-    <View style={styles.container}>     
+    <View style={styles.container}>
+      {/* Attendance Tabs */}
       <AttendanceOverview 
         activeIndex={activeIndex}
         onIndexChange={setActiveIndex}
       />
 
+      {/* Horizontal Card for a child */}
       <HorizontalChildCard
-            name="Dina Folvell"
-            image={require("../assets/images/dina.jpg")}
-            attendanceStatus="present"
-          />
+        name="Dina Folvell"
+        image={require("../assets/images/dina.jpg")}
+        attendanceStatus="present"
+        style={styles.childCard}
+      />
 
+      {/* Subpage Content */}
       <View style={styles.subpageContainer}>
-      
-      <View style={styles.subpageWrapper}>
-        {renderSubpage()}
+        <ScrollView contentContainerStyle={styles.subpageWrapper}>
+          {renderSubpage()}
+        </ScrollView>
       </View>
     </View>
   );
@@ -47,11 +51,16 @@ export default function CheckInScreen() {
 
 const styles = StyleSheet.create({
   container: { 
-    justifyContent: "center",
     flex: 1,
     backgroundColor: "#fff",
   },
-  subpageWrapper: {
+  childCard: {
+    marginVertical: 10,
+  },
+  subpageContainer: {
     flex: 1,
+  },
+  subpageWrapper: {
+    paddingBottom: 20,
   },
 });
