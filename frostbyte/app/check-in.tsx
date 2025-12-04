@@ -30,16 +30,10 @@ export default function CheckInScreen() {
         onIndexChange={setActiveIndex}
       />
 
-      <HorizontalChildCard
-            name="Dina Folvell"
-            image={require("../assets/images/dina.jpg")}
-            attendanceStatus="present"
-          />
-
       <View style={styles.subpageContainer}>
-      
-      <View style={styles.subpageWrapper}>
-        {renderSubpage()}
+        <View style={styles.subpageWrapper}>
+          {renderSubpage()}
+        </View>
       </View>
     </View>
   );
@@ -50,6 +44,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
     backgroundColor: "#fff",
+  },
+  subpageContainer: {
+    flex: 1,
+    paddingHorizontal: 16,
+    marginTop: 16,
   },
   subpageWrapper: {
     flex: 1,
