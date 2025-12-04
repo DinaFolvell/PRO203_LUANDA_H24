@@ -1,5 +1,4 @@
 import { AttendanceOverview } from '@/components/attendance-overview';
-import AttendanceDropdown from '@/components/dropdown-menu';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
