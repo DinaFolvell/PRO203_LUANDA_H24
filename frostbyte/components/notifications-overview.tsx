@@ -1,4 +1,10 @@
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import type { ViewStyle, StyleProp } from "react-native";
 
 export interface NotificationsProps {
@@ -11,6 +17,7 @@ interface NotificationsOverviewProps {
   notifications: NotificationsProps[];
   style?: StyleProp<ViewStyle>;
   testID?: string;
+  onViewAll?: () => void;
 }
 
 export const mockNotifications: NotificationsProps[] = [
@@ -51,7 +58,6 @@ export const mockNotifications: NotificationsProps[] = [
   },
 ];
 
-
 function NotificationItem({ name, message, isSeen }: NotificationsProps) {
   return (
     <View style={styles.notificationItem}>
@@ -64,16 +70,23 @@ function NotificationItem({ name, message, isSeen }: NotificationsProps) {
   );
 }
 
-
 export function NotificationsOverview({
   notifications,
   style,
   testID,
+  onViewAll,
 }: NotificationsOverviewProps) {
   return (
     <View testID={testID} style={[styles.root, style]}>
       <View style={styles.header}>
         <Text style={styles.title}>Varslinger</Text>
+        <TouchableOpacity
+          style={styles.arrowButton}
+          onPress={onViewAll}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.arrowIcon}>›</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -95,11 +108,28 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 16,
   },
   title: {
     fontSize: 23,
     fontWeight: "700",
+  },
+  arrowButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(254, 240, 235, 1)",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "",
+  },
+  arrowIcon: {
+    fontSize: 24,
+    fontWeight: "600",
+    color: "rgba(245, 69, 0, 1)",
   },
   scrollContainer: {
     maxHeight: 264,
