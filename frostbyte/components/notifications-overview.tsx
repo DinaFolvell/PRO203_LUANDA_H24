@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import type { ViewStyle, StyleProp } from "react-native";
 
 export interface NotificationsProps {
@@ -29,9 +29,29 @@ export const mockNotifications: NotificationsProps[] = [
     message: "Tusen takk for hyggelig samtale!",
     isSeen: true,
   },
+  {
+    name: "Ola Nordmann",
+    message: "Barnet ditt har hatt en fin dag!",
+    isSeen: false,
+  },
+  {
+    name: "Emma Berg",
+    message: "Husk å levere skjema før fredag",
+    isSeen: true,
+  },
+  {
+    name: "Jonas Pettersen",
+    message: "Tur til skogen på onsdag",
+    isSeen: false,
+  },
+  {
+    name: "Maria Olsen",
+    message: "Ny meny for neste uke er klar",
+    isSeen: true,
+  },
 ];
 
-// Enkelt varsel-element
+
 function NotificationItem({ name, message, isSeen }: NotificationsProps) {
   return (
     <View style={styles.notificationItem}>
@@ -44,7 +64,7 @@ function NotificationItem({ name, message, isSeen }: NotificationsProps) {
   );
 }
 
-// Hovedkomponent
+
 export function NotificationsOverview({
   notifications,
   style,
@@ -56,11 +76,16 @@ export function NotificationsOverview({
         <Text style={styles.title}>Varslinger</Text>
       </View>
 
-      <View style={styles.notificationsList}>
-        {notifications.map((notification, index) => (
-          <NotificationItem key={index} {...notification} />
-        ))}
-      </View>
+      <ScrollView
+        style={styles.scrollContainer}
+        showsVerticalScrollIndicator={true}
+      >
+        <View style={styles.notificationsList}>
+          {notifications.map((notification, index) => (
+            <NotificationItem key={index} {...notification} />
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -76,6 +101,9 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: "700",
   },
+  scrollContainer: {
+    maxHeight: 264,
+  },
   notificationsList: {
     gap: 12,
   },
@@ -88,6 +116,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#e0e0e0",
+    minHeight: 76,
   },
   textContainer: {
     flex: 1,
@@ -106,7 +135,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "#00C0F5",
+    backgroundColor: "#007AFF",
     marginLeft: 12,
   },
 });
