@@ -1,18 +1,16 @@
-import { AttendanceButton } from "@/components/attendance-button";
-import { AttendanceOverview } from "../components/attendance-overview";
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
 import { AbsenceButton } from "@/components/absence-button";
-import { ChildCard } from "@/components/child-card";
-import { MessagesButton } from "@/components/messages-button";
+import { AttendanceButton } from "@/components/attendance-button";
 import { CareButton } from "@/components/care-button";
+import DayPlanOverview from "@/components/day-plan-overview";
+import { MessagesButton } from "@/components/messages-button";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
+        <DayPlanOverview />
       <View style={styles.buttonContainer}>
-        <AttendanceButton />
-        <AbsenceButton />
       </View>
     
       <View style={styles.shortcutsBox}>
