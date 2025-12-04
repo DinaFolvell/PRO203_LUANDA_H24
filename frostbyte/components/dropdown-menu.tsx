@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ImageSourcePropType } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
 
-type StatusKey = "tilstede" | "forventet" | "hentet";
+type StatusKey = "tilstede" | "forventet" | "hentet" | "fravær";
 
 type AttendanceOption = {
   key: StatusKey;
@@ -29,6 +29,12 @@ const attendance: AttendanceOption[] = [
     image: require("../assets/icons/purple-picked-up-icon.png"),
     label: "Hentet",
     value: 3, 
+  },
+  { 
+    key: "fravær",
+    image: require("../assets/icons/red-absent-icon.png"),
+    label: "Fravær",
+    value: 4, 
   }
 ];
 
@@ -46,6 +52,10 @@ const statusColors: Record<
   },
   hentet: {
     background: "#75339B",
+    text: "#FFFFFF",
+  },
+  fravær: {
+    background: "#F50000",
     text: "#FFFFFF",
   },
 };
