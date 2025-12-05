@@ -8,22 +8,22 @@ export interface Child {
 }
 
 const childrenData: Child[] = [
-  { id: "1",  name: "Emma Johansen",         image: require("../assets/images/emma.png"), attendance: "present" },
-  { id: "2",  name: "Amalie Sanchez",        image: require("../assets/images/emma.png"), attendance: "present" },
-  { id: "3",  name: "Oliver Kristoffersen",  image: require("../assets/images/emma.png"), attendance: "expected" },
-  { id: "4",  name: "Sophia Lindberg",       image: require("../assets/images/emma.png"), attendance: "picked_up" },
-  { id: "5",  name: "Liam Mikkelsen",        image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "6",  name: "Ava Nygård",            image: require("../assets/images/emma.png"), attendance: "expected" },
-  { id: "7",  name: "Mia Pedersen",          image: require("../assets/images/emma.png"), attendance: "present" },
-  { id: "8",  name: "Isabella Rønning",      image: require("../assets/images/emma.png"), attendance: "picked_up" },
-  { id: "9",  name: "Lucas Solberg",         image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "10", name: "James Ulsrud",          image: require("../assets/images/emma.png"), attendance: "expected" },
-  { id: "11", name: "Hanne Viken",           image: require("../assets/images/emma.png"), attendance: "picked_up" },
-  { id: "12", name: "Benjamin Wold",         image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "13", name: "Henry Aamodt",          image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "14", name: "Ella Dahl",             image: require("../assets/images/emma.png"), attendance: "picked_up" },
-  { id: "15", name: "William Eide",          image: require("../assets/images/emma.png"), attendance: "absent" },
-  { id: "16", name: "Mateo Iversen",         image: require("../assets/images/emma.png"), attendance: "absent" },
+  { id: "1",  name: "Emma J",         image: require("../assets/images/emma.png"), attendance: "present" },
+  { id: "2",  name: "Amalie S",        image: require("../assets/images/amalie.png"), attendance: "present" },
+  { id: "3",  name: "Oliver K",  image: require("../assets/images/gelilah.png"), attendance: "expected" },
+  { id: "4",  name: "Sophia L",       image: require("../assets/images/amalie.png"), attendance: "picked_up" },
+  { id: "5",  name: "Liam M",        image: require("../assets/images/sigurd.png"), attendance: "absent" },
+  { id: "6",  name: "Ava N",            image: require("../assets/images/dina.png"), attendance: "expected" },
+  { id: "7",  name: "Mia P",          image: require("../assets/images/emma.png"), attendance: "present" },
+  { id: "8",  name: "Isabella R",      image: require("../assets/images/sigurd.png"), attendance: "picked_up" },
+  { id: "9",  name: "Lucas S",         image: require("../assets/images/dina.png"), attendance: "absent" },
+  { id: "10", name: "James U",          image: require("../assets/images/amalie.png"), attendance: "expected" },
+  { id: "11", name: "Hanne V",           image: require("../assets/images/gelilah.png"), attendance: "picked_up" },
+  { id: "12", name: "Benjamin W",         image: require("../assets/images/amalie.png"), attendance: "absent" },
+  { id: "13", name: "Henry A",          image: require("../assets/images/emma.png"), attendance: "absent" },
+  { id: "14", name: "Ella D",             image: require("../assets/images/amalie.png"), attendance: "picked_up" },
+  { id: "15", name: "William E",          image: require("../assets/images/sigurd.png"), attendance: "absent" },
+  { id: "16", name: "Mateo I",         image: require("../assets/images/dina.png"), attendance: "absent" },
 ];
 
 export class ChildService {
