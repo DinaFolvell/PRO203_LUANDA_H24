@@ -27,9 +27,8 @@ export default function CheckInScreen() {
   return (
     <View style={styles.container}>
       <AttendanceOverview style={styles.overView} />
-      <AttendanceDropdown />
       <AttendanceCard
-        photoUrl={require("../assets/images/dina.jpg")}
+        photoUrl={require("../assets/images/dina.png")}
         name="Amalie S. Ulriksen"
         note="Blir hentet klokka 1200 pga. tidlig ferie"
       />
