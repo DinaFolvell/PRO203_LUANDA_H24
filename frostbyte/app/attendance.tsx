@@ -1,14 +1,13 @@
-import AttendanceCard from '@/components/attendance-card';
 import { AttendanceOverview } from '@/components/attendance-overview';
+import AttendanceDropdown from '@/components/dropdown-menu';
 import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import AllScreen from '../attendance-screens/all-screen';
 import PresentScreen from '../attendance-screens/present-screen';
 import ExpectedScreen from '../attendance-screens/expected-screen';
 import PickedUpScreen from '../attendance-screens/picked-up-screen';
 import AbsentScreen from '../attendance-screens/absent-screen';
-import { HorizontalChildCard } from '../components/horizontal-child-card';
 
 export default function CheckInScreen() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -26,29 +25,13 @@ export default function CheckInScreen() {
 
   return (
     <View style={styles.container}>
-      <AttendanceOverview style={styles.overView} />
-      <AttendanceDropdown />
-      <AttendanceCard
-        photoUrl={require("../assets/images/dina.jpg")}
-        name="Amalie S. Ulriksen"
-        note="Blir hentet klokka 1200 pga. tidlig ferie"
-      />
       <AttendanceOverview 
         activeIndex={activeIndex}
         onIndexChange={setActiveIndex}
       />
-
-      <HorizontalChildCard
-        name="Dina Folvell"
-        image={require("../assets/images/dina.png")}
-        attendanceStatus="present"
-        style={styles.childCard}
-      />
-
-      <View style={styles.subpageContainer}>
-        <ScrollView contentContainerStyle={styles.subpageWrapper}>
-          {renderSubpage()}
-        </ScrollView>
+      
+      <View style={styles.subpageWrapper}>
+        {renderSubpage()}
       </View>
     </View>
   );
@@ -56,16 +39,11 @@ export default function CheckInScreen() {
 
 const styles = StyleSheet.create({
   container: { 
+    justifyContent: "center",
     flex: 1,
     backgroundColor: "#fff",
   },
-  childCard: {
-    marginVertical: 10,
-  },
-  subpageContainer: {
-    flex: 1,
-  },
   subpageWrapper: {
-    paddingBottom: 20,
+    flex: 1,
   },
 });
