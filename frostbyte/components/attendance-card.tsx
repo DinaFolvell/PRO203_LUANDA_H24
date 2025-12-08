@@ -37,7 +37,6 @@ const AttendanceCard: React.FC<AttendanceCardProps> = ({
 
         <Text style={styles.shortcutTitle}>Snarveier</Text>
 
-        {/* 2 rader med 2 knapper */}
         <View style={styles.row}>
           <ShortcutButton
             icon={
