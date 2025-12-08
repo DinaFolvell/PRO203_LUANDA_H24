@@ -26,7 +26,6 @@ export default function CheckInScreen() {
 
   return (
     <View style={styles.container}>
-      <AttendanceOverview style={styles.overView} />
       <AttendanceCard
         photoUrl={require("../assets/images/dina.png")}
         name="Amalie S. Ulriksen"

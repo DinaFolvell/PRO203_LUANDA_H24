@@ -4,7 +4,6 @@ import type { ViewStyle, StyleProp } from 'react-native';
 import { ChildService } from '../services/childService';
 
 export interface AttendanceOverviewProps {
-  style?: StyleProp<ViewStyle>;
   activeIndex: number;
   onIndexChange: (index: number) => void;
 }
@@ -23,11 +22,11 @@ const attendanceItems: AttendanceItem[] = [
   { label: 'Fravær', icon: require('../assets/icons/red-absent-icon.png'), countKey: 'absent' },
 ];
 
-export function AttendanceOverview({ style, activeIndex, onIndexChange }: AttendanceOverviewProps) {
+export function AttendanceOverview({ activeIndex, onIndexChange }: AttendanceOverviewProps) {
   const counts = useMemo(() => ChildService.getAttendanceCounts(), []);
 
   return (
-    <View style={[styles.bar, style]}>
+    <View style={styles.bar}>
       {attendanceItems.map((item, index) => (
         <TouchableOpacity
           key={index}
