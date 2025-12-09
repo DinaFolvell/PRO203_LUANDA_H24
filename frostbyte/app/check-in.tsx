@@ -1,12 +1,15 @@
 import AttendanceCard from "@/components/attendance-card";
 import { AttendanceOverview } from "@/components/attendance-overview";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   View,
   ScrollView,
   Modal,
   TouchableOpacity,
+  PanResponder,
+  Animated,
+  Dimensions,
 } from "react-native";
 
 import AllScreen from "../attendance-screens/all-screen";
@@ -16,9 +19,75 @@ import PickedUpScreen from "../attendance-screens/picked-up-screen";
 import AbsentScreen from "../attendance-screens/absent-screen";
 import { HorizontalChildCard } from "../components/horizontal-child-card";
 
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
 export default function CheckInScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
+  const translateX = useRef(new Animated.Value(0)).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: () => false,
+      onMoveShouldSetPanResponder: (_, gestureState) => {
+        const isHorizontalSwipe = Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
+        const hasMovedEnough = Math.abs(gestureState.dx) > 10;
+        return isHorizontalSwipe && hasMovedEnough;
+      },
+      onPanResponderGrant: () => {
+        setScrollEnabled(false);
+      },
+      onPanResponderMove: (_, gestureState) => {
+        translateX.setValue(gestureState.dx);
+      },
+      onPanResponderRelease: (_, gestureState) => {
+        setScrollEnabled(true);
+        const { dx } = gestureState;
+        const currentIndex = activeIndexRef.current;
+        
+        if (dx > 80 && currentIndex > 0) {
+          goToPage(currentIndex - 1);
+        } 
+        else if (dx < -80 && currentIndex < 4) {
+          goToPage(currentIndex + 1);
+        } else {
+          resetPosition();
+        }
+      },
+      onPanResponderTerminate: () => {
+        setScrollEnabled(true);
+        resetPosition();
+      },
+    })
+  ).current;
+
+  const resetPosition = () => {
+    Animated.spring(translateX, {
+      toValue: 0,
+      useNativeDriver: true,
+      friction: 7,
+    }).start();
+  };
+
+  const goToPage = (newIndex: number) => {
+    const direction = newIndex > activeIndexRef.current ? -1 : 1;
+    Animated.timing(translateX, {
+      toValue: direction * SCREEN_WIDTH,
+      duration: 200,
+      useNativeDriver: true,
+    }).start(() => {
+      translateX.setValue(0);
+      setActiveIndex(newIndex);
+      activeIndexRef.current = newIndex;
+    });
+  };
+
+  const handleTabChange = (newIndex: number) => {
+    if (newIndex === activeIndex) return;
+    goToPage(newIndex);
+  };
 
   const renderSubpage = () => {
     switch (activeIndex) {
@@ -41,13 +110,25 @@ export default function CheckInScreen() {
     <View style={styles.container}>
       <AttendanceOverview
         activeIndex={activeIndex}
-        onIndexChange={setActiveIndex}
+        onIndexChange={handleTabChange}
       />
-      <ScrollView contentContainerStyle={styles.subpageWrapper}>
-        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+      <Animated.View
+        style={[
+          styles.contentContainer,
+          {
+            transform: [{ translateX }],
+          },
+        ]}
+        {...panResponder.panHandlers}
+      >
+        <ScrollView 
+          contentContainerStyle={styles.subpageWrapper}
+          scrollEnabled={scrollEnabled}
+        >
           {renderSubpage()}
-        </TouchableOpacity>
-      </ScrollView>
+        </ScrollView>
+      </Animated.View>
+
       <Modal
         visible={isModalVisible}
         transparent
@@ -89,14 +170,12 @@ const styles = StyleSheet.create({
   childCard: {
     marginVertical: 10,
   },
-  subpageContainer: {
+  contentContainer: {
     flex: 1,
   },
   subpageWrapper: {
-    paddingBottom: 20,
+    flexGrow: 1,
   },
-
-
   modalBackdrop: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -110,7 +189,3 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
 });
-
-/**
- *  
- */
