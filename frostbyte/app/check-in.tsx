@@ -68,15 +68,6 @@ export default function CheckInScreen() {
           </View>
         </TouchableOpacity>
       </Modal>
-
-      <View>
-        <HorizontalChildCard
-          name="Dina Folvell"
-          image={require("../assets/images/dina.png")}
-          attendanceStatus="present"
-          style={styles.childCard}
-        />
-      </View>
     </View>
   );
 }
