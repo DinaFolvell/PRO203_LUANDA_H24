@@ -60,7 +60,7 @@ export default function HomeScreen() {
       <View style={styles.container}>
         {/* Day Plan - Scrollable with max height */}
         <View style={[styles.dayPlanBox, { maxHeight: maxSectionHeight }]}>
-          <ScrollView 
+          <ScrollView
             showsVerticalScrollIndicator={true}
             nestedScrollEnabled={true}
           >
@@ -68,8 +68,8 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        {/* Shortcuts - Scrollable with max height */}
-        <View style={[styles.shortcutsBox, { }]}>
+        {/* Shortcuts - Fixed size */}
+        <View style={styles.shortcutsBox}>
           <View style={styles.shortcutsHeader}>
             <Text style={styles.shortcutsTitle}>Snarveier</Text>
             <TouchableOpacity
@@ -83,101 +83,98 @@ export default function HomeScreen() {
               />
             </TouchableOpacity>
           </View>
-          
-          <ScrollView 
-            showsVerticalScrollIndicator={true}
-            nestedScrollEnabled={true}
-          >
-            <View style={styles.buttonContainer}>
-              <View style={styles.buttonRow}>
-                {visibleButtons.attendance && (
-                  <View style={styles.buttonWrapper}>
-                    <TouchableOpacity
-                      onPress={() => toggleButton("attendance")}
-                      disabled={!isEditMode}
-                      style={styles.buttonTouchable}
-                    >
-                      <AttendanceButton />
-                      {isEditMode && (
-                        <View style={styles.removeIcon}>
-                          <MaterialCommunityIcons
-                            name="close-circle"
-                            size={28}
-                            color="#FF3B30"
-                          />
-                        </View>
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                )}
-                {visibleButtons.absence && (
-                  <View style={styles.buttonWrapper}>
-                    <TouchableOpacity
-                      onPress={() => toggleButton("absence")}
-                      disabled={!isEditMode}
-                      style={styles.buttonTouchable}
-                    >
-                      <AbsenceButton />
-                      {isEditMode && (
-                        <View style={styles.removeIcon}>
-                          <MaterialCommunityIcons
-                            name="close-circle"
-                            size={28}
-                            color="#FF3B30"
-                          />
-                        </View>
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </View>
-              <View style={styles.buttonRow}>
-                {visibleButtons.care && (
-                  <View style={styles.buttonWrapper}>
-                    <TouchableOpacity
-                      onPress={() => toggleButton("care")}
-                      disabled={!isEditMode}
-                      style={styles.buttonTouchable}
-                    >
-                      <CareButton />
-                      {isEditMode && (
-                        <View style={styles.removeIcon}>
-                          <MaterialCommunityIcons
-                            name="close-circle"
-                            size={28}
-                            color="#FF3B30"
-                          />
-                        </View>
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                )}
-                {visibleButtons.messages && (
-                  <View style={styles.buttonWrapper}>
-                    <TouchableOpacity
-                      onPress={() => toggleButton("messages")}
-                      disabled={!isEditMode}
-                      style={styles.buttonTouchable}
-                    >
-                      <MessagesButton />
-                      {isEditMode && (
-                        <View style={styles.removeIcon}>
-                          <MaterialCommunityIcons
-                            name="close-circle"
-                            size={28}
-                            color="#FF3B30"
-                          />
-                        </View>
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </View>
+
+          <View style={styles.buttonContainer}>
+            <View style={styles.buttonRow}>
+              {visibleButtons.attendance && (
+                <View style={styles.buttonWrapper}>
+                  <TouchableOpacity
+                    onPress={() => toggleButton("attendance")}
+                    disabled={!isEditMode}
+                    style={styles.buttonTouchable}
+                  >
+                    <AttendanceButton />
+                    {isEditMode && (
+                      <View style={styles.removeIcon}>
+                        <MaterialCommunityIcons
+                          name="close-circle"
+                          size={28}
+                          color="#FF3B30"
+                        />
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                </View>
+              )}
+              {visibleButtons.absence && (
+                <View style={styles.buttonWrapper}>
+                  <TouchableOpacity
+                    onPress={() => toggleButton("absence")}
+                    disabled={!isEditMode}
+                    style={styles.buttonTouchable}
+                  >
+                    <AbsenceButton />
+                    {isEditMode && (
+                      <View style={styles.removeIcon}>
+                        <MaterialCommunityIcons
+                          name="close-circle"
+                          size={28}
+                          color="#FF3B30"
+                        />
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                </View>
+              )}
+            </View>
+            <View style={styles.buttonRow}>
+              {visibleButtons.care && (
+                <View style={styles.buttonWrapper}>
+                  <TouchableOpacity
+                    onPress={() => toggleButton("care")}
+                    disabled={!isEditMode}
+                    style={styles.buttonTouchable}
+                  >
+                    <CareButton />
+                    {isEditMode && (
+                      <View style={styles.removeIcon}>
+                        <MaterialCommunityIcons
+                          name="close-circle"
+                          size={28}
+                          color="#FF3B30"
+                        />
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                </View>
+              )}
+              {visibleButtons.messages && (
+                <View style={styles.buttonWrapper}>
+                  <TouchableOpacity
+                    onPress={() => toggleButton("messages")}
+                    disabled={!isEditMode}
+                    style={styles.buttonTouchable}
+                  >
+                    <MessagesButton />
+                    {isEditMode && (
+                      <View style={styles.removeIcon}>
+                        <MaterialCommunityIcons
+                          name="close-circle"
+                          size={28}
+                          color="#FF3B30"
+                        />
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
 
             {isEditMode && hiddenButtons.length > 0 && (
               <View style={styles.hiddenButtonsSection}>
-                <Text style={styles.hiddenButtonsTitle}>Legg til snarveier:</Text>
+                <Text style={styles.hiddenButtonsTitle}>
+                  Legg til snarveier:
+                </Text>
                 <View style={styles.hiddenButtonsList}>
                   {hiddenButtons.map((buttonKey) => (
                     <TouchableOpacity
@@ -198,12 +195,17 @@ export default function HomeScreen() {
                 </View>
               </View>
             )}
-          </ScrollView>
+          </View>
         </View>
 
         {/* Notifications - Scrollable with max height */}
-        <View style={[styles.notificationsContainer, { }]}>
-          <ScrollView 
+        <View
+          style={[
+            styles.notificationsContainer,
+            { maxHeight: maxSectionHeight },
+          ]}
+        >
+          <ScrollView
             showsVerticalScrollIndicator={true}
             nestedScrollEnabled={true}
           >
