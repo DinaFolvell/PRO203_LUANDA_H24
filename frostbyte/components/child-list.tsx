@@ -25,7 +25,7 @@ export function ChildList({ filterStatus }: ChildListProps) {
       let columns = Math.floor(
         (screenWidth + spacing) / (desiredCardWidth + spacing)
       );
-      columns = columns < 3 ? 3 : columns; // always at least 3 columns
+      columns = columns < 3 ? 3 : columns;
 
       const calculatedCardWidth =
         (screenWidth - horizontalPadding - spacing * (columns - 1)) / columns;
