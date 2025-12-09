@@ -69,7 +69,7 @@ export default function HomeScreen() {
         </View>
 
         {/* Shortcuts - Scrollable with max height */}
-        <View style={[styles.shortcutsBox, { maxHeight: maxSectionHeight }]}>
+        <View style={[styles.shortcutsBox, { }]}>
           <View style={styles.shortcutsHeader}>
             <Text style={styles.shortcutsTitle}>Snarveier</Text>
             <TouchableOpacity
@@ -202,7 +202,7 @@ export default function HomeScreen() {
         </View>
 
         {/* Notifications - Scrollable with max height */}
-        <View style={[styles.notificationsContainer, { maxHeight: maxSectionHeight }]}>
+        <View style={[styles.notificationsContainer, { }]}>
           <ScrollView 
             showsVerticalScrollIndicator={true}
             nestedScrollEnabled={true}
