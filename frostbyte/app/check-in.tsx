@@ -144,9 +144,10 @@ export default function CheckInScreen() {
         >
           <View style={styles.modalContent}>
             <AttendanceCard
-              photoUrl={require("../assets/images/dina.png")}
-              name="Dina Folvell"
+              photoUrl={require("../assets/images/amalie.png")}
+              name="Amalie S. Ulriksen"
               note="Kommer 09:30 og blir hentet tidlig"
+              onClose={() => console.log("Card closed")}
             />
           </View>
         </TouchableOpacity>
@@ -177,7 +178,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: "#fff",
     padding: 10,
     borderRadius: 12,
   },
