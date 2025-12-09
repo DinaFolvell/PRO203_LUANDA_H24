@@ -1,49 +1,40 @@
-import { AttendanceOverview } from '@/components/attendance-overview';
-import AttendanceDropdown from '@/components/dropdown-menu';
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { AttendanceOverview } from "@/components/attendance-overview";
+import { HorizontalChildList } from "@/components/horizontal-child-list";
+import { AttendanceStatus } from "@/services/childService";
 
-import AllScreen from '../attendance-screens/all-screen';
-import PresentScreen from '../attendance-screens/present-screen';
-import ExpectedScreen from '../attendance-screens/expected-screen';
-import PickedUpScreen from '../attendance-screens/picked-up-screen';
-import AbsentScreen from '../attendance-screens/absent-screen';
-
-export default function CheckInScreen() {
+export default function CheckInListScreen() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const renderSubpage = () => {
-    switch (activeIndex) {
-      case 0: return <AllScreen />;
-      case 1: return <PresentScreen />;
-      case 2: return <ExpectedScreen />;
-      case 3: return <PickedUpScreen />;
-      case 4: return <AbsentScreen />;
-      default: return null;
+  const mapIndexToStatus = (index: number): AttendanceStatus | undefined => {
+    switch (index) {
+      case 0: return undefined;
+      case 1: return "present";
+      case 2: return "expected";
+      case 3: return "picked_up";
+      case 4: return "absent";
+      default: return undefined;
     }
   };
 
+  const filterStatus = mapIndexToStatus(activeIndex);
+
   return (
     <View style={styles.container}>
-      <AttendanceOverview 
+      <AttendanceOverview
         activeIndex={activeIndex}
         onIndexChange={setActiveIndex}
       />
-      
-      <View style={styles.subpageWrapper}>
-        {renderSubpage()}
-      </View>
+
+      <HorizontalChildList filterStatus={filterStatus} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { 
-    justifyContent: "center",
+  container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  subpageWrapper: {
-    flex: 1,
+    backgroundColor: "#EFE3F4",
   },
 });
