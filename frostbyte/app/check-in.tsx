@@ -17,9 +17,8 @@ import PresentScreen from "../attendance-screens/present-screen";
 import ExpectedScreen from "../attendance-screens/expected-screen";
 import PickedUpScreen from "../attendance-screens/picked-up-screen";
 import AbsentScreen from "../attendance-screens/absent-screen";
-import { HorizontalChildCard } from "../components/horizontal-child-card";
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function CheckInScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -32,7 +31,8 @@ export default function CheckInScreen() {
     PanResponder.create({
       onStartShouldSetPanResponder: () => false,
       onMoveShouldSetPanResponder: (_, gestureState) => {
-        const isHorizontalSwipe = Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
+        const isHorizontalSwipe =
+          Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
         const hasMovedEnough = Math.abs(gestureState.dx) > 10;
         return isHorizontalSwipe && hasMovedEnough;
       },
@@ -46,11 +46,10 @@ export default function CheckInScreen() {
         setScrollEnabled(true);
         const { dx } = gestureState;
         const currentIndex = activeIndexRef.current;
-        
+
         if (dx > 80 && currentIndex > 0) {
           goToPage(currentIndex - 1);
-        } 
-        else if (dx < -80 && currentIndex < 4) {
+        } else if (dx < -80 && currentIndex < 4) {
           goToPage(currentIndex + 1);
         } else {
           resetPosition();
@@ -147,7 +146,7 @@ export default function CheckInScreen() {
               photoUrl={require("../assets/images/amalie.png")}
               name="Amalie S. Ulriksen"
               note="Kommer 09:30 og blir hentet tidlig"
-              onClose={() => console.log("Card closed")}
+              onClose={() => setIsModalVisible(false)}
             />
           </View>
         </TouchableOpacity>
