@@ -7,77 +7,65 @@ import {
   TouchableOpacity,
   ImageSourcePropType,
 } from "react-native";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export interface AttendanceCardProps {
   photoUrl: ImageSourcePropType;
   name: string;
   note?: string;
+  onClose?: () => void;
 }
 
 const AttendanceCard: React.FC<AttendanceCardProps> = ({
   photoUrl,
   name,
   note,
+  onClose,
 }) => {
   return (
     <View style={styles.card}>
+      {onClose && (
+        <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+          <MaterialCommunityIcons name="close" size={21} color="#333" />
+        </TouchableOpacity>
+      )}
+
+      {note && (
+        <View style={styles.noteContainer}>
+          <Text style={styles.noteTitle}>VARSLING</Text>
+          <Text style={styles.noteText}>{note}</Text>
+        </View>
+      )}
+
       <Image source={photoUrl} style={styles.image} />
 
       <View style={styles.mainSection}>
         <Text style={styles.name}>{name}</Text>
 
-        {note && (
-          <View style={styles.noteContainer}>
-            <Text style={styles.noteTitle}>VARSLING</Text>
-            <Text style={styles.noteText}>{note}</Text>
-          </View>
-        )}
-
-        <Text style={styles.shortcutTitle}>Snarveier</Text>
-
-        <View style={styles.row}>
+        <View style={styles.buttonRowTwo}>
           <ShortcutButton
-            icon={
-              <MaterialCommunityIcons
-                name="account-cancel"
-                size={40}
-                color="#F54500"
-              />
-            }
+            iconName="account-cancel"
+            iconColor="#F50000"
             label="Fravær"
             onPress={() => {}}
           />
+
           <ShortcutButton
-            icon={<MaterialIcons name="checklist" size={40} color="#F54500" />}
-            label="Oppmøte"
+            iconName="hand-wave-outline"
+            iconColor="#75339B"
+            label="Henting"
             onPress={() => {}}
+            iconSize={18}
           />
         </View>
 
-        <View style={styles.row}>
+        <View style={styles.buttonRowFull}>
           <ShortcutButton
-            icon={
-              <MaterialCommunityIcons
-                name="human-baby-changing-table"
-                size={40}
-                color="#F54500"
-              />
-            }
-            label="Pleie-liste"
+            iconName="account-check-outline"
+            iconColor="#496F57"
+            label="Registrer ankomst"
             onPress={() => {}}
-          />
-          <ShortcutButton
-            icon={
-              <MaterialCommunityIcons
-                name="message-text"
-                size={40}
-                color="#F54500"
-              />
-            }
-            label="Meldinger"
-            onPress={() => {}}
+            fullWidth
           />
         </View>
       </View>
@@ -88,57 +76,90 @@ const AttendanceCard: React.FC<AttendanceCardProps> = ({
 export default AttendanceCard;
 
 interface ShortcutButtonProps {
-  icon: React.ReactNode;
+  iconName: "account-cancel" | "hand-wave-outline" | "account-check-outline";
+  iconColor: string;
   label: string;
   onPress?: () => void;
+  fullWidth?: boolean;
+  iconSize?: number;
 }
 
 const ShortcutButton: React.FC<ShortcutButtonProps> = ({
-  icon,
+  iconName,
+  iconColor,
   label,
   onPress,
-}) => (
-  <TouchableOpacity style={styles.customButton} onPress={onPress}>
-    {icon}
-    <Text style={styles.buttonText}>{label}</Text>
-  </TouchableOpacity>
-);
+  fullWidth = false,
+  iconSize,
+}) => {
+  return (
+    <TouchableOpacity
+      style={[
+        styles.buttonBase,
+        fullWidth && { width: "100%", marginHorizontal: 0 },
+      ]}
+      onPress={onPress}
+    >
+      <View style={styles.inlineContent}>
+        <MaterialCommunityIcons
+          name={iconName}
+          size={iconSize || 20}
+          color={iconColor}
+        />
+        <Text style={[styles.buttonText, { color: iconColor }]}>{label}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   card: {
-    paddingTop: 20,
-    width: 290,
+    paddingTop: 40,
+    width: 260,
     backgroundColor: "#F7F7F7",
     borderRadius: 8,
-    overflow: "hidden",
+
     alignItems: "center",
-    paddingVertical: 8,
+    paddingVertical: 14,
   },
+
+  closeButton: {
+    position: "absolute",
+    top: 4,
+    right: 10,
+    zIndex: 10,
+    padding: 6,
+  },
+
   image: {
-    width: "82%",
+    width: "85%",
     height: 200,
-    borderRadius: 8,
-    marginBottom: 8,
+    borderRadius: 6,
+    marginBottom: 12,
   },
+
   mainSection: {
     width: "95%",
     alignItems: "center",
   },
+
   name: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
     color: "#000",
-    marginBottom: 8,
+    marginBottom: 14,
   },
+
   noteContainer: {
     backgroundColor: "white",
-    borderRadius: 8,
+    borderRadius: 6,
     paddingVertical: 8,
     paddingHorizontal: 12,
-    width: "75%",
-    marginBottom: 8,
+    width: "85%",
+    marginBottom: 12,
     alignItems: "center",
   },
+
   noteTitle: {
     fontSize: 14,
     fontWeight: "700",
@@ -146,37 +167,44 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "center",
   },
+
   noteText: {
     fontSize: 12,
     color: "#333",
     textAlign: "center",
   },
-  shortcutTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    marginBottom: 4,
-    color: "#000",
-    textAlign: "center",
-  },
-  row: {
+
+  buttonRowTwo: {
     flexDirection: "row",
+    width: "95%",
+    height: 50,
     justifyContent: "space-between",
-    width: "92%",
     marginBottom: 12,
   },
-  customButton: {
+
+  buttonRowFull: {
+    width: "90%",
+    height: 50,
+    marginBottom: 10,
+  },
+
+  buttonBase: {
     backgroundColor: "white",
-    borderRadius: 8,
-    width: "48%",
-    height: 70,
+    borderRadius: 6,
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    marginHorizontal: 4,
   },
+
+  inlineContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
   buttonText: {
-    marginTop: 6,
-    fontSize: 16,
+    marginLeft: 8,
+    fontSize: 14,
     fontWeight: "600",
-    color: "#000",
-    textAlign: "center",
   },
 });
