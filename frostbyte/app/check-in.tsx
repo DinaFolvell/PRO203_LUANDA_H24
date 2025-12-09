@@ -121,11 +121,13 @@ export default function CheckInScreen() {
         ]}
         {...panResponder.panHandlers}
       >
-        <ScrollView 
+        <ScrollView
           contentContainerStyle={styles.subpageWrapper}
           scrollEnabled={scrollEnabled}
         >
-          {renderSubpage()}
+          <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+            {renderSubpage()}
+          </TouchableOpacity>
         </ScrollView>
       </Animated.View>
 
@@ -149,15 +151,6 @@ export default function CheckInScreen() {
           </View>
         </TouchableOpacity>
       </Modal>
-
-      <View>
-        <HorizontalChildCard
-          name="Dina Folvell"
-          image={require("../assets/images/dina.png")}
-          attendanceStatus="present"
-          style={styles.childCard}
-        />
-      </View>
     </View>
   );
 }
