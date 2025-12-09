@@ -8,6 +8,7 @@ import {
   Image,
 } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { router } from "expo-router";
 
 export interface AbsenceButtonProps {
   style?: StyleProp<ViewStyle>;
@@ -16,7 +17,11 @@ export interface AbsenceButtonProps {
 export function AbsenceButton(props: AbsenceButtonProps) {
     
   return (
-    <TouchableOpacity style={[styles.container, props.style]}>
+    <TouchableOpacity
+
+      style={[styles.container, props.style]}
+      onPress={() => router.push("/attendance")}
+    >
       <View style={styles.button}>
         <MaterialCommunityIcons
           name="account-cancel-outline"
