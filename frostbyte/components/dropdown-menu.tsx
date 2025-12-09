@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, ImageSourcePropType } from "react-native";
 import Feather from '@expo/vector-icons/Feather';
 
@@ -82,23 +82,22 @@ export default function AttendanceDropdown({
 
   const colors = statusColors[selected.key];
 
+  useEffect(() => {
+    if (isOpen) {
+      onOpen?.();
+    } else {
+      onClose?.();
+    }
+  }, [isOpen, onOpen, onClose]);
+
   const toggleOpen = () => {
-    setIsOpen((prev) => {
-      const next = !prev;
-      if (next) {
-        onOpen?.();
-      } else {
-        onClose?.();
-      }
-      return next;
-    });
+    setIsOpen((prev) => !prev);
   };
 
   const handleSelect = (option: AttendanceOption) => {
     setSelected(option);         
     onChange?.(option.key);      
     setIsOpen(false);
-    onClose?.();             
   };
 
   return (
