@@ -62,9 +62,9 @@ export default function SideMenu(props: DrawerContentComponentProps) {
         />
         {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
-          href="/check-in"
+          href="/attendance"
           label="Oppmøte-liste"
-          isActive={isRouteActive("/check-in")}
+          isActive={isRouteActive("/attendance")}
           icon={<Ionicons name="person" size={30} style={styles.icon} />}
         />
         {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
