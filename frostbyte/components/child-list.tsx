@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     paddingTop: 16,
   },
   cardWrapper: {
-    aspectRatio: 115 / 148, // optional: maintain original card ratio if needed
+    aspectRatio: 115 / 148,
   },
 });
