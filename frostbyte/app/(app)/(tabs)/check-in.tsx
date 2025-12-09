@@ -9,12 +9,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import AllScreen from "../attendance-screens/all-screen";
-import PresentScreen from "../attendance-screens/present-screen";
-import ExpectedScreen from "../attendance-screens/expected-screen";
-import PickedUpScreen from "../attendance-screens/picked-up-screen";
-import AbsentScreen from "../attendance-screens/absent-screen";
-import { HorizontalChildCard } from "../components/horizontal-child-card";
+import AllScreen from "../../../attendance-screens/all-screen";
+import PresentScreen from "../../../attendance-screens/present-screen";
+import ExpectedScreen from "../../../attendance-screens/expected-screen";
+import PickedUpScreen from "../../../attendance-screens/picked-up-screen";
+import AbsentScreen from "../../../attendance-screens/absent-screen";
+import { HorizontalChildCard } from "../../../components/horizontal-child-card";
 
 export default function CheckInScreen() {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -61,7 +61,7 @@ export default function CheckInScreen() {
         >
           <View style={styles.modalContent}>
             <AttendanceCard
-              photoUrl={require("../assets/images/dina.png")}
+              photoUrl={require("../../../assets/images/dina.png")}
               name="Dina Folvell"
               note="Kommer 09:30 og blir hentet tidlig"
             />
@@ -72,7 +72,7 @@ export default function CheckInScreen() {
       <View>
         <HorizontalChildCard
           name="Dina Folvell"
-          image={require("../assets/images/dina.png")}
+          image={require("../../../assets/images/dina.png")}
           attendanceStatus="present"
           style={styles.childCard}
         />
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
 
-
   modalBackdrop: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -112,5 +111,5 @@ const styles = StyleSheet.create({
 });
 
 /**
- *  
+ *
  */

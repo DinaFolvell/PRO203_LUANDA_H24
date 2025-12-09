@@ -40,6 +40,9 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+firebaseEnv.js
+GoogleService-Info.plist
+ios/
 
 # generated native folders
 /ios
