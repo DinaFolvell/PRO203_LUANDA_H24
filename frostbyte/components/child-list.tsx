@@ -11,7 +11,7 @@ export function ChildList({ filterStatus }: ChildListProps) {
   const [numColumns, setNumColumns] = useState(3);
   const [cardWidth, setCardWidth] = useState(0);
 
-  const filteredData = filterStatus 
+  const filteredData = filterStatus
     ? ChildService.getChildrenByStatus(filterStatus)
     : ChildService.getAllChildren();
 
@@ -22,10 +22,13 @@ export function ChildList({ filterStatus }: ChildListProps) {
       const spacing = 16;
       const desiredCardWidth = 140;
 
-      let columns = Math.floor((screenWidth + spacing) / (desiredCardWidth + spacing));
+      let columns = Math.floor(
+        (screenWidth + spacing) / (desiredCardWidth + spacing)
+      );
       columns = columns < 3 ? 3 : columns; // always at least 3 columns
 
-      const calculatedCardWidth = (screenWidth - horizontalPadding - spacing * (columns - 1)) / columns;
+      const calculatedCardWidth =
+        (screenWidth - horizontalPadding - spacing * (columns - 1)) / columns;
       setNumColumns(columns);
       setCardWidth(calculatedCardWidth);
     };
@@ -41,6 +44,7 @@ export function ChildList({ filterStatus }: ChildListProps) {
       data={filteredData}
       keyExtractor={(item) => item.id}
       numColumns={numColumns}
+      scrollEnabled={false}
       renderItem={({ item, index }) => {
         const marginRight = (index + 1) % numColumns === 0 ? 0 : 16;
         return (
