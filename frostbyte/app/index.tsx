@@ -1,12 +1,13 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
+  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { AbsenceButton } from "@/components/absence-button";
 import { AttendanceButton } from "@/components/attendance-button";
@@ -24,6 +25,9 @@ const buttonLabels = {
   care: "Pleie",
   messages: "Meldinger",
 };
+
+const screenHeight = Dimensions.get("window").height;
+const maxSectionHeight = screenHeight / 3;
 
 export default function HomeScreen() {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -54,11 +58,18 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        <View style={styles.dayPlanBox}>
-          <DayPlanOverview />
+        {/* Day Plan - Scrollable with max height */}
+        <View style={[styles.dayPlanBox, { maxHeight: maxSectionHeight }]}>
+          <ScrollView 
+            showsVerticalScrollIndicator={true}
+            nestedScrollEnabled={true}
+          >
+            <DayPlanOverview />
+          </ScrollView>
         </View>
 
-        <View style={styles.shortcutsBox}>
+        {/* Shortcuts - Scrollable with max height */}
+        <View style={[styles.shortcutsBox, { maxHeight: maxSectionHeight }]}>
           <View style={styles.shortcutsHeader}>
             <Text style={styles.shortcutsTitle}>Snarveier</Text>
             <TouchableOpacity
@@ -72,120 +83,132 @@ export default function HomeScreen() {
               />
             </TouchableOpacity>
           </View>
-          <View style={styles.buttonContainer}>
-            <View style={styles.buttonRow}>
-              {visibleButtons.attendance && (
-                <View style={styles.buttonWrapper}>
-                  <TouchableOpacity
-                    onPress={() => toggleButton("attendance")}
-                    disabled={!isEditMode}
-                    style={styles.buttonTouchable}
-                  >
-                    <AttendanceButton />
-                    {isEditMode && (
-                      <View style={styles.removeIcon}>
-                        <MaterialCommunityIcons
-                          name="close-circle"
-                          size={28}
-                          color="#FF3B30"
-                        />
-                      </View>
-                    )}
-                  </TouchableOpacity>
-                </View>
-              )}
-              {visibleButtons.absence && (
-                <View style={styles.buttonWrapper}>
-                  <TouchableOpacity
-                    onPress={() => toggleButton("absence")}
-                    disabled={!isEditMode}
-                    style={styles.buttonTouchable}
-                  >
-                    <AbsenceButton />
-                    {isEditMode && (
-                      <View style={styles.removeIcon}>
-                        <MaterialCommunityIcons
-                          name="close-circle"
-                          size={28}
-                          color="#FF3B30"
-                        />
-                      </View>
-                    )}
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
-            <View style={styles.buttonRow}>
-              {visibleButtons.care && (
-                <View style={styles.buttonWrapper}>
-                  <TouchableOpacity
-                    onPress={() => toggleButton("care")}
-                    disabled={!isEditMode}
-                    style={styles.buttonTouchable}
-                  >
-                    <CareButton />
-                    {isEditMode && (
-                      <View style={styles.removeIcon}>
-                        <MaterialCommunityIcons
-                          name="close-circle"
-                          size={28}
-                          color="#FF3B30"
-                        />
-                      </View>
-                    )}
-                  </TouchableOpacity>
-                </View>
-              )}
-              {visibleButtons.messages && (
-                <View style={styles.buttonWrapper}>
-                  <TouchableOpacity
-                    onPress={() => toggleButton("messages")}
-                    disabled={!isEditMode}
-                    style={styles.buttonTouchable}
-                  >
-                    <MessagesButton />
-                    {isEditMode && (
-                      <View style={styles.removeIcon}>
-                        <MaterialCommunityIcons
-                          name="close-circle"
-                          size={28}
-                          color="#FF3B30"
-                        />
-                      </View>
-                    )}
-                  </TouchableOpacity>
-                </View>
-              )}
-            </View>
-          </View>
-
-          {isEditMode && hiddenButtons.length > 0 && (
-            <View style={styles.hiddenButtonsSection}>
-              <Text style={styles.hiddenButtonsTitle}>Legg til snarveier:</Text>
-              <View style={styles.hiddenButtonsList}>
-                {hiddenButtons.map((buttonKey) => (
-                  <TouchableOpacity
-                    key={buttonKey}
-                    onPress={() => toggleButton(buttonKey)}
-                    style={styles.addButton}
-                  >
-                    <MaterialCommunityIcons
-                      name="plus-circle"
-                      size={20}
-                      color="rgba(245, 69, 0, 1)"
-                    />
-                    <Text style={styles.addButtonText}>
-                      {buttonLabels[buttonKey]}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
+          
+          <ScrollView 
+            showsVerticalScrollIndicator={true}
+            nestedScrollEnabled={true}
+          >
+            <View style={styles.buttonContainer}>
+              <View style={styles.buttonRow}>
+                {visibleButtons.attendance && (
+                  <View style={styles.buttonWrapper}>
+                    <TouchableOpacity
+                      onPress={() => toggleButton("attendance")}
+                      disabled={!isEditMode}
+                      style={styles.buttonTouchable}
+                    >
+                      <AttendanceButton />
+                      {isEditMode && (
+                        <View style={styles.removeIcon}>
+                          <MaterialCommunityIcons
+                            name="close-circle"
+                            size={28}
+                            color="#FF3B30"
+                          />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                )}
+                {visibleButtons.absence && (
+                  <View style={styles.buttonWrapper}>
+                    <TouchableOpacity
+                      onPress={() => toggleButton("absence")}
+                      disabled={!isEditMode}
+                      style={styles.buttonTouchable}
+                    >
+                      <AbsenceButton />
+                      {isEditMode && (
+                        <View style={styles.removeIcon}>
+                          <MaterialCommunityIcons
+                            name="close-circle"
+                            size={28}
+                            color="#FF3B30"
+                          />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
+              <View style={styles.buttonRow}>
+                {visibleButtons.care && (
+                  <View style={styles.buttonWrapper}>
+                    <TouchableOpacity
+                      onPress={() => toggleButton("care")}
+                      disabled={!isEditMode}
+                      style={styles.buttonTouchable}
+                    >
+                      <CareButton />
+                      {isEditMode && (
+                        <View style={styles.removeIcon}>
+                          <MaterialCommunityIcons
+                            name="close-circle"
+                            size={28}
+                            color="#FF3B30"
+                          />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                )}
+                {visibleButtons.messages && (
+                  <View style={styles.buttonWrapper}>
+                    <TouchableOpacity
+                      onPress={() => toggleButton("messages")}
+                      disabled={!isEditMode}
+                      style={styles.buttonTouchable}
+                    >
+                      <MessagesButton />
+                      {isEditMode && (
+                        <View style={styles.removeIcon}>
+                          <MaterialCommunityIcons
+                            name="close-circle"
+                            size={28}
+                            color="#FF3B30"
+                          />
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             </View>
-          )}
+
+            {isEditMode && hiddenButtons.length > 0 && (
+              <View style={styles.hiddenButtonsSection}>
+                <Text style={styles.hiddenButtonsTitle}>Legg til snarveier:</Text>
+                <View style={styles.hiddenButtonsList}>
+                  {hiddenButtons.map((buttonKey) => (
+                    <TouchableOpacity
+                      key={buttonKey}
+                      onPress={() => toggleButton(buttonKey)}
+                      style={styles.addButton}
+                    >
+                      <MaterialCommunityIcons
+                        name="plus-circle"
+                        size={20}
+                        color="rgba(245, 69, 0, 1)"
+                      />
+                      <Text style={styles.addButtonText}>
+                        {buttonLabels[buttonKey]}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            )}
+          </ScrollView>
         </View>
 
-        <View style={styles.notificationsContainer}>
-          <NotificationsOverview notifications={mockNotifications} />
+        {/* Notifications - Scrollable with max height */}
+        <View style={[styles.notificationsContainer, { maxHeight: maxSectionHeight }]}>
+          <ScrollView 
+            showsVerticalScrollIndicator={true}
+            nestedScrollEnabled={true}
+          >
+            <NotificationsOverview notifications={mockNotifications} />
+          </ScrollView>
         </View>
       </View>
     </ScrollView>
@@ -199,7 +222,6 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    flex: 1,
     padding: 16,
   },
 
@@ -227,7 +249,6 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 5,
     marginBottom: 16,
-    flex: 1,
   },
 
   shortcutsHeader: {
