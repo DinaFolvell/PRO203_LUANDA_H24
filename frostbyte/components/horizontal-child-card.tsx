@@ -7,14 +7,17 @@ export interface ChildCardProps {
   image: ImageSourcePropType;
   attendanceStatus?: StatusKey;
   style?: object;
+  onOpen?: () => void;
+  onClose?: () => void;
 }
-
 
 export function HorizontalChildCard({
   name,
   image,
-  attendanceStatus = "expected",
+  attendanceStatus = "expected",   
   style,
+  onOpen,
+  onClose,
 }: ChildCardProps) {
 
   const [status, setStatus] = useState<StatusKey>(attendanceStatus);
@@ -50,6 +53,8 @@ export function HorizontalChildCard({
         <AttendanceDropdown
           initialStatus={status}
           onChange={setStatus}
+          onOpen={onOpen}
+          onClose={onClose}
         />
       </View>
     </View>

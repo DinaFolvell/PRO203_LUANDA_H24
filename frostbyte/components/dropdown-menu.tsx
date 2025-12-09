@@ -63,31 +63,48 @@ const statusColors: Record<
 type AttendanceDropdownProps = {
   initialStatus?: StatusKey;
   onChange?: (status: StatusKey) => void;
+  onOpen?: () => void;
+  onClose?: () => void;
 };
 
 export default function AttendanceDropdown({
     initialStatus = "expected",
     onChange,
+    onOpen,
+    onClose,
   }: AttendanceDropdownProps) {
   
     const [isOpen, setIsOpen] = useState(false);
 
-  const [selected, setSelected] = useState<AttendanceOption>(
-    attendance.find((opt) => opt.key === initialStatus) ?? attendance[1]
+    const [selected, setSelected] = useState<AttendanceOption>(
+      attendance.find((opt) => opt.key === initialStatus) ?? attendance[1]
   );
 
   const colors = statusColors[selected.key];
 
+  const toggleOpen = () => {
+    setIsOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        onOpen?.();
+      } else {
+        onClose?.();
+      }
+      return next;
+    });
+  };
+
   const handleSelect = (option: AttendanceOption) => {
     setSelected(option);         
     onChange?.(option.key);      
-    setIsOpen(false);            
+    setIsOpen(false);
+    onClose?.();             
   };
 
   return (
     <View style={[styles.container, isOpen && styles.containerOpen]}>
       <TouchableOpacity
-        onPress={() => setIsOpen((prev) => !prev)}
+        onPress={toggleOpen} 
         style={[
           styles.button,
           {
