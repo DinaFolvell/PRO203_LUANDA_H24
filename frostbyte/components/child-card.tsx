@@ -38,12 +38,12 @@ export function ChildCard({
 
   return (
     <View style={[styles.root, { borderBottomColor: borderColor }, style]}>
-      {/* Bilde */}
+    
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.image} resizeMode="cover" />
       </View>
 
-      {/* Navn + status */}
+    
       <View style={styles.nameContainer}>
         <Text style={styles.nameText} numberOfLines={1} ellipsizeMode="tail">
           {name}
