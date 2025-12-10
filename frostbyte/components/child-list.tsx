@@ -1,19 +1,72 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, StyleSheet, View, Dimensions } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  Dimensions,
+  ActivityIndicator,
+  Text,
+  RefreshControl,
+} from "react-native";
 import { ChildCard } from "./child-card";
-import { ChildService, AttendanceStatus } from "../services/childService";
+import {
+  ChildService,
+  AttendanceStatus,
+  Child,
+} from "../api/childApi";
 
 interface ChildListProps {
   filterStatus?: AttendanceStatus;
+  children?: Child[];
+  onRefresh?: () => void;
+  isRefreshing?: boolean;
 }
 
-export function ChildList({ filterStatus }: ChildListProps) {
+export function ChildList({
+  filterStatus,
+  children: externalChildren,
+  onRefresh,
+  isRefreshing = false,
+}: ChildListProps) {
   const [numColumns, setNumColumns] = useState(3);
   const [cardWidth, setCardWidth] = useState(0);
+  const [internalChildren, setInternalChildren] = useState<Child[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredData = filterStatus
-    ? ChildService.getChildrenByStatus(filterStatus)
-    : ChildService.getAllChildren();
+  // Bruk eksterne children hvis de er gitt, ellers last intern
+  const children = externalChildren ?? internalChildren;
+
+  useEffect(() => {
+    // Bare last data hvis external children ikke er gitt
+    if (!externalChildren) {
+      loadChildren();
+    }
+  }, [filterStatus, externalChildren]);
+
+  const loadChildren = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    let result: [Child[], string | null];
+
+    if (filterStatus) {
+      result = await ChildService.getChildrenByStatus(filterStatus);
+    } else {
+      result = await ChildService.getAllChildren();
+    }
+
+    const [data, err] = result;
+
+    if (err) {
+      setError(err);
+      console.error("Feil ved lasting av barn:", err);
+    } else {
+      setInternalChildren(data);
+    }
+
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     const updateLayout = () => {
@@ -39,6 +92,43 @@ export function ChildList({ filterStatus }: ChildListProps) {
     return () => subscription.remove();
   }, []);
 
+  const handleRefresh = async () => {
+    if (onRefresh) {
+      onRefresh();
+    } else {
+      await loadChildren();
+    }
+  };
+
+  if (isLoading && !externalChildren) {
+    return (
+      <View style={styles.centerContainer}>
+        <ActivityIndicator size="large" color="rgba(245, 69, 0, 1)" />
+        <Text style={styles.loadingText}>Laster barn...</Text>
+      </View>
+    );
+  }
+
+  if (error && !externalChildren) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.errorText}>⚠️ {error}</Text>
+      </View>
+    );
+  }
+
+  const filteredData = filterStatus
+    ? children.filter((child) => child.attendance === filterStatus)
+    : children;
+
+  if (filteredData.length === 0) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.emptyText}>Ingen barn funnet</Text>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       data={filteredData}
@@ -62,6 +152,13 @@ export function ChildList({ filterStatus }: ChildListProps) {
       style={styles.flatList}
       columnWrapperStyle={{ marginBottom: 16 }}
       key={numColumns}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={handleRefresh}
+          colors={["rgba(245, 69, 0, 1)"]}
+        />
+      }
     />
   );
 }
@@ -76,5 +173,26 @@ const styles = StyleSheet.create({
   },
   cardWrapper: {
     aspectRatio: 115 / 148,
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: "#666",
+  },
+  errorText: {
+    fontSize: 16,
+    color: "#d32f2f",
+    textAlign: "center",
+  },
+  emptyText: {
+    fontSize: 16,
+    color: "#999",
+    textAlign: "center",
   },
 });
