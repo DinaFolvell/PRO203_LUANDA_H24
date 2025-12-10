@@ -2,13 +2,13 @@
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import SideMenu from './side-menu'; // 👈 import your custom sidebar
+import SideMenu from './side-menu';
 
 export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Drawer
-        drawerContent={(props) => <SideMenu {...props} />}  // 👈 use your custom menu
+        drawerContent={(props) => <SideMenu {...props} />}
       >
         <Drawer.Screen
           name="index"

@@ -1,11 +1,11 @@
-import { ChildList } from '../components/child-list';
+import { ChildList } from '@/components/check-in/child-list';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-export default function AbsentScreen() {
+export default function PresentTab() {
   return (
     <View style={styles.container}>
-      <ChildList filterStatus="absent" />
+      <ChildList filterStatus="present" />
     </View>
   );
 }

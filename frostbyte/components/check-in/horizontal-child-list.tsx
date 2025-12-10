@@ -1,7 +1,7 @@
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { HorizontalChildCard } from "./horizontal-child-card";
-import { ChildService, AttendanceStatus } from "../services/childService";
+import { ChildService, AttendanceStatus } from "@/services/childService";
 
 interface HorizontalChildListProps {
   filterStatus?: AttendanceStatus;

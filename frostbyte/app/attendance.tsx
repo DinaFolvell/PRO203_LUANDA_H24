@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { AttendanceOverview } from "@/components/attendance-overview";
-import { HorizontalChildList } from "@/components/horizontal-child-list";
+import { AttendanceOverview } from "@/components/check-in/attendance-overview";
+import { HorizontalChildList } from "@/components/check-in/horizontal-child-list";
 import { AttendanceStatus } from "@/services/childService";
 
 export default function CheckInListScreen() {

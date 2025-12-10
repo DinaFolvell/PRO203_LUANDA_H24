@@ -14,25 +14,25 @@ type AttendanceOption = {
 const attendance: AttendanceOption[] = [
   { 
     key: "expected",
-    image: require("../assets/icons/yellow-expected-icon.png"),
+    image: require("@/assets/icons/yellow-expected-icon.png"),
     label: "Forventet", 
     value: 1, 
   },
   { 
     key: "present",
-    image: require("../assets/icons/green-present-icon.png"),
+    image: require("@/assets/icons/green-present-icon.png"),
     label: "Tilstede", 
     value: 2, 
   },
   { 
     key: "picked_up",
-    image: require("../assets/icons/purple-picked-up-icon.png"),
+    image: require("@/assets/icons/purple-picked-up-icon.png"),
     label: "Hentet",
     value: 3, 
   },
   { 
     key: "absent",
-    image: require("../assets/icons/red-absent-icon.png"),
+    image: require("@/assets/icons/red-absent-icon.png"),
     label: "Fravær",
     value: 4, 
   }

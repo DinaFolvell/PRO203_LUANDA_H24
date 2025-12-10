@@ -9,15 +9,15 @@ import {
   View,
 } from "react-native";
 
-import { AbsenceButton } from "@/components/absence-button";
-import { AttendanceButton } from "@/components/attendance-button";
-import { CareButton } from "@/components/care-button";
-import DayPlanOverview from "@/components/day-plan-overview";
-import { MessagesButton } from "@/components/messages-button";
+import { AbsenceButton } from "@/components/home/absence-button";
+import { AttendanceButton } from "@/components/home/attendance-button";
+import { CareButton } from "@/components/home/care-button";
+import DayPlanOverview from "@/components/home/day-plan-overview";
+import { MessagesButton } from "@/components/home/messages-button";
 import {
   NotificationsOverview,
   mockNotifications,
-} from "@/components/notifications-overview";
+} from "@/components/home/notifications-overview";
 
 const buttonLabels = {
   attendance: "Oppmøte",

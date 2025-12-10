@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ImageSourcePropType } from "react-native";
-import { AttendanceStatus } from "../services/childService";
+import { AttendanceStatus } from "@/services/childService";
 
 export interface ChildCardProps {
   name: string;
@@ -23,10 +23,10 @@ export function ChildCard({
   };
 
   const statusIcons: Record<AttendanceStatus, any> = {
-    present: require("../assets/icons/green-present-icon.png"),
-    expected: require("../assets/icons/yellow-expected-icon.png"),
-    picked_up: require("../assets/icons/purple-picked-up-icon.png"),
-    absent: require("../assets/icons/red-absent-icon.png"),
+    present: require("@/assets/icons/green-present-icon.png"),
+    expected: require("@/assets/icons/yellow-expected-icon.png"),
+    picked_up: require("@/assets/icons/purple-picked-up-icon.png"),
+    absent: require("@/assets/icons/red-absent-icon.png"),
   };
 
   const statusIcon = statusIcons[attendanceStatus];

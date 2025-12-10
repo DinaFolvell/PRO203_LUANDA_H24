@@ -1,7 +1,6 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useMemo } from 'react';
-import type { ViewStyle, StyleProp } from 'react-native';
-import { ChildService } from '../services/childService';
+import { ChildService } from '@/services/childService';
 
 export interface AttendanceOverviewProps {
   activeIndex: number;
@@ -15,11 +14,11 @@ interface AttendanceItem {
 }
 
 const attendanceItems: AttendanceItem[] = [
-  { label: 'Alle barn', icon: require('../assets/icons/all-icon.png'), countKey: 'all' },
-  { label: 'Tilstede', icon: require('../assets/icons/green-present-icon.png'), countKey: 'present' },
-  { label: 'Forventet', icon: require('../assets/icons/yellow-expected-icon.png'), countKey: 'expected' },
-  { label: 'Hentet', icon: require('../assets/icons/purple-picked-up-icon.png'), countKey: 'picked_up' },
-  { label: 'Fravær', icon: require('../assets/icons/red-absent-icon.png'), countKey: 'absent' },
+  { label: 'Alle barn', icon: require('@/assets/icons/all-icon.png'), countKey: 'all' },
+  { label: 'Tilstede', icon: require('@/assets/icons/green-present-icon.png'), countKey: 'present' },
+  { label: 'Forventet', icon: require('@/assets/icons/yellow-expected-icon.png'), countKey: 'expected' },
+  { label: 'Hentet', icon: require('@/assets/icons/purple-picked-up-icon.png'), countKey: 'picked_up' },
+  { label: 'Fravær', icon: require('@/assets/icons/red-absent-icon.png'), countKey: 'absent' },
 ];
 
 export function AttendanceOverview({ activeIndex, onIndexChange }: AttendanceOverviewProps) {

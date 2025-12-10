@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, ImageSourcePropType } from "react-native";
-import AttendanceDropdown, { StatusKey } from "./dropdown-menu";
+import AttendanceDropdown, { StatusKey } from '@/components/check-in/dropdown-menu';
 
 export interface ChildCardProps {
   name: string;
@@ -27,10 +27,10 @@ export function HorizontalChildCard({
   }[status];
 
   const statusIcon = {
-    present: require("../assets/icons/white-present-icon.png"),
-    expected: require("../assets/icons/white-expected-icon.png"),
-    picked_up: require("../assets/icons/white-picked-up-icon.png"),
-    absent: require("../assets/icons/white-absent-icon.png"),
+    present: require("@/assets/icons/white-present-icon.png"),
+    expected: require("@/assets/icons/white-expected-icon.png"),
+    picked_up: require("@/assets/icons/white-picked-up-icon.png"),
+    absent: require("@/assets/icons/white-absent-icon.png"),
   }[status];
 
   return (

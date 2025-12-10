@@ -1,5 +1,5 @@
-import AttendanceCard from "@/components/attendance-card";
-import { AttendanceOverview } from "@/components/attendance-overview";
+import AttendanceCard from "../components/check-in/attendance-card";
+import { AttendanceOverview } from "../components/check-in/attendance-overview";
 import React, { useState, useRef } from "react";
 import {
   StyleSheet,
@@ -12,12 +12,11 @@ import {
   Dimensions,
 } from "react-native";
 
-import AllScreen from "../attendance-screens/all-screen";
-import PresentScreen from "../attendance-screens/present-screen";
-import ExpectedScreen from "../attendance-screens/expected-screen";
-import PickedUpScreen from "../attendance-screens/picked-up-screen";
-import AbsentScreen from "../attendance-screens/absent-screen";
-import { HorizontalChildCard } from "../components/horizontal-child-card";
+import AllScreen from "../components/check-in/tabs/all-tab";
+import PresentScreen from "../components/check-in/tabs/present-tab";
+import ExpectedScreen from "../components/check-in/tabs/expected-tab";
+import PickedUpScreen from "../components/check-in/tabs/picked-up-tab";
+import AbsentScreen from "../components/check-in/tabs/absent-tab";
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -158,7 +157,7 @@ export default function CheckInScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#EFE3F4",
   },
   childCard: {
     marginVertical: 10,

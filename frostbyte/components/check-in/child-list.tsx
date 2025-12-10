@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FlatList, StyleSheet, View, Dimensions } from "react-native";
-import { ChildCard } from "./child-card";
-import { ChildService, AttendanceStatus } from "../services/childService";
+import { ChildCard } from './child-card';
+import { ChildService, AttendanceStatus } from "@/services/childService";
 
 interface ChildListProps {
   filterStatus?: AttendanceStatus;
