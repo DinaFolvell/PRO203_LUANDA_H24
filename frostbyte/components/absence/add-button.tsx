@@ -1,15 +1,22 @@
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { router } from 'expo-router'; 
 
 export interface AddButtonProps {
   onPress?: () => void;
+  style?: ViewStyle | ViewStyle[];
 }
 
-export function AddButton({ onPress }: AddButtonProps) {
+export function AddButton({ onPress, style }: AddButtonProps) {
+  const handlePress = () => {
+    if (onPress) onPress();
+    router.push("/add-absence");
+  };
+
   return (
-    <Pressable style={styles.root} onPress={onPress}>
+    <TouchableOpacity style={[styles.root, style]} onPress={handlePress}>
       <MaterialCommunityIcons name="plus" size={32} color="white" />
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
@@ -17,8 +24,6 @@ const styles = StyleSheet.create({
   root: {
     height: 64,
     width: 64,
-    flexDirection: 'row',
-    padding: 16,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 32,

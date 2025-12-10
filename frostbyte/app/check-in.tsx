@@ -12,11 +12,11 @@ import {
   Dimensions,
 } from "react-native";
 
-import AllScreen from "../attendance-screens/all-screen";
-import PresentScreen from "../attendance-screens/present-screen";
-import ExpectedScreen from "../attendance-screens/expected-screen";
-import PickedUpScreen from "../attendance-screens/picked-up-screen";
-import AbsentScreen from "../attendance-screens/absent-screen";
+import AllScreen from "../components/attendance-screens/all-screen";
+import PresentScreen from "../components/attendance-screens/present-screen";
+import ExpectedScreen from "../components/attendance-screens/expected-screen";
+import PickedUpScreen from "../components/attendance-screens/picked-up-screen";
+import AbsentScreen from "../components/attendance-screens/absent-screen";
 
 import { Child } from "@/api/childApi";
 import { imageMap } from "@/assets/images/imageMap";
