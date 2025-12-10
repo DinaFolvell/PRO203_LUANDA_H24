@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
-import { DocumentReference, getDoc } from "firebase/firestore";
+import React from "react";
+import { View, Text, Image, StyleSheet, ViewStyle } from "react-native";
+import { imageMap } from "@/assets/images/imageMap";
 import { AttendanceStatus } from "@/api/childApi";
 
-export interface ChildCardProps {
+interface ChildCardProps {
   name: string;
-  image: DocumentReference;
+  image?: string | null;
   attendanceStatus?: AttendanceStatus;
-  style?: object;
+  style?: ViewStyle;
 }
 
 export function ChildCard({
@@ -16,31 +16,8 @@ export function ChildCard({
   attendanceStatus = "expected",
   style,
 }: ChildCardProps) {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [isLoadingImage, setIsLoadingImage] = useState(true);
-
-  useEffect(() => {
-    loadImageFromReference();
-  }, [image]);
-
-  const loadImageFromReference = async () => {
-    try {
-      setIsLoadingImage(true);
-      const imageDoc = await getDoc(image);
-
-      if (imageDoc.exists()) {
-        const data = imageDoc.data();
-        // Anta at bildet har en 'url' eller 'path' felt
-        // Tilpass basert på din faktiske datastruktur
-        setImageUrl(data.url || data.path || null);
-      }
-    } catch (error) {
-      console.error("Feil ved lasting av bilde:", error);
-      setImageUrl(null);
-    } finally {
-      setIsLoadingImage(false);
-    }
-  };
+  const imageSource =
+    image && imageMap[image] ? imageMap[image] : imageMap["noimage.png"];
 
   const statusColor: Record<AttendanceStatus, string> = {
     present: "#496F57",
@@ -56,36 +33,22 @@ export function ChildCard({
     absent: require("../assets/icons/red-absent-icon.png"),
   };
 
-  const statusIcon = statusIcons[attendanceStatus];
   const borderColor = statusColor[attendanceStatus];
+  const statusIcon = statusIcons[attendanceStatus];
 
   return (
     <View style={[styles.root, { borderBottomColor: borderColor }, style]}>
+      {/* Bilde */}
       <View style={styles.imageContainer}>
-        {isLoadingImage ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="small" color={borderColor} />
-          </View>
-        ) : imageUrl ? (
-          <Image
-            source={{ uri: imageUrl }}
-            style={styles.image}
-            resizeMode="cover"
-            defaultSource={require("../assets/images/dina.png")}
-          />
-        ) : (
-          <View style={styles.placeholderContainer}>
-            <Text style={styles.placeholderText}>
-              {name.charAt(0).toUpperCase()}
-            </Text>
-          </View>
-        )}
+        <Image source={imageSource} style={styles.image} resizeMode="cover" />
       </View>
 
+      {/* Navn + status */}
       <View style={styles.nameContainer}>
         <Text style={styles.nameText} numberOfLines={1} ellipsizeMode="tail">
           {name}
         </Text>
+
         <Image source={statusIcon} style={styles.statusIcon} />
       </View>
     </View>
@@ -110,13 +73,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-  },
-
-  loadingContainer: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
   },
 
   placeholderContainer: {

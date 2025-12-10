@@ -6,7 +6,6 @@ import {
   updateDoc,
   deleteDoc,
   getDoc,
-  DocumentReference,
 } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { FirebaseError } from "firebase/app";
@@ -16,22 +15,19 @@ export type AttendanceStatus = "present" | "expected" | "picked_up" | "absent";
 export interface Child {
   id: string;
   name: string;
-  image: DocumentReference;
+  image: string; // f.eks "dina"
   attendance: AttendanceStatus;
 }
 
 export interface ChildApiData {
   name: string;
-  image: DocumentReference;
+  image: string; // f.eks "dina"
   attendance: AttendanceStatus;
 }
 
 export class ChildService {
   private static readonly COLLECTION_NAME = "childData";
 
-  /**
-   * Henter alle barn fra Firestore
-   */
   static async getAllChildren(): Promise<[Child[], string | null]> {
     try {
       const snapshot = await getDocs(collection(db, this.COLLECTION_NAME));
@@ -48,9 +44,6 @@ export class ChildService {
     }
   }
 
-  /**
-   * Henter et spesifikt barn via ID
-   */
   static async getChildById(
     id: string
   ): Promise<[Child | null, string | null]> {
@@ -71,22 +64,15 @@ export class ChildService {
     }
   }
 
-  /**
-   * Henter barn basert på oppmøtestatus
-   */
   static async getChildrenByStatus(
     status: AttendanceStatus
   ): Promise<[Child[], string | null]> {
     const [children, error] = await this.getAllChildren();
     if (error) return [[], error];
 
-    const filtered = children.filter((child) => child.attendance === status);
-    return [filtered, null];
+    return [children.filter((c) => c.attendance === status), null];
   }
 
-  /**
-   * Beregner antall barn i hver status
-   */
   static async getAttendanceCounts(): Promise<
     [
       {
@@ -102,13 +88,7 @@ export class ChildService {
     const [children, error] = await this.getAllChildren();
     if (error) {
       return [
-        {
-          all: 0,
-          present: 0,
-          expected: 0,
-          picked_up: 0,
-          absent: 0,
-        },
+        { all: 0, present: 0, expected: 0, picked_up: 0, absent: 0 },
         error,
       ];
     }
@@ -128,9 +108,6 @@ export class ChildService {
     return [counts, null];
   }
 
-  /**
-   * Oppdaterer oppmøtestatus for et barn
-   */
   static async updateChildAttendance(
     id: string,
     newStatus: AttendanceStatus
@@ -144,9 +121,6 @@ export class ChildService {
     }
   }
 
-  /**
-   * Legger til et nytt barn
-   */
   static async addChild(
     childData: ChildApiData
   ): Promise<[string | null, string | null]> {
@@ -155,16 +129,12 @@ export class ChildService {
         collection(db, this.COLLECTION_NAME),
         childData
       );
-      console.log("Barn lagt til med ID: ", docRef.id);
       return [docRef.id, null];
     } catch (e) {
       return [null, this.handleError(e)];
     }
   }
 
-  /**
-   * Fjerner et barn
-   */
   static async removeChild(id: string): Promise<string | null> {
     try {
       const docRef = doc(db, this.COLLECTION_NAME, id);
@@ -175,9 +145,6 @@ export class ChildService {
     }
   }
 
-  /**
-   * Oppdaterer alle felt for et barn
-   */
   static async updateChild(
     id: string,
     childData: Partial<ChildApiData>
@@ -191,9 +158,6 @@ export class ChildService {
     }
   }
 
-  /**
-   * Håndterer feil fra Firebase
-   */
   private static handleError(e: unknown): string {
     if (e instanceof FirebaseError) {
       switch (e.code) {
@@ -210,7 +174,6 @@ export class ChildService {
       }
     }
 
-    const message = e instanceof Error ? e.message : "Ukjent feil oppstod";
-    return message;
+    return e instanceof Error ? e.message : "Ukjent feil oppstod";
   }
 }
