@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
   cell: {
     flex: 1,
-    minHeight: 60,
+    height: '100%', // fill parent row height
     borderLeftWidth: 1,
     borderLeftColor: 'rgba(224, 224, 224, 1)',
     justifyContent: 'center',

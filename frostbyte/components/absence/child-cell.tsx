@@ -54,12 +54,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     backgroundColor: 'rgba(250, 250, 250, 1)',
-    height: '100%',
   },
   image: {
-    width: 48, // scale down to fit 80px row
+    width: 48,
     height: 48,
-    borderRadius: 24, // optional: circular
+    borderRadius: 24,
     marginRight: 8,
   },
   name: {
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   gridWrapper: {
-    flex: 1, // take up remaining space for the grid
-    justifyContent: 'center', // vertically center the grid inside the row
+    flex: 1, // take remaining width for grid
+    justifyContent: 'center', // vertically center
   },
 });

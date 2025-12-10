@@ -1,4 +1,3 @@
-// components/absence/children-column.tsx
 import { ScrollView, View } from 'react-native';
 import { ChildCell } from './child-cell';
 import { ChildService } from '@/services/childService';
