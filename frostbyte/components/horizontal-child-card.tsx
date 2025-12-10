@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
 import AttendanceDropdown, { StatusKey } from "./dropdown-menu";
-import { DocumentReference, getDoc } from "firebase/firestore";
 
 export interface ChildCardProps {
   name: string;
-  image: DocumentReference;
+  image?: string | null;
   attendanceStatus?: StatusKey; 
   style?: object;
   onOpen?: () => void;
@@ -16,66 +15,49 @@ export function HorizontalChildCard({
   name,
   image,
   attendanceStatus = "expected",   
-  style,
+  style, 
   onOpen,
   onClose,
-}: ChildCardProps) {
+}: ChildCardProps) { 
 
   const [status, setStatus] = useState<StatusKey>(attendanceStatus);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isLoadingImage, setIsLoadingImage] = useState(true);
 
-  useEffect(() => {
-    loadImageFromReference();
-  }, [image]);
-
-  const loadImageFromReference = async () => {
-    try {
-      setIsLoadingImage(true);
-      const imageDoc = await getDoc(image);
-
-      if (imageDoc.exists()) {
-        const data = imageDoc.data() as any;
-        // Tilpass disse feltene til hvordan du faktisk lagrer bildet i Firestore
-        setImageUrl(data.url || data.path || null);
-      } else {
-        setImageUrl(null);
-      }
-    } catch (error) {
-      console.error("Feil ved lasting av horisontalt bilde:", error);
-      setImageUrl(null);
-    } finally {
-      setIsLoadingImage(false);
-    }
-  };
-
-  const statusColor = {
+  const statusColors: Record<StatusKey, string> = {
     present: "#496F57",
     expected: "#C28E00",
     picked_up: "#75339B",
     absent: "#F50000",
-  }[status];
+  };
 
-  const statusIcon = {
+  const statusIcons: Record<StatusKey, any> = {
     present: require("../assets/icons/white-present-icon.png"),
     expected: require("../assets/icons/white-expected-icon.png"),
     picked_up: require("../assets/icons/white-picked-up-icon.png"),
     absent: require("../assets/icons/white-absent-icon.png"),
-  }[status];
+  };
+
+  const currentColor = statusColors[status];
+  const statusIcon = statusIcons[status];
 
   return (
     <View style={[styles.card, style]}>
       <View style={styles.imageContainer}>
-        {isLoadingImage ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator/>
-          </View>
-        ) : imageUrl ? (
-          <Image
-            source={{ uri: imageUrl }}
-            style={styles.image}
-            resizeMode="cover"
-          />
+        {image ? (
+          <>
+            {isLoadingImage && (
+              <View style={styles.loadingOverlay}>
+                <ActivityIndicator size="small" color={currentColor} />
+              </View>
+            )}
+            <Image
+              source={{ uri: image }}
+              style={styles.image}
+              resizeMode="cover"
+              onLoadStart={() => setIsLoadingImage(true)}
+              onLoadEnd={() => setIsLoadingImage(false)}
+            />
+          </>
         ) : (
           <View style={styles.placeholderContainer}>
             <Text style={styles.placeholderText}>
@@ -84,7 +66,9 @@ export function HorizontalChildCard({
           </View>
         )}
 
-        <View style={[styles.statusBadge]}>
+        <View
+          style={[styles.statusBadge, { backgroundColor: currentColor }]}
+        >
           <Image source={statusIcon} style={styles.statusIcon} />
         </View>
       </View>
@@ -131,13 +115,14 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 8,
   },
-  loadingContainer: {
-    width: "100%",
-    height: "100%",
+  loadingOverlay: {
+    position: "absolute",
+    inset: 0,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#00000022",
     borderRadius: 8,
+    zIndex: 2,
   },
   placeholderContainer: {
     width: "100%",
