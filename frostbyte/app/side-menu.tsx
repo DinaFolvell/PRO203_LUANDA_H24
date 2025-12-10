@@ -69,9 +69,9 @@ export default function SideMenu(props: DrawerContentComponentProps) {
         />
         {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
-          href="/attendance"
+          href="/"
           label="Registrer Fravær"
-          isActive={isRouteActive("/attendance")}
+          isActive={false}
           icon={
             <MaterialIcons name="smartphone" size={30} style={styles.icon} />
           }
@@ -85,9 +85,9 @@ export default function SideMenu(props: DrawerContentComponentProps) {
       {/* MIDDLE SECTION */}
       <View style={styles.menuItemContainer}>
         <MenuItem
-          href="/"
+          href="/attendance"
           label="Foreldre"
-          isActive={false}
+          isActive={isRouteActive("/attendance")}
           icon={<Ionicons name="people" size={30} style={styles.icon} />}
         />
 
