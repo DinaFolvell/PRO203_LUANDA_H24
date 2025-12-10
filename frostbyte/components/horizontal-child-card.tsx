@@ -21,7 +21,6 @@ export function HorizontalChildCard({
 }: ChildCardProps) { 
 
   const [status, setStatus] = useState<StatusKey>(attendanceStatus);
-  const [isLoadingImage, setIsLoadingImage] = useState(true);
 
   const statusColors: Record<StatusKey, string> = {
     present: "#496F57",
@@ -44,27 +43,18 @@ export function HorizontalChildCard({
     <View style={[styles.card, style]}>
       <View style={styles.imageContainer}>
         {image ? (
-          <>
-            {isLoadingImage && (
-              <View style={styles.loadingOverlay}>
-                <ActivityIndicator size="small" color={currentColor} />
-              </View>
-            )}
-            <Image
-              source={{ uri: image }}
-              style={styles.image}
-              resizeMode="cover"
-              onLoadStart={() => setIsLoadingImage(true)}
-              onLoadEnd={() => setIsLoadingImage(false)}
-            />
-          </>
-        ) : (
-          <View style={styles.placeholderContainer}>
-            <Text style={styles.placeholderText}>
-              {name.charAt(0).toUpperCase()}
-            </Text>
-          </View>
-        )}
+          <Image
+            source={{ uri: image }}
+            style={styles.image}
+            resizeMode="cover"
+          />
+          ) : (
+        <View style={styles.placeholderContainer}>
+          <Text style={styles.placeholderText}>
+            {name.charAt(0).toUpperCase()}
+          </Text>
+        </View>
+      )}
 
         <View
           style={[styles.statusBadge, { backgroundColor: currentColor }]}
