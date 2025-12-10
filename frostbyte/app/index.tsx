@@ -1,7 +1,9 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
+  Alert,
   Dimensions,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -18,6 +20,7 @@ import {
   NotificationsOverview,
   mockNotifications,
 } from "@/components/notifications-overview";
+import { uploadData } from "@/api/childApi";
 
 const buttonLabels = {
   attendance: "Oppmøte",
@@ -58,6 +61,21 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
+        <Pressable
+          onPress={async () => {
+            const response = await uploadData({
+              name: "Dina Folvell",
+              image: "dina.png",
+              
+            });
+            if (response) {
+              Alert.alert("Error!!!", response);
+            }
+          }}
+        >
+          {" "}
+          <Text>Last opp et nytt barn</Text>{" "}
+        </Pressable>
         {/* Day Plan - Scrollable with max height */}
         <View style={[styles.dayPlanBox, { maxHeight: maxSectionHeight }]}>
           <ScrollView
