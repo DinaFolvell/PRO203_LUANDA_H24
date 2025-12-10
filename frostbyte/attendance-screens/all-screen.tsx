@@ -10,7 +10,11 @@ import {
 import { ChildList } from "@/components/child-list";
 import { ChildService, Child } from "@/api/childApi";
 
-export default function AllScreen() {
+interface Props {
+  onChildPress: (child: Child) => void;
+}
+
+export default function AllScreen({ onChildPress }: Props) {
   const [children, setChildren] = useState<Child[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -93,6 +97,7 @@ export default function AllScreen() {
         children={children}
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
+        onChildPress={onChildPress}
       />
     </View>
   );

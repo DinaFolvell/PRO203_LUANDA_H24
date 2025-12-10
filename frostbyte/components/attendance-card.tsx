@@ -8,8 +8,10 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { ChildService } from "@/api/childApi";
 
 export interface AttendanceCardProps {
+  childId: string; 
   photoUrl: ImageSourcePropType;
   name: string;
   note?: string;
@@ -17,6 +19,7 @@ export interface AttendanceCardProps {
 }
 
 const AttendanceCard: React.FC<AttendanceCardProps> = ({
+  childId,
   photoUrl,
   name,
   note,
@@ -47,14 +50,20 @@ const AttendanceCard: React.FC<AttendanceCardProps> = ({
             iconName="account-cancel"
             iconColor="#F50000"
             label="Fravær"
-            onPress={() => {}}
+            onPress={async () => {
+              await ChildService.updateChildAttendance(childId, "absent");
+              onClose?.();
+            }}
           />
 
           <ShortcutButton
             iconName="hand-wave-outline"
             iconColor="#75339B"
             label="Henting"
-            onPress={() => {}}
+            onPress={async () => {
+              await ChildService.updateChildAttendance(childId, "picked_up");
+              onClose?.();
+            }}
             iconSize={18}
           />
         </View>
@@ -64,7 +73,10 @@ const AttendanceCard: React.FC<AttendanceCardProps> = ({
             iconName="account-check-outline"
             iconColor="#496F57"
             label="Registrer ankomst"
-            onPress={() => {}}
+            onPress={async () => {
+              await ChildService.updateChildAttendance(childId, "present");
+              onClose?.();
+            }}
             fullWidth
           />
         </View>
@@ -99,6 +111,7 @@ const ShortcutButton: React.FC<ShortcutButtonProps> = ({
         fullWidth && { width: "100%", marginHorizontal: 0 },
       ]}
       onPress={onPress}
+      activeOpacity={0.8}
     >
       <View style={styles.inlineContent}>
         <MaterialCommunityIcons
@@ -118,7 +131,6 @@ const styles = StyleSheet.create({
     width: 260,
     backgroundColor: "#F7F7F7",
     borderRadius: 8,
-
     alignItems: "center",
     paddingVertical: 14,
   },
