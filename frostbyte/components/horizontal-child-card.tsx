@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
+import React, { useState } from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
 import AttendanceDropdown, { StatusKey } from "./dropdown-menu";
+import { imageMap } from "@/assets/images/imageMap";
 
 export interface ChildCardProps {
   name: string;
@@ -18,9 +19,12 @@ export function HorizontalChildCard({
   style, 
   onOpen,
   onClose,
-}: ChildCardProps) { 
+}: ChildCardProps) {
+  
+  const [status, setStatus] = useState<StatusKey>(attendanceStatus as StatusKey);
 
-  const [status, setStatus] = useState<StatusKey>(attendanceStatus);
+  const imageSource =
+    image && imageMap[image] ? imageMap[image] : imageMap["noimage.png"];
 
   const statusColors: Record<StatusKey, string> = {
     present: "#496F57",
@@ -36,37 +40,20 @@ export function HorizontalChildCard({
     absent: require("../assets/icons/white-absent-icon.png"),
   };
 
-  const currentColor = statusColors[status];
+  const borderColor = statusColors[attendanceStatus];
   const statusIcon = statusIcons[status];
 
   return (
     <View style={[styles.card, style]}>
       <View style={styles.imageContainer}>
-        {image ? (
-          <Image
-            source={{ uri: image }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-          ) : (
-        <View style={styles.placeholderContainer}>
-          <Text style={styles.placeholderText}>
-            {name.charAt(0).toUpperCase()}
-          </Text>
-        </View>
-      )}
-
-        <View
-          style={[styles.statusBadge, { backgroundColor: currentColor }]}
-        >
+        <Image source={imageSource} style={styles.image} resizeMode="cover" />
+        <View style={[styles.statusBadge, { backgroundColor: borderColor }]}>
           <Image source={statusIcon} style={styles.statusIcon} />
         </View>
       </View>
 
       <View style={styles.nameContainer}>
-        <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
-          {name}
-        </Text>
+        <Text style={styles.name}>{name}</Text>
       </View>
 
       <View style={styles.dropdownContainer}>
@@ -92,7 +79,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E5E5E5",
     position: "relative",
-    zIndex: 1,
   },
   imageContainer: {
     position: "relative",
@@ -104,28 +90,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 8,
-  },
-  loadingOverlay: {
-    position: "absolute",
-    inset: 0,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#00000022",
-    borderRadius: 8,
-    zIndex: 2,
-  },
-  placeholderContainer: {
-    width: "100%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#e0e0e0",
-    borderRadius: 8,
-  },
-  placeholderText: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#999",
   },
   statusBadge: {
     position: "absolute",
