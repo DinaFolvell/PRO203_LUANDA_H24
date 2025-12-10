@@ -69,9 +69,9 @@ export default function SideMenu(props: DrawerContentComponentProps) {
         />
         {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
-          href="/attendance"
+          href="/absence"
           label="Registrer Fravær"
-          isActive={isRouteActive("/attendance")}
+          isActive={isRouteActive("/absence")}
           icon={
             <MaterialIcons name="smartphone" size={30} style={styles.icon} />
           }
