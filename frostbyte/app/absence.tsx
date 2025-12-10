@@ -1,8 +1,8 @@
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { HeaderBar } from '@/components/absence/header-bar';
+import { DayRow } from '@/components/absence/day-row';
+import { ChildrenColumn } from '@/components/absence/children-column';
 import { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { HeaderBar } from "@/components/absence/header-bar";
-import { DayRow } from "@/components/absence/day-row";
-import { ChildrenColumn } from "@/components/absence/children-column";
 
 export default function AbsenceScreen() {
   const [startDay, setStartDay] = useState(22);
@@ -12,10 +12,10 @@ export default function AbsenceScreen() {
     setAbsences(prev => {
       const childAbsences = prev[childId] || [];
       const isAbsent = childAbsences.includes(date);
-      
+
       return {
         ...prev,
-        [childId]: isAbsent 
+        [childId]: isAbsent
           ? childAbsences.filter(d => d !== date)
           : [...childAbsences, date]
       };
@@ -29,14 +29,19 @@ export default function AbsenceScreen() {
         onNextWeek={() => setStartDay(prev => prev + 7)}
         onNotifications={() => console.log('Notification bell clicked')}
       />
-      
-      <DayRow startDay={startDay} />
-      
-      <ChildrenColumn 
-        startDay={startDay}
-        absences={absences}
-        onToggleAbsence={handleToggleAbsence}
-      />
+
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View>
+          <DayRow startDay={startDay} />
+          <ScrollView style={{ maxHeight: '80%' }}>
+            <ChildrenColumn
+              startDay={startDay}
+              absences={absences}
+              onToggleAbsence={handleToggleAbsence}
+            />
+          </ScrollView>
+        </View>
+      </ScrollView>
     </View>
   );
 }

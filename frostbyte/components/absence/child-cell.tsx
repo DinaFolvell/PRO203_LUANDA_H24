@@ -1,4 +1,3 @@
-// components/absence/child-cell.tsx
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { AbsenceGrid } from './absence-grid';
 
@@ -11,14 +10,7 @@ interface ChildCellProps {
   onToggleAbsence: (childId: string, date: number) => void;
 }
 
-export function ChildCell({
-  id,
-  name,
-  image,
-  startDay,
-  absences,
-  onToggleAbsence,
-}: ChildCellProps) {
+export function ChildCell({ id, name, image, startDay, absences, onToggleAbsence }: ChildCellProps) {
   return (
     <View style={styles.container}>
       <View style={styles.childInfo}>
@@ -29,14 +21,12 @@ export function ChildCell({
         <Text style={styles.name}>{name}</Text>
       </View>
 
-      <View style={styles.gridWrapper}>
-        <AbsenceGrid
-          childId={id}
-          startDay={startDay}
-          absences={absences}
-          onToggleAbsence={onToggleAbsence}
-        />
-      </View>
+      <AbsenceGrid
+        childId={id}
+        startDay={startDay}
+        absences={absences}
+        onToggleAbsence={onToggleAbsence}
+      />
     </View>
   );
 }
@@ -44,9 +34,9 @@ export function ChildCell({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    height: 80, // fixed row height
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(224, 224, 224, 1)',
-    height: 80, // fixed row height
   },
   childInfo: {
     width: 150,
@@ -65,9 +55,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     flexShrink: 1,
-  },
-  gridWrapper: {
-    flex: 1, // take remaining width for grid
-    justifyContent: 'center', // vertically center
   },
 });

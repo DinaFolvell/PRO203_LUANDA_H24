@@ -1,4 +1,3 @@
-// components/absence/absence-grid.tsx
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
 interface AbsenceGridProps {
@@ -13,7 +12,7 @@ export function AbsenceGrid({ childId, startDay, absences, onToggleAbsence }: Ab
 
   return (
     <View style={styles.container}>
-      {dates.map((date) => {
+      {dates.map(date => {
         const isAbsent = absences.includes(date);
         return (
           <TouchableOpacity
@@ -32,11 +31,10 @@ export function AbsenceGrid({ childId, startDay, absences, onToggleAbsence }: Ab
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    flex: 1,
   },
   cell: {
-    flex: 1,
-    height: '100%', // fill parent row height
+    width: 100, // fixed width for horizontal scrolling
+    height: '100%',
     borderLeftWidth: 1,
     borderLeftColor: 'rgba(224, 224, 224, 1)',
     justifyContent: 'center',
