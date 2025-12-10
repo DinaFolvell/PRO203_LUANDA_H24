@@ -1,27 +1,50 @@
-import { AddButton } from "@/components/absence/add-button";
-import { ChildCell } from "@/components/absence/child-cell";
-import { ChildrenColumn } from "@/components/absence/children-column";
-import { DayRow } from "@/components/absence/day-row";
+// screens/AbsenceScreen.tsx
+import { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { HeaderBar } from "@/components/absence/header-bar";
-import { View } from "react-native";
+import { DayRow } from "@/components/absence/day-row";
+import { ChildrenColumn } from "@/components/absence/children-column";
 
 export default function AbsenceScreen() {
-    
-  return (
-    <View >
-    {/* <AddButton onPress={() => console.log('Add button clicked')} /> */}
-    
-    <HeaderBar
-        onPrevWeek={() => console.log('Previous week clicked')}
-        onNextWeek={() => console.log('Next week clicked')}
-        onNotifications={() => console.log('Notification bell clicked')}
-    />
+  const [startDay, setStartDay] = useState(22);
+  const [absences, setAbsences] = useState<Record<string, number[]>>({});
 
-     
-      <DayRow startDay={22} />
-        
-      <ChildrenColumn />
+  const handleToggleAbsence = (childId: string, date: number) => {
+    setAbsences(prev => {
+      const childAbsences = prev[childId] || [];
+      const isAbsent = childAbsences.includes(date);
+      
+      return {
+        ...prev,
+        [childId]: isAbsent 
+          ? childAbsences.filter(d => d !== date)
+          : [...childAbsences, date]
+      };
+    });
+  };
+
+  return (
+    <View style={styles.container}>
+      <HeaderBar
+        onPrevWeek={() => setStartDay(prev => prev - 7)}
+        onNextWeek={() => setStartDay(prev => prev + 7)}
+        onNotifications={() => console.log('Notification bell clicked')}
+      />
+      
+      <DayRow startDay={startDay} />
+      
+      <ChildrenColumn 
+        startDay={startDay}
+        absences={absences}
+        onToggleAbsence={handleToggleAbsence}
+      />
     </View>
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+  },
+});

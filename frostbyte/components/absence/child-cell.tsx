@@ -1,18 +1,41 @@
-import { StyleSheet, View, Text, Image, ImageSourcePropType } from 'react-native';
+// components/absence/child-cell.tsx
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { AbsenceGrid } from './absence-grid';
 
-export interface ProfileCardProps {
+interface ChildCellProps {
+  id: string;
   name: string;
-  image: ImageSourcePropType;
+  image: { uri: string; width: number; height: number };
+  startDay: number;
+  absences: number[];
+  onToggleAbsence: (childId: string, date: number) => void;
 }
 
-export function ChildCell({ name, image }: ProfileCardProps) {
+export function ChildCell({
+  id,
+  name,
+  image,
+  startDay,
+  absences,
+  onToggleAbsence,
+}: ChildCellProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.imageWrapper}>
-        <Image source={image} style={styles.image} />
+      <View style={styles.childInfo}>
+        <Image
+          source={{ uri: image.uri }}
+          style={styles.image}
+        />
+        <Text style={styles.name}>{name}</Text>
       </View>
-      <View style={styles.nameWrapper}>
-        <Text style={styles.nameText}>{name}</Text>
+
+      <View style={styles.gridWrapper}>
+        <AbsenceGrid
+          childId={id}
+          startDay={startDay}
+          absences={absences}
+          onToggleAbsence={onToggleAbsence}
+        />
       </View>
     </View>
   );
@@ -20,36 +43,32 @@ export function ChildCell({ name, image }: ProfileCardProps) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 90,
-    paddingVertical: 8,
-    flexDirection: 'column',
-    alignItems: 'center',
-    borderBottomColor: 'rgba(224, 224, 224, 1)',
+    flexDirection: 'row',
     borderBottomWidth: 1,
-    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderBottomColor: 'rgba(224, 224, 224, 1)',
+    height: 80, // fixed row height
   },
-  imageWrapper: {
-    justifyContent: 'center',
+  childInfo: {
+    width: 150,
+    flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 3,
-    overflow: 'hidden', // ensures border radius works for Image
+    paddingHorizontal: 12,
+    backgroundColor: 'rgba(250, 250, 250, 1)',
+    height: '100%',
   },
   image: {
-    width: 56,
-    height: 56,
-    resizeMode: 'cover',
+    width: 48, // scale down to fit 80px row
+    height: 48,
+    borderRadius: 24, // optional: circular
+    marginRight: 8,
   },
-  nameWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: 2,
+  name: {
+    fontSize: 14,
+    fontWeight: '500',
+    flexShrink: 1,
   },
-  nameText: {
-    width: 64,
-    height: 12,
-    textAlign: 'center',
-    color: 'rgba(0, 0, 0, 1)',
-    fontSize: 12,
-    fontWeight: '600',
+  gridWrapper: {
+    flex: 1, // take up remaining space for the grid
+    justifyContent: 'center', // vertically center the grid inside the row
   },
 });
