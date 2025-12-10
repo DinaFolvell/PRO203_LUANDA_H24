@@ -14,7 +14,7 @@ export default function AbsenceScreen() {
   };
 
   const handleNextWeek = () => {
-    setWeek(prev => prev + 1);
+    setWeek(prev => (prev === 52 ? 1 : prev + 1));
     setStartDay(prev => {
       const next = prev + 7;
       return next > 31 ? ((next - 1) % 31) + 1 : next;
@@ -22,7 +22,7 @@ export default function AbsenceScreen() {
   };
 
   const handlePrevWeek = () => {
-    setWeek(prev => prev - 1);
+    setWeek(prev => (prev === 1 ? 52 : prev - 1));
     setStartDay(prev => {
       const next = prev - 7;
       return next < 1 ? 31 - ((1 - next) % 31) : next;
