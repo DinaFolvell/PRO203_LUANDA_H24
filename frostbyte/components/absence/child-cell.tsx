@@ -25,7 +25,7 @@ export function ChildCell({ id, name, image, startDay, absences, onToggleAbsence
         childId={id}
         startDay={startDay}
         absences={absences}
-        onToggleAbsence={onToggleAbsence}
+        onToggleAbsence={(childId, date) => console.log(`Clicked child ${childId} on day ${date}`)}
       />
     </View>
   );
@@ -34,7 +34,7 @@ export function ChildCell({ id, name, image, startDay, absences, onToggleAbsence
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 80, // fixed row height
+    height: 80,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(224, 224, 224, 1)',
   },

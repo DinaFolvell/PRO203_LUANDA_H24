@@ -1,4 +1,3 @@
-// components/absence/day-row.tsx
 import { StyleSheet, View, Text } from 'react-native';
 
 export interface DayRowProps {
@@ -15,7 +14,7 @@ export function DayRow({ startDay }: DayRowProps) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.childInfoPlaceholder} /> {/* same width as childInfo */}
+      <View style={styles.childInfoPlaceholder} />
       {days.map((day, index) => (
         <View key={`day-cell-${index}`} style={styles.dayCell}>
           <Text style={styles.dayName}>{day.dayName}</Text>
@@ -29,28 +28,28 @@ export function DayRow({ startDay }: DayRowProps) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 80, // match ChildCell height
+    height: 80,
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(224, 224, 224, 1)',
     backgroundColor: 'rgba(245, 245, 245, 1)',
   },
   childInfoPlaceholder: {
-    width: 150, // same as childInfo column in ChildCell
+    width: 150,
   },
   dayCell: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'flex-start', // align text to left
+    alignItems: 'flex-start',
     borderLeftWidth: 1,
     borderLeftColor: 'rgba(224, 224, 224, 1)',
-    paddingLeft: 8, // add some padding from the left edge
+    paddingLeft: 8,
   },
   dayName: {
     fontWeight: '600',
     fontSize: 14,
   },
   date: {
-    fontSize: 20, // bigger number
+    fontSize: 20,
     fontWeight: '700',
     color: 'rgba(50, 50, 50, 1)',
   },

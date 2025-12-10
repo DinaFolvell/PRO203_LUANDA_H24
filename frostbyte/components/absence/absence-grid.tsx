@@ -1,4 +1,4 @@
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
 interface AbsenceGridProps {
   childId: string;
@@ -13,15 +13,12 @@ export function AbsenceGrid({ childId, startDay, absences, onToggleAbsence }: Ab
   return (
     <View style={styles.container}>
       {dates.map(date => {
-        const isAbsent = absences.includes(date);
         return (
           <TouchableOpacity
             key={`${childId}-${date}`}
-            style={[styles.cell, isAbsent && styles.absentCell]}
+            style={styles.cell}
             onPress={() => onToggleAbsence(childId, date)}
-          >
-            {isAbsent && <Text style={styles.absentIcon}>✗</Text>}
-          </TouchableOpacity>
+          />
         );
       })}
     </View>
@@ -33,20 +30,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   cell: {
-    width: 100, // fixed width for horizontal scrolling
+    width: 100,
     height: '100%',
     borderLeftWidth: 1,
     borderLeftColor: 'rgba(224, 224, 224, 1)',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 1)',
-  },
-  absentCell: {
-    backgroundColor: 'rgba(255, 235, 238, 1)',
-  },
-  absentIcon: {
-    fontSize: 24,
-    color: 'rgba(211, 47, 47, 1)',
-    fontWeight: '700',
   },
 });
