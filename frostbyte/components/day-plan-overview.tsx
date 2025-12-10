@@ -1,13 +1,17 @@
+import { useRouter } from "expo-router";
 import React from "react";
 import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
+import { dayPlanEvents } from "../data/dayplan-events";
 
-const ROW_HEIGHT = 80;              // height per hour row
-const EVENT_VERTICAL_GAP = 8;       // gap between events in pixels
+
+const ROW_HEIGHT = 80;
+const EVENT_VERTICAL_GAP = 8;
 
 const hours = [
   "08:00", "09:00", "10:00", "11:00",
@@ -20,36 +24,8 @@ const TOTAL_HEIGHT = hours.length * ROW_HEIGHT;
 
 export default function DayPlanOverview() {
   // Event data (can come from API later)
-  const events = [
-    {
-      start: "08:00",
-      end: "09:00",
-      title: "Innsjekk",
-      subtitle: "Sjekk inn alle barna",
-      color: "#D6ECDA", // light green
-    },
-    {
-      start: "09:00",
-      end: "12:00",
-      title: "Formiddagsaktivitet",
-      subtitle: "Lek og aktiviteter inne / ute",
-      color: "#FFD0FB", // pink
-    },
-    {
-      start: "12:00",
-      end: "13:00",
-      title: "Julelunsj",
-      subtitle: "Vi serverer risgrøt med saft",
-      color: "#FFE4C4", // light orange
-    },
-    {
-      start: "14:00",
-      end: "16:00",
-      title: "Tur til Lekang",
-      subtitle: "Vi planlegger å være tilbake kl 16:00",
-      color: "#D0E8FF", // light blue
-    },
-  ];
+  const router = useRouter();
+  const events = dayPlanEvents;
 
   return (
     <View style={styles.container}>
@@ -92,27 +68,29 @@ export default function DayPlanOverview() {
   const height = durationRows * ROW_HEIGHT - EVENT_VERTICAL_GAP;
 
   return (
-    <View
-      key={`${event.title}-${event.start}`}
-      style={[
-        styles.eventCard,
-        {
-          top,
-          height,
-
-          // subtle background tint (optional)
-          backgroundColor: event.color + "70",
-
-          // LEFT COLOR BAR
-          borderLeftColor: event.color,
-          borderLeftWidth: 12,
-        },
-      ]}
-    >
-      <Text style={styles.eventTitle}>{event.title}</Text>
-      <Text style={styles.eventSubtitle}>{event.subtitle}</Text>
-    </View>
-  );
+  <Pressable
+    key={`${event.title}-${event.start}`}
+    onPress={() =>
+      router.push({
+        pathname: "/day-plan/[id]",
+        params: { id: event.id },
+      })
+    }
+    style={[
+      styles.eventCard,
+      {
+        top,
+        height,
+        backgroundColor: event.color + "70",
+        borderLeftColor: event.color,
+        borderLeftWidth: 12,
+      },
+    ]}
+  >
+    <Text style={styles.eventTitle}>{event.title}</Text>
+    <Text style={styles.eventSubtitle}>{event.description}</Text>
+  </Pressable>
+);
 })}
 
             </View>
