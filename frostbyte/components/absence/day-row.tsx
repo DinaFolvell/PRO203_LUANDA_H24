@@ -6,11 +6,14 @@ export interface DayRowProps {
 
 export function DayRow({ startDay }: DayRowProps) {
   const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  
-  const days = Array.from({ length: 7 }, (_, i) => ({
-    dayName: dayNames[i],
-    date: startDay + i,
-  }));
+
+  const days = Array.from({ length: 7 }, (_, i) => {
+    const date = ((startDay + i - 1) % 31) + 1;
+    return {
+      dayName: dayNames[i],
+      date,
+    };
+  });
 
   return (
     <View style={styles.container}>

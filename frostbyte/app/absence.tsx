@@ -6,27 +6,35 @@ import { useState } from 'react';
 
 export default function AbsenceScreen() {
   const [startDay, setStartDay] = useState(22);
+  const [week, setWeek] = useState(25);
   const [absences, setAbsences] = useState<Record<string, number[]>>({});
 
   const handleToggleAbsence = (childId: string, date: number) => {
-    setAbsences(prev => {
-      const childAbsences = prev[childId] || [];
-      const isAbsent = childAbsences.includes(date);
+    console.log(`Clicked child ${childId} on day ${date}`);
+  };
 
-      return {
-        ...prev,
-        [childId]: isAbsent
-          ? childAbsences.filter(d => d !== date)
-          : [...childAbsences, date]
-      };
+  const handleNextWeek = () => {
+    setWeek(prev => prev + 1);
+    setStartDay(prev => {
+      const next = prev + 7;
+      return next > 31 ? ((next - 1) % 31) + 1 : next;
+    });
+  };
+
+  const handlePrevWeek = () => {
+    setWeek(prev => prev - 1);
+    setStartDay(prev => {
+      const next = prev - 7;
+      return next < 1 ? 31 - ((1 - next) % 31) : next;
     });
   };
 
   return (
     <View style={styles.container}>
       <HeaderBar
-        onPrevWeek={() => setStartDay(prev => prev - 7)}
-        onNextWeek={() => setStartDay(prev => prev + 7)}
+        week={week}
+        onPrevWeek={handlePrevWeek}
+        onNextWeek={handleNextWeek}
         onNotifications={() => console.log('Notification bell clicked')}
       />
 

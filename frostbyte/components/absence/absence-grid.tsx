@@ -8,19 +8,17 @@ interface AbsenceGridProps {
 }
 
 export function AbsenceGrid({ childId, startDay, absences, onToggleAbsence }: AbsenceGridProps) {
-  const dates = Array.from({ length: 7 }, (_, i) => startDay + i);
+  const dates = Array.from({ length: 7 }, (_, i) => ((startDay + i - 1) % 31) + 1);
 
   return (
     <View style={styles.container}>
-      {dates.map(date => {
-        return (
-          <TouchableOpacity
-            key={`${childId}-${date}`}
-            style={styles.cell}
-            onPress={() => onToggleAbsence(childId, date)}
-          />
-        );
-      })}
+      {dates.map(date => (
+        <TouchableOpacity
+          key={`${childId}-${date}`}
+          style={styles.cell}
+          onPress={() => onToggleAbsence(childId, date)}
+        />
+      ))}
     </View>
   );
 }
