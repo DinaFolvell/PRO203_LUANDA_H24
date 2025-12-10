@@ -7,19 +7,17 @@ import {
   ActivityIndicator,
   Text,
   RefreshControl,
+  TouchableOpacity,
 } from "react-native";
 import { ChildCard } from "./child-card";
-import {
-  ChildService,
-  AttendanceStatus,
-  Child,
-} from "../api/childApi";
+import { ChildService, AttendanceStatus, Child } from "../api/childApi";
 
 interface ChildListProps {
   filterStatus?: AttendanceStatus;
   children?: Child[];
   onRefresh?: () => void;
   isRefreshing?: boolean;
+  onChildPress?: (child: Child) => void; 
 }
 
 export function ChildList({
@@ -27,6 +25,7 @@ export function ChildList({
   children: externalChildren,
   onRefresh,
   isRefreshing = false,
+  onChildPress,
 }: ChildListProps) {
   const [numColumns, setNumColumns] = useState(3);
   const [cardWidth, setCardWidth] = useState(0);
@@ -34,11 +33,11 @@ export function ChildList({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Bruk eksterne children hvis de er gitt, ellers last intern
+
   const children = externalChildren ?? internalChildren;
 
   useEffect(() => {
-    // Bare last data hvis external children ikke er gitt
+
     if (!externalChildren) {
       loadChildren();
     }
@@ -137,7 +136,8 @@ export function ChildList({
       scrollEnabled={false}
       renderItem={({ item, index }) => {
         const marginRight = (index + 1) % numColumns === 0 ? 0 : 16;
-        return (
+
+        const cardContent = (
           <View style={[styles.cardWrapper, { width: cardWidth, marginRight }]}>
             <ChildCard
               name={item.name}
@@ -147,6 +147,20 @@ export function ChildList({
             />
           </View>
         );
+
+
+        if (onChildPress) {
+          return (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => onChildPress(item)}
+            >
+              {cardContent}
+            </TouchableOpacity>
+          );
+        }
+
+        return cardContent;
       }}
       contentContainerStyle={styles.contentContainer}
       style={styles.flatList}

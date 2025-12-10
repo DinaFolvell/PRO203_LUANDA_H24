@@ -15,13 +15,13 @@ export type AttendanceStatus = "present" | "expected" | "picked_up" | "absent";
 export interface Child {
   id: string;
   name: string;
-  image: string; // f.eks "dina"
+  image: string;
   attendance: AttendanceStatus;
 }
 
 export interface ChildApiData {
   name: string;
-  image: string; // f.eks "dina"
+  image: string; 
   attendance: AttendanceStatus;
 }
 
