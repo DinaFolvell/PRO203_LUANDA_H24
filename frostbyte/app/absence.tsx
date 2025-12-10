@@ -1,20 +1,62 @@
-import { AddButton } from "@/components/absence/add-button";
-import { HeaderBar } from "@/components/absence/header-bar";
-import { View } from "react-native";
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { HeaderBar } from '@/components/absence/header-bar';
+import { DayRow } from '@/components/absence/day-row';
+import { ChildrenColumn } from '@/components/absence/children-column';
+import { useState } from 'react';
 
 export default function AbsenceScreen() {
-    
+  const [startDay, setStartDay] = useState(22);
+  const [week, setWeek] = useState(25);
+  const [absences, setAbsences] = useState<Record<string, number[]>>({});
+
+  const handleToggleAbsence = (childId: string, date: number) => {
+    console.log(`Clicked child ${childId} on day ${date}`);
+  };
+
+  const handleNextWeek = () => {
+    setWeek(prev => prev + 1);
+    setStartDay(prev => {
+      const next = prev + 7;
+      return next > 31 ? ((next - 1) % 31) + 1 : next;
+    });
+  };
+
+  const handlePrevWeek = () => {
+    setWeek(prev => prev - 1);
+    setStartDay(prev => {
+      const next = prev - 7;
+      return next < 1 ? 31 - ((1 - next) % 31) : next;
+    });
+  };
+
   return (
-    <View >
-    <HeaderBar
-        onPrevWeek={() => console.log('Previous week clicked')}
-        onNextWeek={() => console.log('Next week clicked')}
+    <View style={styles.container}>
+      <HeaderBar
+        week={week}
+        onPrevWeek={handlePrevWeek}
+        onNextWeek={handleNextWeek}
         onNotifications={() => console.log('Notification bell clicked')}
-    />
+      />
 
-     <AddButton onPress={() => console.log('Add button clicked')} />
-
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View>
+          <DayRow startDay={startDay} />
+          <ScrollView style={{ maxHeight: '80%' }}>
+            <ChildrenColumn
+              startDay={startDay}
+              absences={absences}
+              onToggleAbsence={handleToggleAbsence}
+            />
+          </ScrollView>
+        </View>
+      </ScrollView>
     </View>
   );
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+  },
+});
