@@ -7,8 +7,12 @@ import {
   RefreshControl,
   ScrollView,
 } from "react-native";
+
 import { ChildList } from "@/components/child-list";
-import { ChildService, Child } from "@/api/childApi";
+import { Child } from "@/api/childApi";
+
+import { onSnapshot, collection } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
 
 interface Props {
   onChildPress: (child: Child) => void;
@@ -17,33 +21,38 @@ interface Props {
 export default function AllScreen({ onChildPress }: Props) {
   const [children, setChildren] = useState<Child[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    loadChildren();
+    const unsubscribe = onSnapshot(
+      collection(db, "childData"),
+      (snapshot) => {
+        const data = snapshot.docs.map(
+          (doc) =>
+            ({
+              id: doc.id,
+              ...doc.data(),
+            } as Child)
+        );
+
+        setChildren(data);
+        setIsLoading(false);
+        setError(null);
+      },
+      (err) => {
+        console.error("Realtime error:", err);
+        setError("Kunne ikke koble til databasen");
+        setIsLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
   }, []);
 
-  const loadChildren = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    const [data, err] = await ChildService.getAllChildren();
-
-    if (err) {
-      setError(err);
-      console.error("Feil ved henting av barn:", err);
-    } else {
-      setChildren(data);
-    }
-
-    setIsLoading(false);
-  };
-
-  const handleRefresh = useCallback(async () => {
+  const handleRefresh = useCallback(() => {
     setIsRefreshing(true);
-    await loadChildren();
-    setIsRefreshing(false);
+    setTimeout(() => setIsRefreshing(false), 600);
   }, []);
 
   if (isLoading) {

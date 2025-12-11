@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, StyleSheet, View, ActivityIndicator, Text } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Text,
+} from "react-native";
 import { HorizontalChildCard } from "./horizontal-child-card";
 import { ChildService, AttendanceStatus, Child } from "../api/childApi";
+import { imageMap } from "@/assets/images/imageMap"; // ✅ VIKTIG: lagt til
 
 interface HorizontalChildListProps {
   filterStatus?: AttendanceStatus;
 }
 
-export function HorizontalChildList({ filterStatus }: HorizontalChildListProps) {
+export function HorizontalChildList({
+  filterStatus,
+}: HorizontalChildListProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [children, setChildren] = useState<Child[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +90,10 @@ export function HorizontalChildList({ filterStatus }: HorizontalChildListProps) 
         >
           <HorizontalChildCard
             name={item.name}
-            image={item.image}
+            // ✅ HER ER HELE FEILEN SOM VAR I PROSJEKTET DITT:
+            // item.image er bare en string ("amalie"),
+            // så vi må slå den opp i imageMap:
+            image={imageMap[item.image] || imageMap["noimage.png"]}
             attendanceStatus={item.attendance}
             onOpen={() => setOpenIndex(index)}
             onClose={() => setOpenIndex(null)}
