@@ -5,7 +5,7 @@ import {
   updateProfile,
   User,
 } from "firebase/auth";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 
 export async function signIn(email: string, password: string) {
   try {
@@ -16,7 +16,11 @@ export async function signIn(email: string, password: string) {
     );
     return userCredential.user;
   } catch (error) {
-    Alert.alert("Feil brukernavn eller passord");
+   if (Platform.OS === "web") {
+     alert("Feil brukernavn eller passord");
+   } else {
+     Alert.alert("Feil brukernavn eller passord");
+   }
     throw error;
   }
 }
