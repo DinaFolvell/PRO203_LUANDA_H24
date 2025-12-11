@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { DateSelect } from '@/components/absence/date-select';
 import { AbsenceReasonSelect } from '@/components/absence/absence-reason-select';
 import { RegisterButton } from '@/components/absence/register-button';
@@ -11,6 +11,7 @@ export default function AddAbsenceScreen() {
     <View style={styles.container}>
       <RegisterHeader />
 
+      {/* Child Select */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
           Barn
@@ -19,6 +20,7 @@ export default function AddAbsenceScreen() {
         <ChildSelect />
       </View>
 
+      {/* Date Selects */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
           Periode
@@ -35,6 +37,7 @@ export default function AddAbsenceScreen() {
         </View>
       </View>
 
+      {/* Absence Reason Select */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
           Årsak
@@ -43,6 +46,16 @@ export default function AddAbsenceScreen() {
         <AbsenceReasonSelect />
       </View>
 
+      {/* Optional Comment */}
+      <View style={styles.selectorWrapper}>
+        <Text style={styles.label}>Kommentar</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Skriv her..."
+        />
+      </View>
+
+      {/* Register Button */}
       <RegisterButton />
     </View>
   );
@@ -75,14 +88,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
-  dateWrapper: {
-    flex: 1,
-  },
+  dateWrapper: { flex: 1 },
   dash: {
     fontSize: 28,
     fontWeight: '500',
     color: 'black',
     marginHorizontal: 8,
     textAlign: 'center',
+  },
+  input: {
+    width: '100%',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#A9A9A9',
+    borderRadius: 6,
+    backgroundColor: 'white',
+    fontSize: 16,
+    color: '#333',
   },
 });
