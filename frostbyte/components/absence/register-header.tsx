@@ -1,21 +1,16 @@
-import { StyleSheet, TouchableOpacity, View, Text, ViewStyle } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router } from 'expo-router';
 
-export interface BackButtonProps {
-  onPress?: () => void;
-  style?: ViewStyle | ViewStyle[];
-}
-
-export function BackButton({ onPress, style }: BackButtonProps) {
+export function BackButton({ onPress }: { onPress?: () => void }) {
   const handlePress = () => {
     if (onPress) onPress();
     router.push("/absence");
   };
 
   return (
-    <TouchableOpacity style={[styles.iconContainer, style]} onPress={handlePress}>
-      <MaterialCommunityIcons name="arrow-left" size={24} color="black" />
+    <TouchableOpacity style={styles.iconContainer} onPress={handlePress}>
+      <MaterialCommunityIcons name="arrow-left" size={28} color="black" />
     </TouchableOpacity>
   );
 }
@@ -32,19 +27,19 @@ export function RegisterHeader() {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 24,
+    paddingVertical: 20,
+    position: 'relative',
   },
   iconContainer: {
     position: 'absolute',
     left: 0,
+    paddingHorizontal: 8,
   },
   title: {
     fontSize: 24,
     fontWeight: '600',
-    lineHeight: 28,
     color: 'black',
     textAlign: 'center',
   },

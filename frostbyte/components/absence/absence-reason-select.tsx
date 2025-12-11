@@ -25,7 +25,7 @@ export function AbsenceReasonSelect() {
   };
 
   return (
-    <View style={{ width: 338, zIndex: 1000 }}>
+    <View style={styles.container}>
       <TouchableOpacity style={styles.root} onPress={() => setDropdownVisible(!dropdownVisible)}>
         <Text style={styles.text}>{selectedReason ? selectedReason.reason : 'Oppgi årsak'}</Text>
         <MaterialIcons name={dropdownVisible ? 'expand-less' : 'expand-more'} size={28} />
@@ -51,6 +51,11 @@ export function AbsenceReasonSelect() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    maxWidth: 500, // align with selectorWrapper
+    zIndex: 1000,
+  },
   root: {
     flexDirection: 'row',
     padding: 16,
@@ -61,17 +66,8 @@ const styles = StyleSheet.create({
     borderColor: '#A9A9A9',
     backgroundColor: 'white',
   },
-  text: {
-    color: '#333',
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  dropdownWrapper: {
-    position: 'absolute',
-    top: 56,
-    width: '100%',
-    zIndex: 1000,
-  },
+  text: { color: '#333', fontSize: 18, fontWeight: '700' },
+  dropdownWrapper: { position: 'absolute', top: 56, width: '100%', zIndex: 1000 },
   dropdown: {
     backgroundColor: 'white',
     borderRadius: 6,
@@ -82,13 +78,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
   },
-  item: {
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-  },
-  itemText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-  },
+  item: { paddingVertical: 14, paddingHorizontal: 16 },
+  itemText: { fontSize: 16, fontWeight: '600', color: '#333' },
 });

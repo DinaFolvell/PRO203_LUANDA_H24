@@ -19,12 +19,11 @@ const styles = StyleSheet.create({
     marginTop: 64,
     opacity: 0.4,
     width: '100%',
+    maxWidth: 500, // <-- align with other elements
     paddingVertical: 16,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    rowGap: 8,
-    columnGap: 8,
     borderRadius: 6,
     backgroundColor: 'grey',
   },

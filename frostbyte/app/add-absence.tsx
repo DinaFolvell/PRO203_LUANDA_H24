@@ -9,87 +9,83 @@ import { ChildSelect } from '@/components/absence/child-select';
 export default function AddAbsenceScreen() {
   return (
     <View style={styles.container}>
+      <RegisterHeader />
 
-        
+      {/* Child Select */}
+      <View style={styles.selectorWrapper}>
+        <Text style={styles.label}>
+          Barn
+          <Text style={styles.asterisk}>*</Text>
+        </Text>
+        <ChildSelect />
+      </View>
 
-        <View>
-            <RegisterHeader />
-
-            <View style={styles.selectorContainer}>
-                <Text style={styles.label}>
-                Barn
-                <Text style={styles.asterisk}>*</Text>
-                </Text>
-                <ChildSelect />
-            </View>
-
-            <View style={styles.selectorContainer}>
-                <Text style={styles.label}>
-                Periode
-                <Text style={styles.asterisk}>*</Text>
-                </Text>
-                <DateSelect />
-                <DateSelect />
-            </View>
-
-            <View style={styles.selectorContainer}>
-                <Text style={styles.label}>
-                Årsak
-                <Text style={styles.asterisk}>*</Text>
-                </Text>
-                <AbsenceReasonSelect />
-            </View>
+      {/* Date Selects */}
+      <View style={styles.selectorWrapper}>
+        <Text style={styles.label}>
+          Periode
+          <Text style={styles.asterisk}>*</Text>
+        </Text>
+        <View style={styles.dateContainer}>
+          <View style={styles.dateWrapper}>
+            <DateSelect />
+          </View>
+          <Text style={styles.dash}>-</Text>
+          <View style={styles.dateWrapper}>
+            <DateSelect />
+          </View>
         </View>
+      </View>
 
-        <RegisterButton />
+      {/* Absence Reason Select */}
+      <View style={styles.selectorWrapper}>
+        <Text style={styles.label}>
+          Årsak
+          <Text style={styles.asterisk}>*</Text>
+        </Text>
+        <AbsenceReasonSelect />
+      </View>
 
+      <RegisterButton />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    flex: 1,
     padding: 32,
     paddingBottom: 64,
     alignItems: 'center',
-    flexDirection: 'column',
     justifyContent: 'space-between',
   },
-  selectorContainer: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    rowGap: 8,
-    columnGap: 8,
-    alignSelf: 'stretch',
-    marginBottom: 16,
+  selectorWrapper: {
+    width: '100%',
+    maxWidth: 500, // Aligns all selectors on large screens
+    marginBottom: 32,
   },
   label: {
-    alignSelf: 'stretch',
     color: 'black',
     fontSize: 20,
     fontWeight: '600',
-    lineHeight: 22,
+    marginBottom: 8,
   },
   asterisk: {
-    color: 'rgba(245, 69, 0, 1)',
+    color: 'rgba(245,69,0,1)',
   },
-  selectionBox: {
+  dateContainer: {
     flexDirection: 'row',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    justifyContent: 'space-between',
     alignItems: 'center',
-    flexGrow: 1,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: 'grey',
-    backgroundColor: '#fff',
+    width: '100%',
   },
-  selectionText: {
-    color: 'grey',
-    fontFamily: 'Inter',
-    fontSize: 14,
-    fontWeight: '400',
+  dateWrapper: {
+    flex: 1, // Each date takes equal width
+  },
+  dash: {
+    fontSize: 28,
+    fontWeight: '500',
+    color: 'black',
+    marginHorizontal: 8,
+    textAlign: 'center',
   },
 });
