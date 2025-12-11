@@ -5,8 +5,8 @@ import { imageMap } from "@/assets/images/imageMap";
 
 export interface ChildCardProps {
   name: string;
-  image?: string | null;
-  attendanceStatus?: StatusKey; 
+  image?: any; 
+  attendanceStatus?: StatusKey;
   style?: object;
   onOpen?: () => void;
   onClose?: () => void;
@@ -15,16 +15,15 @@ export interface ChildCardProps {
 export function HorizontalChildCard({
   name,
   image,
-  attendanceStatus = "expected",   
-  style, 
+  attendanceStatus = "expected",
+  style,
   onOpen,
   onClose,
 }: ChildCardProps) {
-  
-  const [status, setStatus] = useState<StatusKey>(attendanceStatus as StatusKey);
+  const [status, setStatus] = useState<StatusKey>(attendanceStatus);
 
-  const imageSource =
-    image && imageMap[image] ? imageMap[image] : imageMap["noimage.png"];
+  // RIKTIG BILDEHÅNDTERING
+  const imageSource = image ?? imageMap["noimage.png"];
 
   const statusColors: Record<StatusKey, string> = {
     present: "#496F57",
@@ -47,6 +46,7 @@ export function HorizontalChildCard({
     <View style={[styles.card, style]}>
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.image} resizeMode="cover" />
+
         <View style={[styles.statusBadge, { backgroundColor: borderColor }]}>
           <Image source={statusIcon} style={styles.statusIcon} />
         </View>
@@ -67,6 +67,7 @@ export function HorizontalChildCard({
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   card: {

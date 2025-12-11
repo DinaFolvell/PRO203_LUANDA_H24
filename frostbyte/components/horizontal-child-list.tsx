@@ -27,6 +27,7 @@ export function HorizontalChildList({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // 🔥 Realtime listener
     const unsubscribe = onSnapshot(
       collection(db, "childData"),
       (snapshot) => {
@@ -38,7 +39,7 @@ export function HorizontalChildList({
             } as Child)
         );
 
-     
+        // 🔥 Filter directly on realtime data
         const filtered =
           filterStatus != null
             ? allChildren.filter((c) => c.attendance === filterStatus)
@@ -48,7 +49,7 @@ export function HorizontalChildList({
         setLoading(false);
       },
       (error) => {
-        console.error("Realtime error (horizontal list):", error);
+        console.error("Realtime error (HorizontalChildList):", error);
         setLoading(false);
       }
     );
