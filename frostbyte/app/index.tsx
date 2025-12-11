@@ -62,7 +62,7 @@ export default function HomeScreen() {
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
       
-        {/* Day Plan - Scrollable with max height */}
+
         <View style={[styles.dayPlanBox, { maxHeight: maxSectionHeight }]}>
           <ScrollView
             showsVerticalScrollIndicator={true}
@@ -73,7 +73,7 @@ export default function HomeScreen() {
           
         </View>
 
-        {/* Shortcuts - Fixed size */}
+
         <View style={styles.shortcutsBox}>
           <View style={styles.shortcutsHeader}>
             <Text style={styles.shortcutsTitle}>Snarveier</Text>
