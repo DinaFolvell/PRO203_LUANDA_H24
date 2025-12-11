@@ -114,7 +114,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
       <View style={styles.bottomSection}>
         <View style={styles.sectionDivider} />
         <MenuItem
-          href="/"
+          href="/login"
           label="Innstillinger"
           isActive={false}
           icon={<Feather name="settings" size={20} style={styles.icon} />}
