@@ -16,8 +16,9 @@ export function RegisterButton({ style }: RegisterButtonProps) {
 
 const styles = StyleSheet.create({
   root: {
+    marginTop: 64,
     opacity: 0.4,
-    width: 338,
+    width: '100%',
     paddingVertical: 16,
     flexDirection: 'column',
     justifyContent: 'center',
