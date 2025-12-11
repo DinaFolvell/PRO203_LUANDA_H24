@@ -1,7 +1,8 @@
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import SideMenu from './side-menu'; // 👈 import your custom sidebar
+import SideMenu from './side-menu';
+import ViewToggleButton from '../components/attendance-view-btn';
 
 export default function RootLayout() {
   return (
