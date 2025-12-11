@@ -1,4 +1,5 @@
 // app/_layout.tsx
+import { DayPlanProvider } from '@/context/dayplan-context';
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -7,6 +8,7 @@ import SideMenu from './side-menu'; // 👈 import your custom sidebar
 export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <DayPlanProvider>
       <Drawer
         drawerContent={(props) => <SideMenu {...props} />}  // 👈 use your custom menu
       >
@@ -26,6 +28,7 @@ export default function RootLayout() {
           }}
         />
       </Drawer>
+      </DayPlanProvider>
     </GestureHandlerRootView>
   );
 }
