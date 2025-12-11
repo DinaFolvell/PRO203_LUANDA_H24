@@ -38,12 +38,10 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
         <MaterialIcons name="calendar-month" size={28} color="#000" />
       </TouchableOpacity>
 
-      {/* Calendar modal (unchanged, simplified) */}
       {showCalendar && (
         <Modal transparent animationType="fade" onRequestClose={() => setShowCalendar(false)}>
           <View style={styles.modalOverlay}>
             <View style={styles.calendarContainer}>
-              {/* Calendar content here */}
               <TouchableOpacity onPress={handleDone} style={styles.doneButton}>
                 <Text style={styles.doneButtonText}>Ferdig</Text>
               </TouchableOpacity>
@@ -56,7 +54,7 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
 }
 
 const styles = StyleSheet.create({
-  container: { width: '100%', maxWidth: 500 }, // align with selectorWrapper
+  container: { width: '100%', maxWidth: 500 },
   root: {
     width: '100%',
     flexDirection: 'row',

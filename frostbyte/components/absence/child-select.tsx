@@ -60,7 +60,7 @@ export function ChildSelect() {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    maxWidth: 500, // align with selectorWrapper
+    maxWidth: 500,
     zIndex: 1000,
   },
   root: {

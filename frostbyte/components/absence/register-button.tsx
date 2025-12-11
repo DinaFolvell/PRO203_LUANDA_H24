@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     marginTop: 64,
     opacity: 0.4,
     width: '100%',
-    maxWidth: 500, // <-- align with other elements
+    maxWidth: 500,
     paddingVertical: 16,
     flexDirection: 'column',
     justifyContent: 'center',

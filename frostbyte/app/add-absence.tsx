@@ -11,7 +11,6 @@ export default function AddAbsenceScreen() {
     <View style={styles.container}>
       <RegisterHeader />
 
-      {/* Child Select */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
           Barn
@@ -20,7 +19,6 @@ export default function AddAbsenceScreen() {
         <ChildSelect />
       </View>
 
-      {/* Date Selects */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
           Periode
@@ -37,7 +35,6 @@ export default function AddAbsenceScreen() {
         </View>
       </View>
 
-      {/* Absence Reason Select */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
           Årsak
@@ -61,7 +58,7 @@ const styles = StyleSheet.create({
   },
   selectorWrapper: {
     width: '100%',
-    maxWidth: 500, // Aligns all selectors on large screens
+    maxWidth: 500,
     marginBottom: 32,
   },
   label: {
@@ -79,7 +76,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   dateWrapper: {
-    flex: 1, // Each date takes equal width
+    flex: 1,
   },
   dash: {
     fontSize: 28,
