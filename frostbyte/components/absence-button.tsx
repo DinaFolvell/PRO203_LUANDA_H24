@@ -20,7 +20,7 @@ export function AbsenceButton(props: AbsenceButtonProps) {
     <TouchableOpacity
 
       style={[styles.container, props.style]}
-      onPress={() => router.push("/attendance")}
+      onPress={() => router.push("/absence")}
     >
       <View style={styles.button}>
         <MaterialCommunityIcons
