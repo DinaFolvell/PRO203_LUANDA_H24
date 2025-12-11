@@ -93,7 +93,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
 
         {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
-          href="/"
+          href="/chat-room"
           label="Barn"
           isActive={false}
           icon={<Ionicons name="body" size={30} style={styles.icon} />}
