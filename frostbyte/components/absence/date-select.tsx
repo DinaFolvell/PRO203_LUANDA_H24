@@ -28,8 +28,7 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay();
-
+    const startingDayOfWeek = (firstDay.getDay() + 6) % 7;
     return { daysInMonth, startingDayOfWeek };
   };
 
@@ -47,13 +46,14 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
       currentMonth.getMonth(),
       day
     );
-
     setSelectedDate(selected);
   };
 
   const handleDone = () => {
-    onDateChange?.(selectedDate);
-    setShowCalendar(false);
+    if (selectedDate) {
+      onDateChange?.(selectedDate);
+      setShowCalendar(false);
+    }
   };
 
   const changeMonth = (direction: 'prev' | 'next') => {
@@ -74,7 +74,7 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
       const selected = selectedDate && isSameDay(date, selectedDate);
-      
+
       days.push(
         <TouchableOpacity
           key={day}
@@ -90,12 +90,6 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
       );
     }
 
-    const totalCells = startingDayOfWeek + daysInMonth;
-    const remainingCells = 42 - totalCells;
-    for (let i = 0; i < remainingCells; i++) {
-      days.push(<View key={`empty-end-${i}`} style={styles.dayCell} />);
-    }
-
     return (
       <Modal
         visible={showCalendar}
@@ -103,8 +97,8 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
         animationType="fade"
         onRequestClose={() => setShowCalendar(false)}
       >
-        <TouchableOpacity 
-          style={styles.modalOverlay} 
+        <TouchableOpacity
+          style={styles.modalOverlay}
           activeOpacity={1}
           onPress={() => setShowCalendar(false)}
         >
@@ -120,18 +114,24 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
             </View>
 
             <View style={styles.weekDays}>
-              {['Søn', 'Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør'].map(day => (
+              {['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'].map(day => (
                 <Text key={day} style={styles.weekDayText}>{day}</Text>
               ))}
             </View>
 
             <View style={styles.daysGrid}>{days}</View>
 
-            <TouchableOpacity 
-              style={styles.doneButton}
+            <TouchableOpacity
+              style={[
+                styles.doneButton,
+                !selectedDate && styles.disabledButton
+              ]}
               onPress={handleDone}
+              disabled={!selectedDate}
             >
-              <Text style={styles.doneButtonText}>Ferdig</Text>
+              <Text style={styles.doneButtonText}>
+                {selectedDate ? 'Ferdig' : 'Velg dato'}
+              </Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
@@ -145,7 +145,7 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
         <Text style={styles.text}>{formatDisplayText()}</Text>
         <MaterialIcons name="calendar-month" size={28} color="#000" />
       </TouchableOpacity>
-      
+
       {renderCalendar()}
     </>
   );
@@ -200,13 +200,14 @@ const styles = StyleSheet.create({
   weekDayText: {
     width: 40,
     textAlign: 'center',
-    fontWeight: '600',
+    fontWeight: '500',
     color: '#666',
-    fontSize: 12,
+    fontSize: 14,
   },
   daysGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    marginBottom: 0,
   },
   dayCell: {
     width: '14.28%',
@@ -238,6 +239,9 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
   doneButtonText: {
     color: 'white',
