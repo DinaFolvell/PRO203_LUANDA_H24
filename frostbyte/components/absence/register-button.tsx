@@ -7,9 +7,7 @@ export interface RegisterButtonProps {
 export function RegisterButton({ style }: RegisterButtonProps) {
   return (
     <View style={[styles.root, style]}>
-      <Text style={styles.registerFravaer}>
-        Registrer fravær
-      </Text>
+      <Text style={styles.registerFravaer}>Registrer fravær</Text>
     </View>
   );
 }
@@ -21,7 +19,6 @@ const styles = StyleSheet.create({
     width: '100%',
     maxWidth: 500,
     paddingVertical: 16,
-    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 6,

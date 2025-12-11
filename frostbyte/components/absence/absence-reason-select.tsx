@@ -7,7 +7,11 @@ interface AbsenceReason {
   reason: string;
 }
 
-export function AbsenceReasonSelect() {
+interface AbsenceReasonSelectProps {
+  onSelect?: (reason: AbsenceReason) => void;
+}
+
+export function AbsenceReasonSelect({ onSelect }: AbsenceReasonSelectProps) {
   const reasons: AbsenceReason[] = [
     { id: '1', reason: 'Sykdom' },
     { id: '2', reason: 'Legetime' },
@@ -22,10 +26,11 @@ export function AbsenceReasonSelect() {
   const handleSelect = (reason: AbsenceReason) => {
     setSelectedReason(reason);
     setDropdownVisible(false);
+    onSelect?.(reason);
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ width: '100%', maxWidth: 500, zIndex: 1000 }}>
       <TouchableOpacity style={styles.root} onPress={() => setDropdownVisible(!dropdownVisible)}>
         <Text style={styles.text}>{selectedReason ? selectedReason.reason : 'Oppgi årsak'}</Text>
         <MaterialIcons name={dropdownVisible ? 'expand-less' : 'expand-more'} size={28} />
@@ -51,11 +56,6 @@ export function AbsenceReasonSelect() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    maxWidth: 500,
-    zIndex: 1000,
-  },
   root: {
     flexDirection: 'row',
     padding: 16,

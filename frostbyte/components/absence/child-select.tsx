@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, Pressable, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, Pressable } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { ChildService } from '@/services/childService';
 
@@ -8,7 +8,11 @@ interface Child {
   name: string;
 }
 
-export function ChildSelect() {
+interface ChildSelectProps {
+  onSelect?: (child: Child) => void;
+}
+
+export function ChildSelect({ onSelect }: ChildSelectProps) {
   const [children, setChildren] = useState<Child[]>([]);
   const [selectedChild, setSelectedChild] = useState<Child | null>(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -18,7 +22,10 @@ export function ChildSelect() {
       try {
         const data = await ChildService.getAllChildren();
         setChildren(data);
-        if (data.length > 0) setSelectedChild(data[0]);
+        if (data.length > 0) {
+          setSelectedChild(data[0]);
+          onSelect?.(data[0]);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -29,10 +36,11 @@ export function ChildSelect() {
   const handleSelect = (child: Child) => {
     setSelectedChild(child);
     setDropdownVisible(false);
+    onSelect?.(child);
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{ width: '100%', maxWidth: 500, zIndex: 1000 }}>
       <TouchableOpacity style={styles.root} onPress={() => setDropdownVisible(!dropdownVisible)}>
         <Text style={styles.text}>{selectedChild ? selectedChild.name : 'Velg barn'}</Text>
         <MaterialIcons name={dropdownVisible ? 'expand-less' : 'expand-more'} size={28} />
@@ -58,11 +66,6 @@ export function ChildSelect() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    maxWidth: 500,
-    zIndex: 1000,
-  },
   root: {
     flexDirection: 'row',
     padding: 16,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState, ReactElement } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Modal } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
@@ -9,7 +9,7 @@ interface DateSelectProps {
 export function DateSelect({ onDateChange }: DateSelectProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(new Date(2025, 4, 1));
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const formatDate = (date: Date) => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -17,7 +17,9 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
     return `${day}/${month}`;
   };
 
-  const formatDisplayText = () => (!selectedDate ? 'dd/mm' : formatDate(selectedDate));
+  const formatDisplayText = () => {
+    return selectedDate ? formatDate(selectedDate) : 'dd/mm';
+  };
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -29,19 +31,18 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
     return { daysInMonth, startingDayOfWeek };
   };
 
-  const isSameDay = (date1: Date, date2: Date) =>
-    date1.getDate() === date2.getDate() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getFullYear() === date2.getFullYear();
-
-  const handleDateSelect = (day: number) => {
-    const selected = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    setSelectedDate(selected);
+  const isSameDay = (date1: Date, date2: Date) => {
+    return (
+      date1.getDate() === date2.getDate() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getFullYear() === date2.getFullYear()
+    );
   };
 
-  const handleDone = () => {
-    onDateChange?.(selectedDate);
-    setShowCalendar(false);
+  const handleDateSelect = (day: number) => {
+    const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    setSelectedDate(date);
+    onDateChange?.(date);
   };
 
   const changeMonth = (direction: 'prev' | 'next') => {
@@ -53,9 +54,11 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
   const renderCalendar = () => {
     const { daysInMonth, startingDayOfWeek } = getDaysInMonth(currentMonth);
     const monthName = currentMonth.toLocaleDateString('nb-NO', { month: 'long', year: 'numeric' });
-    const days = [];
+    const days: ReactElement[] = [];
 
-    for (let i = 0; i < startingDayOfWeek; i++) days.push(<View key={`empty-${i}`} style={styles.dayCell} />);
+    for (let i = 0; i < startingDayOfWeek; i++) {
+      days.push(<View key={`empty-${i}`} style={styles.dayCell} />);
+    }
 
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
@@ -72,7 +75,9 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
 
     const totalCells = startingDayOfWeek + daysInMonth;
     const remainingCells = 42 - totalCells;
-    for (let i = 0; i < remainingCells; i++) days.push(<View key={`empty-end-${i}`} style={styles.dayCell} />);
+    for (let i = 0; i < remainingCells; i++) {
+      days.push(<View key={`empty-end-${i}`} style={styles.dayCell} />);
+    }
 
     return (
       <Modal visible={showCalendar} transparent animationType="fade" onRequestClose={() => setShowCalendar(false)}>
@@ -90,13 +95,15 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
 
             <View style={styles.weekDays}>
               {['Søn', 'Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør'].map((day) => (
-                <Text key={day} style={styles.weekDayText}>{day}</Text>
+                <Text key={day} style={styles.weekDayText}>
+                  {day}
+                </Text>
               ))}
             </View>
 
             <View style={styles.daysGrid}>{days}</View>
 
-            <TouchableOpacity style={styles.doneButton} onPress={handleDone}>
+            <TouchableOpacity style={styles.doneButton} onPress={() => setShowCalendar(false)}>
               <Text style={styles.doneButtonText}>Ferdig</Text>
             </TouchableOpacity>
           </View>
@@ -119,7 +126,6 @@ export function DateSelect({ onDateChange }: DateSelectProps) {
 const styles = StyleSheet.create({
   root: {
     width: '100%',
-    maxWidth: 500,
     flexDirection: 'row',
     padding: 16,
     justifyContent: 'space-between',
@@ -131,19 +137,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   text: { color: '#333', fontSize: 18, fontWeight: '700' },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  calendarContainer: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 20,
-    width: '90%',
-    maxWidth: 400,
-  },
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' },
+  calendarContainer: { backgroundColor: 'white', borderRadius: 12, padding: 20, width: '90%', maxWidth: 400 },
   calendarHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
   monthText: { fontSize: 18, fontWeight: '700', color: '#333' },
   weekDays: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 10 },

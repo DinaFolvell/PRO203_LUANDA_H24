@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { DateSelect } from '@/components/absence/date-select';
 import { AbsenceReasonSelect } from '@/components/absence/absence-reason-select';
@@ -7,20 +7,26 @@ import { RegisterHeader } from '@/components/absence/register-header';
 import { ChildSelect } from '@/components/absence/child-select';
 
 export default function AddAbsenceScreen() {
+  const [selectedChild, setSelectedChild] = useState<null | { id: string; name: string }>(null);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+  const [selectedReason, setSelectedReason] = useState<null | { id: string; reason: string }>(null);
+  const [comment, setComment] = useState('');
+
+  const allRequiredFilled = selectedChild && startDate && endDate && selectedReason;
+
   return (
     <View style={styles.container}>
       <RegisterHeader />
 
-      {/* Child Select */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
           Barn
           <Text style={styles.asterisk}>*</Text>
         </Text>
-        <ChildSelect />
+        <ChildSelect onSelect={setSelectedChild} />
       </View>
 
-      {/* Date Selects */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
           Periode
@@ -28,35 +34,39 @@ export default function AddAbsenceScreen() {
         </Text>
         <View style={styles.dateContainer}>
           <View style={styles.dateWrapper}>
-            <DateSelect />
+            <DateSelect onDateChange={setStartDate} />
           </View>
           <Text style={styles.dash}>-</Text>
           <View style={styles.dateWrapper}>
-            <DateSelect />
+            <DateSelect onDateChange={setEndDate} />
           </View>
         </View>
       </View>
 
-      {/* Absence Reason Select */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
           Årsak
           <Text style={styles.asterisk}>*</Text>
         </Text>
-        <AbsenceReasonSelect />
+        <AbsenceReasonSelect onSelect={setSelectedReason} />
       </View>
 
-      {/* Optional Comment */}
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>Kommentar</Text>
         <TextInput
           style={styles.input}
           placeholder="Skriv her..."
+          value={comment}
+          onChangeText={setComment}
         />
       </View>
 
-      {/* Register Button */}
-      <RegisterButton />
+      <RegisterButton
+        style={{
+          opacity: allRequiredFilled ? 1 : 0.4,
+          backgroundColor: allRequiredFilled ? 'rgba(245,69,0,1)' : 'grey',
+        }}
+      />
     </View>
   );
 }
