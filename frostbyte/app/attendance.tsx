@@ -81,7 +81,6 @@ export default function CheckInListScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Toppbar med antall pr status */}
       <AttendanceOverview
         activeIndex={activeIndex}
         onIndexChange={setActiveIndex}
