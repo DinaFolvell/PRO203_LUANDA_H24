@@ -1,8 +1,9 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { HeaderBar } from '@/components/absence/header-bar';
+import { HeaderBar } from '@/components/absence/overview-header-bar';
 import { DayRow } from '@/components/absence/day-row';
 import { ChildrenColumn } from '@/components/absence/children-column';
 import { useState } from 'react';
+import { FloatingAddButton } from '@/components/absence/floating-add-button';
 
 export default function AbsenceScreen() {
   const [startDay, setStartDay] = useState(22);
@@ -14,7 +15,7 @@ export default function AbsenceScreen() {
   };
 
   const handleNextWeek = () => {
-    setWeek(prev => prev + 1);
+    setWeek(prev => (prev === 52 ? 1 : prev + 1));
     setStartDay(prev => {
       const next = prev + 7;
       return next > 31 ? ((next - 1) % 31) + 1 : next;
@@ -22,7 +23,7 @@ export default function AbsenceScreen() {
   };
 
   const handlePrevWeek = () => {
-    setWeek(prev => prev - 1);
+    setWeek(prev => (prev === 1 ? 52 : prev - 1));
     setStartDay(prev => {
       const next = prev - 7;
       return next < 1 ? 31 - ((1 - next) % 31) : next;
@@ -41,7 +42,7 @@ export default function AbsenceScreen() {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View>
           <DayRow startDay={startDay} />
-          <ScrollView style={{ maxHeight: '80%' }}>
+          <ScrollView style={{ maxHeight: '100%' }}>
             <ChildrenColumn
               startDay={startDay}
               absences={absences}
@@ -50,6 +51,8 @@ export default function AbsenceScreen() {
           </ScrollView>
         </View>
       </ScrollView>
+
+      <FloatingAddButton style={styles.addButton} />
     </View>
   );
 }
@@ -58,5 +61,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'rgba(255, 255, 255, 1)',
+  },
+  addButton: {
+    position: 'absolute',
+    bottom: 32,
+    right: 32,
+    zIndex: 100,
   },
 });
