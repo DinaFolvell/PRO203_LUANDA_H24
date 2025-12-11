@@ -8,14 +8,15 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { ChildService } from "@/api/childApi";
+import { ChildService, AttendanceStatus } from "@/api/childApi";
 
 export interface AttendanceCardProps {
-  childId: string; 
+  childId: string;
   photoUrl: ImageSourcePropType;
   name: string;
   note?: string;
   onClose?: () => void;
+  onStatusChange?: (status: AttendanceStatus) => void;
 }
 
 const AttendanceCard: React.FC<AttendanceCardProps> = ({
@@ -24,7 +25,16 @@ const AttendanceCard: React.FC<AttendanceCardProps> = ({
   name,
   note,
   onClose,
+  onStatusChange,
 }) => {
+  const changeStatus = async (status: AttendanceStatus) => {
+    await ChildService.updateChildAttendance(childId, status);
+
+    onStatusChange?.(status);
+
+    onClose?.();
+  };
+
   return (
     <View style={styles.card}>
       {onClose && (
@@ -50,20 +60,14 @@ const AttendanceCard: React.FC<AttendanceCardProps> = ({
             iconName="account-cancel"
             iconColor="#F50000"
             label="Fravær"
-            onPress={async () => {
-              await ChildService.updateChildAttendance(childId, "absent");
-              onClose?.();
-            }}
+            onPress={() => changeStatus("absent")}
           />
 
           <ShortcutButton
             iconName="hand-wave-outline"
             iconColor="#75339B"
             label="Henting"
-            onPress={async () => {
-              await ChildService.updateChildAttendance(childId, "picked_up");
-              onClose?.();
-            }}
+            onPress={() => changeStatus("picked_up")}
             iconSize={18}
           />
         </View>
@@ -73,10 +77,7 @@ const AttendanceCard: React.FC<AttendanceCardProps> = ({
             iconName="account-check-outline"
             iconColor="#496F57"
             label="Registrer ankomst"
-            onPress={async () => {
-              await ChildService.updateChildAttendance(childId, "present");
-              onClose?.();
-            }}
+            onPress={() => changeStatus("present")}
             fullWidth
           />
         </View>
@@ -102,7 +103,7 @@ const ShortcutButton: React.FC<ShortcutButtonProps> = ({
   label,
   onPress,
   fullWidth = false,
-  iconSize,
+  iconSize = 20,
 }) => {
   return (
     <TouchableOpacity
@@ -116,7 +117,7 @@ const ShortcutButton: React.FC<ShortcutButtonProps> = ({
       <View style={styles.inlineContent}>
         <MaterialCommunityIcons
           name={iconName}
-          size={iconSize || 20}
+          size={iconSize}
           color={iconColor}
         />
         <Text style={[styles.buttonText, { color: iconColor }]}>{label}</Text>

@@ -1,59 +1,67 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, StyleSheet, View, ActivityIndicator, Text } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+  Text,
+} from "react-native";
+
 import { HorizontalChildCard } from "./horizontal-child-card";
-import { ChildService, AttendanceStatus, Child } from "../api/childApi";
+import { Child, AttendanceStatus } from "@/api/childApi";
+
+import { onSnapshot, collection } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
+
+import { imageMap } from "@/assets/images/imageMap";
 
 interface HorizontalChildListProps {
   filterStatus?: AttendanceStatus;
 }
 
-export function HorizontalChildList({ filterStatus }: HorizontalChildListProps) {
+export function HorizontalChildList({
+  filterStatus,
+}: HorizontalChildListProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [children, setChildren] = useState<Child[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const loadChildren = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    let result: [Child[], string | null];
-
-    if (filterStatus) {
-      result = await ChildService.getChildrenByStatus(filterStatus);
-    } else {
-      result = await ChildService.getAllChildren();
-    }
-
-    const [data, err] = result;
-
-    if (err) {
-      setError(err);
-      console.error("Feil ved lasting av barn (horisontal liste):", err);
-    } else {
-      setChildren(data);
-    }
-
-    setIsLoading(false);
-  };
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadChildren();
+    // 🔥 Realtime listener
+    const unsubscribe = onSnapshot(
+      collection(db, "childData"),
+      (snapshot) => {
+        const allChildren = snapshot.docs.map(
+          (doc) =>
+            ({
+              id: doc.id,
+              ...doc.data(),
+            } as Child)
+        );
+
+        // 🔥 Filter directly on realtime data
+        const filtered =
+          filterStatus != null
+            ? allChildren.filter((c) => c.attendance === filterStatus)
+            : allChildren;
+
+        setChildren(filtered);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Realtime error (HorizontalChildList):", error);
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
   }, [filterStatus]);
 
-  if (isLoading) {
+  if (loading) {
     return (
       <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color="rgba(245, 69, 0, 1)" />
+        <ActivityIndicator size="large" color="#f54500" />
         <Text style={styles.loadingText}>Laster barn...</Text>
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={styles.centerContainer}>
-        <Text style={styles.errorText}>{error}</Text>
       </View>
     );
   }
@@ -81,7 +89,7 @@ export function HorizontalChildList({ filterStatus }: HorizontalChildListProps) 
         >
           <HorizontalChildCard
             name={item.name}
-            image={item.image}
+            image={imageMap[item.image] || imageMap["noimage.png"]}
             attendanceStatus={item.attendance}
             onOpen={() => setOpenIndex(index)}
             onClose={() => setOpenIndex(null)}
@@ -119,11 +127,6 @@ const styles = StyleSheet.create({
     marginTop: 12,
     fontSize: 16,
     color: "#666",
-  },
-  errorText: {
-    fontSize: 16,
-    color: "#d32f2f",
-    textAlign: "center",
   },
   emptyText: {
     fontSize: 16,

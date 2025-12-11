@@ -85,15 +85,15 @@ export default function SideMenu(props: DrawerContentComponentProps) {
       {/* MIDDLE SECTION */}
       <View style={styles.menuItemContainer}>
         <MenuItem
-          href="/attendance"
+          href="/"
           label="Foreldre"
-          isActive={isRouteActive("/attendance")}
+          isActive={false}
           icon={<Ionicons name="people" size={30} style={styles.icon} />}
         />
 
         {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
-          href="/"
+          href="/chat-room"
           label="Barn"
           isActive={false}
           icon={<Ionicons name="body" size={30} style={styles.icon} />}
@@ -114,7 +114,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
       <View style={styles.bottomSection}>
         <View style={styles.sectionDivider} />
         <MenuItem
-          href="/"
+          href="/login"
           label="Innstillinger"
           isActive={false}
           icon={<Feather name="settings" size={20} style={styles.icon} />}

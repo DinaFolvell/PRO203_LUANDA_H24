@@ -1,47 +1,47 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ActivityIndicator, Text } from "react-native";
 import { AttendanceOverview } from "@/components/attendance-overview";
 import { HorizontalChildList } from "@/components/horizontal-child-list";
-import {
-  AttendanceStatus,
-  Child,
-  ChildService,
-} from "../api/childApi";
+import { AttendanceStatus, Child } from "../api/childApi";
+
+import { onSnapshot, collection } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
 
 export default function CheckInListScreen() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [children, setChildren] = useState<Child[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // 🔥 REALTIME LISTENER – henter ALLE barn
   useEffect(() => {
-    loadChildren();
+    const unsubscribe = onSnapshot(
+      collection(db, "childData"),
+      (snapshot) => {
+        const liveChildren = snapshot.docs.map(
+          (doc) =>
+            ({
+              id: doc.id,
+              ...doc.data(),
+            } as Child)
+        );
+
+        setChildren(liveChildren);
+        setLoading(false);
+      },
+      (err) => {
+        console.error("Realtime error:", err);
+        setError("Kunne ikke laste barn");
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
   }, []);
 
-  const loadChildren = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    const [data, err] = await ChildService.getAllChildren();
-
-    if (err) {
-      setError(err);
-      console.error("Feil ved henting av barn:", err);
-    } else {
-      setChildren(data);
-    }
-
-    setIsLoading(false);
-  };
-
-  const handleRefresh = useCallback(async () => {
-    await loadChildren();
-  }, []);
-
+  // Velg status basert på index
   const mapIndexToStatus = (index: number): AttendanceStatus | undefined => {
     switch (index) {
-      case 0:
-        return undefined;
       case 1:
         return "present";
       case 2:
@@ -51,21 +51,21 @@ export default function CheckInListScreen() {
       case 4:
         return "absent";
       default:
-        return undefined;
+        return undefined; // 0 = "Alle barn"
     }
   };
 
   const filterStatus = mapIndexToStatus(activeIndex);
 
-  // Filtrer barna basert på valgt status
+  // Filtrer barna dynamisk basert på valgt status
   const filteredChildren = filterStatus
-    ? children.filter((child) => child.attendance === filterStatus)
+    ? children.filter((c) => c.attendance === filterStatus)
     : children;
 
-  if (isLoading) {
+  if (loading) {
     return (
       <View style={[styles.container, styles.centerContent]}>
-        <ActivityIndicator size="large" color="rgba(245, 69, 0, 1)" />
+        <ActivityIndicator size="large" color="#f54500" />
         <Text style={styles.loadingText}>Laster barn...</Text>
       </View>
     );
@@ -75,7 +75,6 @@ export default function CheckInListScreen() {
     return (
       <View style={[styles.container, styles.centerContent]}>
         <Text style={styles.errorText}>⚠️ {error}</Text>
-        <Text style={styles.errorHint}>Dra ned for å prøve igjen</Text>
       </View>
     );
   }
@@ -87,10 +86,8 @@ export default function CheckInListScreen() {
         onIndexChange={setActiveIndex}
       />
 
-      <HorizontalChildList
-        children={filteredChildren}
-        onRefresh={handleRefresh}
-      />
+      {/* Horisontal liste med børn */}
+      <HorizontalChildList filterStatus={filterStatus} />
     </View>
   );
 }
@@ -103,6 +100,7 @@ const styles = StyleSheet.create({
   centerContent: {
     justifyContent: "center",
     alignItems: "center",
+    flex: 1,
   },
   loadingText: {
     marginTop: 12,
@@ -114,10 +112,5 @@ const styles = StyleSheet.create({
     color: "#d32f2f",
     textAlign: "center",
     marginBottom: 8,
-  },
-  errorHint: {
-    fontSize: 14,
-    color: "#999",
-    textAlign: "center",
   },
 });

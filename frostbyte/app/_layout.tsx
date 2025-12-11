@@ -1,7 +1,7 @@
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import SideMenu from './side-menu';
+import SideMenu from './side-menu'; // 👈 import your custom sidebar
 
 export default function RootLayout() {
   return (
@@ -20,10 +20,21 @@ export default function RootLayout() {
         <Drawer.Screen
           name="check-in"
           options={{
-            title: 'Innsjekk',
-            drawerLabel: 'Innsjekk',
+            title: "Innsjekk",
+            drawerLabel: "Innsjekk",
+            headerRight: () => <ViewToggleButton />,
           }}
         />
+
+        <Drawer.Screen
+          name="attendance"
+          options={{
+            title: "Innsjekk",
+            drawerLabel: "Innsjekk",
+            headerRight: () => <ViewToggleButton />,
+          }}
+        />
+
       </Drawer>
     </GestureHandlerRootView>
   );
