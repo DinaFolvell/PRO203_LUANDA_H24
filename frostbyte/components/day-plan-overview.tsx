@@ -1,3 +1,5 @@
+
+import { useDayPlan } from "@/context/dayplan-context";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -7,7 +9,6 @@ import {
   Text,
   View,
 } from "react-native";
-import { dayPlanEvents } from "../data/dayplan-events";
 
 
 const ROW_HEIGHT = 80;
@@ -25,7 +26,7 @@ const TOTAL_HEIGHT = hours.length * ROW_HEIGHT;
 export default function DayPlanOverview() {
   // Event data (can come from API later)
   const router = useRouter();
-  const events = dayPlanEvents;
+  const { events } = useDayPlan();
 
   return (
     <View style={styles.container}>
@@ -167,3 +168,4 @@ const styles = StyleSheet.create({
     color: "#333",
   },
 });
+
