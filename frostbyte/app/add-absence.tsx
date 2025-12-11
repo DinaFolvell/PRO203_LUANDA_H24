@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { ChildSelect } from '@/components/absence/child-select';
 import { DateSelect } from '@/components/absence/date-select';
 import { AbsenceReasonSelect } from '@/components/absence/absence-reason-select';
+import { RegisterButton } from '@/components/absence/register-button';
 
 export default function AddAbsenceScreen() {
     return (
@@ -11,6 +12,7 @@ export default function AddAbsenceScreen() {
             <DateSelect />
             <DateSelect />
             <AbsenceReasonSelect />
+            <RegisterButton />
         </View>
     );
 }

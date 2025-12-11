@@ -1,5 +1,5 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { HeaderBar } from '@/components/absence/header-bar';
+import { HeaderBar } from '@/components/absence/overview-header-bar';
 import { DayRow } from '@/components/absence/day-row';
 import { ChildrenColumn } from '@/components/absence/children-column';
 import { useState } from 'react';
