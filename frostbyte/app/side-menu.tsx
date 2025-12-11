@@ -85,9 +85,9 @@ export default function SideMenu(props: DrawerContentComponentProps) {
       {/* MIDDLE SECTION */}
       <View style={styles.menuItemContainer}>
         <MenuItem
-          href="/attendance"
+          href="/"
           label="Foreldre"
-          isActive={isRouteActive("/attendance")}
+          isActive={false}
           icon={<Ionicons name="people" size={30} style={styles.icon} />}
         />
 
