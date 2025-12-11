@@ -1,6 +1,6 @@
 import AttendanceCard from "@/components/attendance-card";
 import { AttendanceOverview } from "@/components/attendance-overview";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -18,8 +18,12 @@ import ExpectedScreen from "../attendance-screens/expected-screen";
 import PickedUpScreen from "../attendance-screens/picked-up-screen";
 import AbsentScreen from "../attendance-screens/absent-screen";
 
-import { Child } from "@/api/childApi";
+import { Child, AttendanceStatus } from "@/api/childApi";
+import { ChildService } from "@/api/childApi";
 import { imageMap } from "@/assets/images/imageMap";
+
+import { onSnapshot, collection } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -30,7 +34,36 @@ export default function CheckInScreen() {
   const [scrollEnabled, setScrollEnabled] = useState(true);
   const translateX = useRef(new Animated.Value(0)).current;
 
+  const [children, setChildren] = useState<Child[]>([]);
   const [selectedChild, setSelectedChild] = useState<Child | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "childData"),
+      (snapshot) => {
+        const liveChildren = snapshot.docs.map(
+          (doc) =>
+            ({
+              id: doc.id,
+              ...doc.data(),
+            } as Child)
+        );
+        setChildren(liveChildren);
+      },
+      (error) => {
+        console.error("Realtime error:", error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleStatusChange = async (
+    childId: string,
+    status: AttendanceStatus
+  ) => {
+    await ChildService.updateChildAttendance(childId, status);
+  };
 
   const panResponder = useRef(
     PanResponder.create({
@@ -77,6 +110,7 @@ export default function CheckInScreen() {
 
   const goToPage = (newIndex: number) => {
     const direction = newIndex > activeIndexRef.current ? -1 : 1;
+
     Animated.timing(translateX, {
       toValue: direction * SCREEN_WIDTH,
       duration: 200,
@@ -100,6 +134,7 @@ export default function CheckInScreen() {
 
   const renderSubpage = () => {
     const commonProps = {
+      data: children,
       onChildPress: handleChildPress,
     };
 
@@ -143,6 +178,7 @@ export default function CheckInScreen() {
         </ScrollView>
       </Animated.View>
 
+      {/* MODAL */}
       <Modal
         visible={isModalVisible}
         transparent
@@ -162,6 +198,9 @@ export default function CheckInScreen() {
                 name={selectedChild.name}
                 note="Kommer 09:30 og blir hentet tidlig"
                 onClose={() => setIsModalVisible(false)}
+                onStatusChange={(status) =>
+                  handleStatusChange(selectedChild.id, status)
+                }
               />
             )}
           </View>

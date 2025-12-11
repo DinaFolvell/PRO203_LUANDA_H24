@@ -7,7 +7,10 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { ChildService } from "@/api/childApi";
+import { Child, AttendanceStatus } from "@/api/childApi";
+
+import { onSnapshot, collection } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
 
 export interface AttendanceOverviewProps {
   activeIndex: number;
@@ -17,15 +20,7 @@ export interface AttendanceOverviewProps {
 interface AttendanceItem {
   label: string;
   icon: any;
-  countKey: "all" | "present" | "expected" | "picked_up" | "absent";
-}
-
-interface AttendanceCounts {
-  all: number;
-  present: number;
-  expected: number;
-  picked_up: number;
-  absent: number;
+  countKey: AttendanceStatus | "all";
 }
 
 const attendanceItems: AttendanceItem[] = [
@@ -60,56 +55,51 @@ export function AttendanceOverview({
   activeIndex,
   onIndexChange,
 }: AttendanceOverviewProps) {
-  const [counts, setCounts] = useState<AttendanceCounts>({
+  const [counts, setCounts] = useState({
     all: 0,
     present: 0,
     expected: 0,
     picked_up: 0,
     absent: 0,
   });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadCounts();
+    const unsubscribe = onSnapshot(
+      collection(db, "childData"),
+      (snapshot) => {
+        const children = snapshot.docs.map(
+          (doc) => ({ id: doc.id, ...doc.data() } as Child)
+        );
+
+        const newCounts = {
+          all: children.length,
+          present: 0,
+          expected: 0,
+          picked_up: 0,
+          absent: 0,
+        };
+
+        children.forEach((child) => {
+          newCounts[child.attendance] += 1;
+        });
+
+        setCounts(newCounts);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Realtime error:", error);
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
   }, []);
 
-  const loadCounts = async () => {
-    setIsLoading(true);
-    setError(null);
-
-    const [data, err] = await ChildService.getAttendanceCounts();
-
-    if (err) {
-      setError(err);
-      console.error("Feil ved henting av oppmøte-data:", err);
-    } else {
-      setCounts(data);
-    }
-
-    setIsLoading(false);
-  };
-
-  // Funksjon for å refreshe data (kan kalles fra foreldre-komponent om nødvendig)
-  const refresh = () => {
-    loadCounts();
-  };
-
-  if (isLoading) {
+  if (loading) {
     return (
       <View style={[styles.bar, styles.centerContent]}>
         <ActivityIndicator size="small" color="rgba(245, 69, 0, 1)" />
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={[styles.bar, styles.centerContent]}>
-        <Text style={styles.errorText}>Kunne ikke laste data</Text>
-        <TouchableOpacity onPress={refresh} style={styles.retryButton}>
-          <Text style={styles.retryText}>Prøv igjen</Text>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -126,7 +116,9 @@ export function AttendanceOverview({
             <Text style={styles.countText}>{counts[item.countKey]}</Text>
             <Image source={item.icon} style={styles.icon} />
           </View>
+
           <Text style={styles.labelText}>{item.label}</Text>
+
           {activeIndex === index && <View style={styles.activeMarker} />}
         </TouchableOpacity>
       ))}
@@ -174,21 +166,5 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     width: "100%",
     marginTop: 4,
-  },
-  errorText: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 8,
-  },
-  retryButton: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    backgroundColor: "rgba(245, 69, 0, 0.1)",
-    borderRadius: 6,
-  },
-  retryText: {
-    color: "rgba(245, 69, 0, 1)",
-    fontSize: 14,
-    fontWeight: "600",
   },
 });
