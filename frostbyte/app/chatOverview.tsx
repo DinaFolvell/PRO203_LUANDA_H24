@@ -83,29 +83,41 @@ export default function chatOverview() {
           />
         </TouchableOpacity>
       </View>
+
       <ScrollView style={{ flex: 1 }}>
         <Text style={styles.sectionTitle}>Grupper</Text>
         <View style={styles.groupRow}>
           {groups.map((group, index) => (
-            <View key={index} style={styles.groupCard}>
+            <TouchableOpacity
+              key={index}
+              style={styles.groupCard}
+              onPress={() => {}}
+            >
               {group.images.map((img, i) => (
                 <Image
                   key={i}
                   source={require("../assets/images/amalie.png")}
-                  style={styles.groupImage}
+                  style={[
+                    styles.groupImage,
+                    i === 1 && { position: "absolute", left: 16, top: 14 }, 
+                  ]}
                 />
               ))}
               <View style={styles.groupNameWrapper}>
                 <Text style={styles.groupName}>{group.name}</Text>
                 {group.unread && <View style={styles.unreadDot} />}
               </View>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
 
         <Text style={styles.sectionTitle}>Meldinger</Text>
         {messages.map((msg, index) => (
-          <View key={index} style={styles.messageRow}>
+          <TouchableOpacity
+            key={index}
+            style={styles.messageRow}
+            onPress={() => {}}
+          >
             <Image
               source={require("../assets/images/amalie.png")}
               style={styles.avatar}
@@ -118,7 +130,7 @@ export default function chatOverview() {
               <Text style={styles.date}>{msg.date}</Text>
               <View style={styles.unreadDot} />
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </View>
@@ -145,16 +157,15 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: "700",
-    marginBottom: 8,
   },
   groupRow: {
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 20,
+    marginBottom: 8,
   },
   groupCard: {
-    marginTop: 12,
-    width: 112,
+    marginTop: 13,
+    width: 120,
     height: 83,
     marginHorizontal: 6,
     alignItems: "center",
@@ -167,10 +178,9 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     resizeMode: "cover",
-    marginTop: -10,
   },
   groupName: {
-    marginTop: 4,
+    marginTop: 12,
     fontSize: 16,
     fontWeight: "500",
     textAlign: "center",
