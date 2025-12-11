@@ -60,7 +60,7 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-       
+      
         {/* Day Plan - Scrollable with max height */}
         <View style={[styles.dayPlanBox, { maxHeight: maxSectionHeight }]}>
           <ScrollView
@@ -69,6 +69,7 @@ export default function HomeScreen() {
           >
             <DayPlanOverview />
           </ScrollView>
+          
         </View>
 
         {/* Shortcuts - Fixed size */}
