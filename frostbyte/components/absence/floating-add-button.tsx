@@ -2,12 +2,12 @@ import { StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { router } from 'expo-router'; 
 
-export interface AddButtonProps {
+export interface FloatingAddButtonProps {
   onPress?: () => void;
   style?: ViewStyle | ViewStyle[];
 }
 
-export function AddButton({ onPress, style }: AddButtonProps) {
+export function FloatingAddButton({ onPress, style }: FloatingAddButtonProps) {
   const handlePress = () => {
     if (onPress) onPress();
     router.push("/add-absence");

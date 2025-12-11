@@ -3,7 +3,7 @@ import { HeaderBar } from '@/components/absence/header-bar';
 import { DayRow } from '@/components/absence/day-row';
 import { ChildrenColumn } from '@/components/absence/children-column';
 import { useState } from 'react';
-import { AddButton } from '@/components/absence/add-button';
+import { FloatingAddButton } from '@/components/absence/floating-add-button';
 
 export default function AbsenceScreen() {
   const [startDay, setStartDay] = useState(22);
@@ -52,7 +52,7 @@ export default function AbsenceScreen() {
         </View>
       </ScrollView>
 
-      <AddButton style={styles.addButton} />
+      <FloatingAddButton style={styles.addButton} />
     </View>
   );
 }
