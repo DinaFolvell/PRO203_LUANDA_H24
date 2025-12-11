@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, ImageSourcePropType } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import AttendanceDropdown, { StatusKey } from "./dropdown-menu";
+import { imageMap } from "@/assets/images/imageMap";
 
 export interface ChildCardProps {
   name: string;
-  image: ImageSourcePropType;
+  image?: any; 
   attendanceStatus?: StatusKey;
   style?: object;
   onOpen?: () => void;
@@ -14,33 +15,39 @@ export interface ChildCardProps {
 export function HorizontalChildCard({
   name,
   image,
-  attendanceStatus = "expected",   
+  attendanceStatus = "expected",
   style,
   onOpen,
   onClose,
 }: ChildCardProps) {
-
   const [status, setStatus] = useState<StatusKey>(attendanceStatus);
 
-  const statusColor = {
+  // RIKTIG BILDEHÅNDTERING
+  const imageSource = image ?? imageMap["noimage.png"];
+
+  const statusColors: Record<StatusKey, string> = {
     present: "#496F57",
     expected: "#C28E00",
     picked_up: "#75339B",
     absent: "#F50000",
-  }[status];
+  };
 
-  const statusIcon = {
+  const statusIcons: Record<StatusKey, any> = {
     present: require("../assets/icons/white-present-icon.png"),
     expected: require("../assets/icons/white-expected-icon.png"),
     picked_up: require("../assets/icons/white-picked-up-icon.png"),
     absent: require("../assets/icons/white-absent-icon.png"),
-  }[status];
+  };
+
+  const borderColor = statusColors[attendanceStatus];
+  const statusIcon = statusIcons[status];
 
   return (
-    <View style={[styles.card, style]}> 
+    <View style={[styles.card, style]}>
       <View style={styles.imageContainer}>
-          <Image source={image} style={styles.image} />
-        <View style={[styles.statusBadge, { backgroundColor: statusColor }]}>
+        <Image source={imageSource} style={styles.image} resizeMode="cover" />
+
+        <View style={[styles.statusBadge, { backgroundColor: borderColor }]}>
           <Image source={statusIcon} style={styles.statusIcon} />
         </View>
       </View>
@@ -61,6 +68,7 @@ export function HorizontalChildCard({
   );
 }
 
+
 const styles = StyleSheet.create({
   card: {
     flexDirection: "row",
@@ -72,19 +80,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E5E5E5",
     position: "relative",
-    zIndex: 1, 
-  },
-  cardOpen: {
-    zIndex: 999,
-    elevation: 10,
   },
   imageContainer: {
     position: "relative",
     marginRight: 12,
-  },
-  image: {
     width: 64,
     height: 64,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
     borderRadius: 8,
   },
   statusBadge: {

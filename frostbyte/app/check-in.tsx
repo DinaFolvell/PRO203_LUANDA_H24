@@ -1,6 +1,6 @@
 import AttendanceCard from "@/components/attendance-card";
 import { AttendanceOverview } from "@/components/attendance-overview";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -12,11 +12,18 @@ import {
   Dimensions,
 } from "react-native";
 
-import AllScreen from "../attendance-screens/all-screen";
-import PresentScreen from "../attendance-screens/present-screen";
-import ExpectedScreen from "../attendance-screens/expected-screen";
-import PickedUpScreen from "../attendance-screens/picked-up-screen";
-import AbsentScreen from "../attendance-screens/absent-screen";
+import AllScreen from "../components/attendance-screens/all-screen";
+import PresentScreen from "../components/attendance-screens/present-screen";
+import ExpectedScreen from "../components/attendance-screens/expected-screen";
+import PickedUpScreen from "../components/attendance-screens/picked-up-screen";
+import AbsentScreen from "../components/attendance-screens/absent-screen";
+
+import { Child, AttendanceStatus } from "@/api/childApi";
+import { ChildService } from "@/api/childApi";
+import { imageMap } from "@/assets/images/imageMap";
+
+import { onSnapshot, collection } from "firebase/firestore";
+import { db } from "@/firebaseConfig";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -26,6 +33,37 @@ export default function CheckInScreen() {
   const activeIndexRef = useRef(0);
   const [scrollEnabled, setScrollEnabled] = useState(true);
   const translateX = useRef(new Animated.Value(0)).current;
+
+  const [children, setChildren] = useState<Child[]>([]);
+  const [selectedChild, setSelectedChild] = useState<Child | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "childData"),
+      (snapshot) => {
+        const liveChildren = snapshot.docs.map(
+          (doc) =>
+            ({
+              id: doc.id,
+              ...doc.data(),
+            } as Child)
+        );
+        setChildren(liveChildren);
+      },
+      (error) => {
+        console.error("Realtime error:", error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleStatusChange = async (
+    childId: string,
+    status: AttendanceStatus
+  ) => {
+    await ChildService.updateChildAttendance(childId, status);
+  };
 
   const panResponder = useRef(
     PanResponder.create({
@@ -72,6 +110,7 @@ export default function CheckInScreen() {
 
   const goToPage = (newIndex: number) => {
     const direction = newIndex > activeIndexRef.current ? -1 : 1;
+
     Animated.timing(translateX, {
       toValue: direction * SCREEN_WIDTH,
       duration: 200,
@@ -88,18 +127,28 @@ export default function CheckInScreen() {
     goToPage(newIndex);
   };
 
+  const handleChildPress = (child: Child) => {
+    setSelectedChild(child);
+    setIsModalVisible(true);
+  };
+
   const renderSubpage = () => {
+    const commonProps = {
+      data: children,
+      onChildPress: handleChildPress,
+    };
+
     switch (activeIndex) {
       case 0:
-        return <AllScreen />;
+        return <AllScreen {...commonProps} />;
       case 1:
-        return <PresentScreen />;
+        return <PresentScreen {...commonProps} />;
       case 2:
-        return <ExpectedScreen />;
+        return <ExpectedScreen {...commonProps} />;
       case 3:
-        return <PickedUpScreen />;
+        return <PickedUpScreen {...commonProps} />;
       case 4:
-        return <AbsentScreen />;
+        return <AbsentScreen {...commonProps} />;
       default:
         return null;
     }
@@ -111,6 +160,7 @@ export default function CheckInScreen() {
         activeIndex={activeIndex}
         onIndexChange={handleTabChange}
       />
+
       <Animated.View
         style={[
           styles.contentContainer,
@@ -124,12 +174,11 @@ export default function CheckInScreen() {
           contentContainerStyle={styles.subpageWrapper}
           scrollEnabled={scrollEnabled}
         >
-          <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-            {renderSubpage()}
-          </TouchableOpacity>
+          {renderSubpage()}
         </ScrollView>
       </Animated.View>
 
+      {/* MODAL */}
       <Modal
         visible={isModalVisible}
         transparent
@@ -142,12 +191,18 @@ export default function CheckInScreen() {
           onPress={() => setIsModalVisible(false)}
         >
           <View style={styles.modalContent}>
-            <AttendanceCard
-              photoUrl={require("../assets/images/amalie.png")}
-              name="Amalie S. Ulriksen"
-              note="Kommer 09:30 og blir hentet tidlig"
-              onClose={() => setIsModalVisible(false)}
-            />
+            {selectedChild && (
+              <AttendanceCard
+                childId={selectedChild.id}
+                photoUrl={imageMap[selectedChild.image]}
+                name={selectedChild.name}
+                note="Kommer 09:30 og blir hentet tidlig"
+                onClose={() => setIsModalVisible(false)}
+                onStatusChange={(status) =>
+                  handleStatusChange(selectedChild.id, status)
+                }
+              />
+            )}
           </View>
         </TouchableOpacity>
       </Modal>
@@ -160,15 +215,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  childCard: {
-    marginVertical: 10,
-  },
+
   contentContainer: {
     flex: 1,
   },
+
   subpageWrapper: {
     flexGrow: 1,
   },
+
   modalBackdrop: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -176,6 +231,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
   },
+
   modalContent: {
     padding: 10,
     borderRadius: 12,

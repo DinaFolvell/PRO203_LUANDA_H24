@@ -1,7 +1,10 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import ChatOverview from "@/app/chatOverview";
 import React, { useState } from "react";
 import {
+  Alert,
   Dimensions,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -67,6 +70,7 @@ export default function HomeScreen() {
             onsdag 3.desember 2025
           </Text>
         </View>
+        
         <View style={[styles.dayPlanBox, { maxHeight: maxSectionHeight }]}>
           <ScrollView
             showsVerticalScrollIndicator={true}
@@ -74,9 +78,10 @@ export default function HomeScreen() {
           >
             <DayPlanOverview />
           </ScrollView>
+          
         </View>
 
-        {/* Shortcuts - Fixed size */}
+
         <View style={styles.shortcutsBox}>
           <View style={styles.shortcutsHeader}>
             <Text style={styles.shortcutsTitle}>Snarveier</Text>

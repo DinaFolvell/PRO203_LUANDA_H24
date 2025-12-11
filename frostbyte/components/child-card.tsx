@@ -1,12 +1,13 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, ImageSourcePropType } from "react-native";
-import { AttendanceStatus } from "../services/childService";
+import { View, Text, Image, StyleSheet, ViewStyle } from "react-native";
+import { imageMap } from "@/assets/images/imageMap";
+import { AttendanceStatus } from "@/api/childApi";
 
-export interface ChildCardProps {
+interface ChildCardProps {
   name: string;
-  image: ImageSourcePropType;
+  image?: string | null;
   attendanceStatus?: AttendanceStatus;
-  style?: object;
+  style?: ViewStyle;
 }
 
 export function ChildCard({
@@ -15,6 +16,9 @@ export function ChildCard({
   attendanceStatus = "expected",
   style,
 }: ChildCardProps) {
+  const imageSource =
+    image && imageMap[image] ? imageMap[image] : imageMap["noimage.png"];
+
   const statusColor: Record<AttendanceStatus, string> = {
     present: "#496F57",
     expected: "#C28E00",
@@ -29,23 +33,22 @@ export function ChildCard({
     absent: require("../assets/icons/red-absent-icon.png"),
   };
 
-  const statusIcon = statusIcons[attendanceStatus];
   const borderColor = statusColor[attendanceStatus];
+  const statusIcon = statusIcons[attendanceStatus];
 
   return (
     <View style={[styles.root, { borderBottomColor: borderColor }, style]}>
+    
       <View style={styles.imageContainer}>
-        <Image source={image} style={styles.image} resizeMode="cover" />
+        <Image source={imageSource} style={styles.image} resizeMode="cover" />
       </View>
 
+    
       <View style={styles.nameContainer}>
-        <Text
-          style={styles.nameText}
-          numberOfLines={1}       // prevents wrapping
-          ellipsizeMode="tail"    // adds "..." if text is too long
-          >
-        {name}
+        <Text style={styles.nameText} numberOfLines={1} ellipsizeMode="tail">
+          {name}
         </Text>
+
         <Image source={statusIcon} style={styles.statusIcon} />
       </View>
     </View>
@@ -64,11 +67,26 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: "100%",
     aspectRatio: 1,
+    backgroundColor: "#f0f0f0",
   },
 
   image: {
     width: "100%",
     height: "100%",
+  },
+
+  placeholderContainer: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#e0e0e0",
+  },
+
+  placeholderText: {
+    fontSize: 48,
+    fontWeight: "700",
+    color: "#999",
   },
 
   nameContainer: {
@@ -85,11 +103,13 @@ const styles = StyleSheet.create({
     color: "#000",
     fontSize: 14,
     fontWeight: "500",
+    flex: 1,
   },
 
   statusIcon: {
     width: 16,
     height: 16,
     resizeMode: "contain",
+    marginLeft: 4,
   },
 });

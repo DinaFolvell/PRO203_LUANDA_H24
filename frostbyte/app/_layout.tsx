@@ -1,16 +1,17 @@
-// app/_layout.tsx
+
 import { DayPlanProvider } from '@/context/dayplan-context';
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import SideMenu from './side-menu'; // 👈 import your custom sidebar
+import SideMenu from './side-menu'; 
+import ViewToggleButton from '@/components/attendance-view-btn';
 
 export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <DayPlanProvider>
       <Drawer
-        drawerContent={(props) => <SideMenu {...props} />}  // 👈 use your custom menu
+        drawerContent={(props) => <SideMenu {...props} />}
       >
         <Drawer.Screen
           name="index"
@@ -23,10 +24,21 @@ export default function RootLayout() {
         <Drawer.Screen
           name="check-in"
           options={{
-            title: 'Innsjekk',
-            drawerLabel: 'Innsjekk',
+            title: "Innsjekk",
+            drawerLabel: "Innsjekk",
+            headerRight: () => <ViewToggleButton />,
           }}
         />
+
+        <Drawer.Screen
+          name="attendance"
+          options={{
+            title: "Innsjekk",
+            drawerLabel: "Innsjekk",
+            headerRight: () => <ViewToggleButton />,
+          }}
+        />
+
       </Drawer>
       </DayPlanProvider>
     </GestureHandlerRootView>

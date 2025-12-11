@@ -7,13 +7,19 @@ import {
   ViewStyle,
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useRouter } from "expo-router";
+
 export interface MessagesButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
 export function MessagesButton(props: MessagesButtonProps) {
+  const router = useRouter();
   return (
-    <TouchableOpacity style={[styles.container, props.style]}>
+    <TouchableOpacity
+      style={[styles.container, props.style]}
+      onPress={() => router.push("/chatOverview")}
+    >
       <View style={styles.button}>
         <AntDesign
           name="message"
