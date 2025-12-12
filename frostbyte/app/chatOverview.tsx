@@ -20,6 +20,11 @@ const groups = [
 
 const messages = [
   {
+    sender: "Lucas Fjongers",
+    preview: "Sigurd har fått svineinfluensa..",
+    date: "25.nov",
+  },
+  {
     sender: "Ulrikke Amaliussen",
     preview: "Amalie har med egen mat i dag",
     date: "I dag",
@@ -59,11 +64,6 @@ const messages = [
     preview: "Hvordan går det med Emma?..",
     date: "27.nov",
   },
-  {
-    sender: "Lucas Fjongers",
-    preview: "Sigurd har fått svineinfluensa..",
-    date: "25.nov",
-  },
 ];
 
 export default function chatOverview() {
@@ -99,7 +99,7 @@ export default function chatOverview() {
                   source={require("../assets/images/amalie.png")}
                   style={[
                     styles.groupImage,
-                    i === 1 && { position: "absolute", left: 16, top: 14 }, 
+                    i === 1 && { position: "absolute", left: 16, top: 14 },
                   ]}
                 />
               ))}
@@ -116,7 +116,7 @@ export default function chatOverview() {
           <TouchableOpacity
             key={index}
             style={styles.messageRow}
-            onPress={() => {}}
+            onPress={() => router.push("/chat-room")}
           >
             <Image
               source={require("../assets/images/amalie.png")}
