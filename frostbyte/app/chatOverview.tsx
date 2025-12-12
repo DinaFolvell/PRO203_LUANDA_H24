@@ -22,7 +22,7 @@ const messages = [
   {
     sender: "Lucas Fjongers",
     preview: "Sigurd har fått svineinfluensa..",
-    date: "25.nov",
+    date: "Nå",
   },
   {
     sender: "Ulrikke Amaliussen",

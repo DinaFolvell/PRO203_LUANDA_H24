@@ -24,7 +24,7 @@ const hours = [
 const TOTAL_HEIGHT = hours.length * ROW_HEIGHT;
 
 export default function DayPlanOverview() {
-  // Event data (can come from API later)
+
   const router = useRouter();
   const { events } = useDayPlan();
 

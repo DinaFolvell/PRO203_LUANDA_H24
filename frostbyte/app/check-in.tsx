@@ -178,7 +178,7 @@ export default function CheckInScreen() {
         </ScrollView>
       </Animated.View>
 
-      {/* MODAL */}
+
       <Modal
         visible={isModalVisible}
         transparent
