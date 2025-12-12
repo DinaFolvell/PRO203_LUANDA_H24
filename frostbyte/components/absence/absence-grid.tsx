@@ -1,24 +1,41 @@
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { AbsenceRecord } from '@/services/absenceService';
 
 interface AbsenceGridProps {
   childId: string;
-  startDay: number;
-  absences: number[];
-  onToggleAbsence: (childId: string, date: number) => void;
+  weekDates: Date[];
+  absences: AbsenceRecord[];
+  onToggleAbsence: (childId: string, date: Date) => void;
 }
 
-export function AbsenceGrid({ childId, startDay, absences, onToggleAbsence }: AbsenceGridProps) {
-  const dates = Array.from({ length: 7 }, (_, i) => ((startDay + i - 1) % 31) + 1);
+function normalizeDate(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
 
+function isDateInRange(checkDate: Date, startDate: Date, endDate: Date): boolean {
+  const normalized = normalizeDate(checkDate).getTime();
+  const start = normalizeDate(startDate).getTime();
+  const end = normalizeDate(endDate).getTime();
+  
+  return normalized >= start && normalized <= end;
+}
+
+export function AbsenceGrid({ childId, weekDates, absences, onToggleAbsence }: AbsenceGridProps) {
   return (
     <View style={styles.container}>
-      {dates.map(date => (
-        <TouchableOpacity
-          key={`${childId}-${date}`}
-          style={styles.cell}
-          onPress={() => onToggleAbsence(childId, date)}
-        />
-      ))}
+      {weekDates.map(date => {
+        const hasAbsence = absences.some(
+          a => a.child.id === childId && isDateInRange(date, a.startDate, a.endDate)
+        );
+
+        return (
+          <TouchableOpacity
+            key={`${childId}-${date.toDateString()}`}
+            style={[styles.cell, hasAbsence && styles.absenceCell]}
+            onPress={() => onToggleAbsence(childId, date)}
+          />
+        );
+      })}
     </View>
   );
 }
@@ -35,5 +52,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 1)',
+  },
+  absenceCell: {
+    backgroundColor: 'rgba(245,69,0,0.6)',
   },
 });
