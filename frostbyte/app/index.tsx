@@ -211,19 +211,16 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Notifications - Scrollable with max height */}
+
         <View
           style={[
             styles.notificationsContainer,
             { maxHeight: maxSectionHeight },
           ]}
         >
-          <ScrollView
-            showsVerticalScrollIndicator={true}
-            nestedScrollEnabled={true}
-          >
+        
             <NotificationsOverview notifications={mockNotifications} />
-          </ScrollView>
+
         </View>
       </View>
     </ScrollView>

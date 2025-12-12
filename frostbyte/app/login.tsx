@@ -29,8 +29,7 @@ export default function Login() {
     <View style={styles.loginContainer}>
       <Text style={styles.title}>Bapa - ansatt</Text>
       <Text style={styles.subtitle}>Logg inn med din bruker-ID</Text>
-      <Text >Brukernavn: 123@mail.no</Text>
-      <Text >Passord: passord123</Text>
+   
 
       <TextInput
         style={styles.input}
