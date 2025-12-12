@@ -15,8 +15,8 @@ function addDays(date: Date, days: number) {
 }
 
 function getWeekStart(date: Date) {
-  const day = date.getDay(); // Sunday = 0
-  const diff = day === 0 ? -6 : 1 - day; // Monday = 1
+  const day = date.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
   const monday = new Date(date);
   monday.setDate(date.getDate() + diff);
   return monday;
@@ -54,6 +54,7 @@ export default function AbsenceScreen() {
     <View style={styles.container}>
       <HeaderBar
         week={getWeekNumber(currentWeekDate)}
+        mondayDate={monday}
         onPrevWeek={handlePrevWeek}
         onNextWeek={handleNextWeek}
         onNotifications={() => console.log('Notification clicked')}
