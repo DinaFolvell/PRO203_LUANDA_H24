@@ -5,6 +5,7 @@ import { AbsenceReasonSelect } from '@/components/absence/absence-reason-select'
 import { RegisterButton } from '@/components/absence/register-button';
 import { RegisterHeader } from '@/components/absence/register-header';
 import { ChildSelect } from '@/components/absence/child-select';
+import { AbsenceService } from '@/services/absenceService';
 
 export default function AddAbsenceScreen() {
   const [selectedChild, setSelectedChild] = useState<null | { id: string; name: string }>(null);
@@ -15,22 +16,40 @@ export default function AddAbsenceScreen() {
 
   const allRequiredFilled = selectedChild && startDate && endDate && selectedReason;
 
+  const handleRegister = () => {
+    if (!allRequiredFilled) return;
+
+    const newAbsence = {
+      child: selectedChild!,
+      startDate: startDate!,
+      endDate: endDate!,
+      reason: selectedReason!,
+      comment,
+    };
+
+    AbsenceService.addAbsence(newAbsence);
+
+    setSelectedChild(null);
+    setStartDate(null);
+    setEndDate(null);
+    setSelectedReason(null);
+    setComment('');
+  };
+
   return (
     <View style={styles.container}>
       <RegisterHeader />
 
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
-          Barn
-          <Text style={styles.asterisk}>*</Text>
+          Barn<Text style={styles.asterisk}>*</Text>
         </Text>
         <ChildSelect onSelect={setSelectedChild} />
       </View>
 
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
-          Periode
-          <Text style={styles.asterisk}>*</Text>
+          Periode<Text style={styles.asterisk}>*</Text>
         </Text>
         <View style={styles.dateContainer}>
           <View style={styles.dateWrapper}>
@@ -45,8 +64,7 @@ export default function AddAbsenceScreen() {
 
       <View style={styles.selectorWrapper}>
         <Text style={styles.label}>
-          Årsak
-          <Text style={styles.asterisk}>*</Text>
+          Årsak<Text style={styles.asterisk}>*</Text>
         </Text>
         <AbsenceReasonSelect onSelect={setSelectedReason} />
       </View>
@@ -66,6 +84,7 @@ export default function AddAbsenceScreen() {
           opacity: allRequiredFilled ? 1 : 0.4,
           backgroundColor: allRequiredFilled ? 'rgba(245,69,0,1)' : 'grey',
         }}
+        onPress={handleRegister}
       />
     </View>
   );

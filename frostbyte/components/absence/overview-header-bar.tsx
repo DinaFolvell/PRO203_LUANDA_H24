@@ -6,6 +6,7 @@ import type { ViewStyle, StyleProp } from 'react-native';
 export interface HeaderBarProps {
   style?: StyleProp<ViewStyle>;
   week: number;
+  mondayDate: Date;
   onPrevWeek?: () => void;
   onNextWeek?: () => void;
   onNotifications?: () => void;
@@ -14,14 +15,25 @@ export interface HeaderBarProps {
 export function HeaderBar({
   style,
   week,
+  mondayDate,
   onPrevWeek,
   onNextWeek,
   onNotifications,
 }: HeaderBarProps) {
+  const monthNames = [
+    'Januar', 'Februar', 'Mars', 'April', 'Mai', 'Juni',
+    'Juli', 'August', 'September', 'Oktober', 'November', 'Desember'
+  ];
+
+  const month = monthNames[mondayDate.getMonth()];
+  const year = mondayDate.getFullYear();
+
   return (
     <View style={[styles.container, style]}>
       <View style={styles.weekSection}>
-        <Text style={styles.weekTitle}>Uke {week}</Text>
+        <View style={styles.titleWrapper}>
+          <Text style={styles.weekTitle}>Uke {week} - {month} {year}</Text>
+        </View>
 
         <View style={styles.chevronContainer}>
           <Pressable style={styles.chevronButton} onPress={onPrevWeek}>
@@ -59,12 +71,18 @@ const styles = StyleSheet.create({
   },
   weekTitle: {
     color: 'rgba(0, 0, 0, 1)',
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '600',
+    flexShrink: 1,
   },
   weekSection: {
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 1,
+    marginRight: 8,
+  },
+  titleWrapper: {
+    minWidth: 220,
   },
   chevronContainer: {
     flexDirection: 'row',
@@ -72,7 +90,7 @@ const styles = StyleSheet.create({
   },
   chevronButton: {
     flexDirection: 'row',
-    padding: 16,
+    padding: 8,
     alignItems: 'center',
   },
   notificationContainer: {
