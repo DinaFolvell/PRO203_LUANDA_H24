@@ -1,4 +1,3 @@
-
 import { DayPlanProvider } from '@/context/dayplan-context';
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
