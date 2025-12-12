@@ -5,6 +5,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from "react-native";
 import { signIn } from "@/api/authApi";
 import { router } from "expo-router";
@@ -26,50 +29,54 @@ export default function Login() {
   };
 
   return (
-    <View style={styles.loginContainer}>
-      <Text style={styles.title}>Bapa - ansatt</Text>
-      <Text style={styles.subtitle}>Logg inn med din bruker-ID</Text>
-   
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
+    >
+      <ScrollView
+        contentContainerStyle={styles.loginContainer}
+        keyboardShouldPersistTaps="handled"
+      >
+        <Text style={styles.title}>Bapa - ansatt</Text>
+        <Text style={styles.subtitle}>Logg inn med din bruker-ID</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Bruker-ID"
-        value={username}
-        onChangeText={setUsername}
-        autoCapitalize="none"
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Bruker-ID"
+          value={username}
+          onChangeText={setUsername}
+          autoCapitalize="none"
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
   loginContainer: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
     paddingHorizontal: 30,
+    paddingVertical: 20,
   },
   title: {
     fontSize: 32,
     color: "#f54500",
     marginBottom: 8,
     textAlign: "center",
-    fontStyle: "normal",
     fontWeight: "600",
   },
   subtitle: {
