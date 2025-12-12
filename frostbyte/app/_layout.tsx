@@ -1,12 +1,14 @@
+import { DayPlanProvider } from '@/context/dayplan-context';
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import SideMenu from './side-menu';
-import ViewToggleButton from '../components/attendance-view-btn';
+import SideMenu from './side-menu'; 
+import ViewToggleButton from '@/components/attendance-view-btn';
 
 export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <DayPlanProvider>
       <Drawer
         drawerContent={(props) => <SideMenu {...props} />}
       >
@@ -37,6 +39,7 @@ export default function RootLayout() {
         />
 
       </Drawer>
+      </DayPlanProvider>
     </GestureHandlerRootView>
   );
 }

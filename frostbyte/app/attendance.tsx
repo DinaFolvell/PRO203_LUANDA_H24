@@ -13,7 +13,7 @@ export default function CheckInListScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // 🔥 REALTIME LISTENER – henter ALLE barn
+
   useEffect(() => {
     const unsubscribe = onSnapshot(
       collection(db, "childData"),
@@ -39,7 +39,7 @@ export default function CheckInListScreen() {
     return () => unsubscribe();
   }, []);
 
-  // Velg status basert på index
+
   const mapIndexToStatus = (index: number): AttendanceStatus | undefined => {
     switch (index) {
       case 1:
@@ -51,13 +51,13 @@ export default function CheckInListScreen() {
       case 4:
         return "absent";
       default:
-        return undefined; // 0 = "Alle barn"
+        return undefined;
     }
   };
 
   const filterStatus = mapIndexToStatus(activeIndex);
 
-  // Filtrer barna dynamisk basert på valgt status
+
   const filteredChildren = filterStatus
     ? children.filter((c) => c.attendance === filterStatus)
     : children;
@@ -86,7 +86,7 @@ export default function CheckInListScreen() {
         onIndexChange={setActiveIndex}
       />
 
-      {/* Horisontal liste med børn */}
+
       <HorizontalChildList filterStatus={filterStatus} />
     </View>
   );

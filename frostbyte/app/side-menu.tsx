@@ -50,7 +50,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
       contentContainerStyle={styles.container}
     >
       <View style={styles.topSpacer} />
-      {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
+
       <View style={styles.menuItemContainer}>
         <MenuItem
           href="/"
@@ -60,14 +60,14 @@ export default function SideMenu(props: DrawerContentComponentProps) {
             <MaterialIcons name="menu-book" size={30} style={styles.icon} />
           }
         />
-        {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
+
         <MenuItem
           href="/check-in"
           label="Oppmøte-liste"
           isActive={isRouteActive("/check-in")}
           icon={<Ionicons name="person" size={30} style={styles.icon} />}
         />
-        {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
+
         <MenuItem
           href="/absence"
           label="Registrer Fravær"
@@ -78,11 +78,10 @@ export default function SideMenu(props: DrawerContentComponentProps) {
         />
       </View>
 
-      {/* Divider */}
+
       <View style={styles.sectionDivider} />
 
       {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
-      {/* MIDDLE SECTION */}
       <View style={styles.menuItemContainer}>
         <MenuItem
           href="/"
@@ -93,7 +92,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
 
         {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
-          href="/chat-room"
+          href="/"
           label="Barn"
           isActive={false}
           icon={<Ionicons name="body" size={30} style={styles.icon} />}
@@ -109,8 +108,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
 
       <View style={styles.bottomSectionDivider} />
 
-      {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
-      {/* SETTINGS AT BOTTOM */}
+      
       <View style={styles.bottomSection}>
         <View style={styles.sectionDivider} />
         <MenuItem

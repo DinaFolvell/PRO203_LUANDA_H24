@@ -1,4 +1,3 @@
-// src/components/SideMenu.js (for example)
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 
