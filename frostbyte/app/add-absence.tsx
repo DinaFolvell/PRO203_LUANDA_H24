@@ -40,14 +40,14 @@ export default function AddAbsenceScreen() {
     <View style={styles.container}>
       <RegisterHeader />
 
-      <View style={styles.selectorWrapper}>
+      <View style={[styles.selectorWrapper, { zIndex: 4 }]}>
         <Text style={styles.label}>
           Barn<Text style={styles.asterisk}>*</Text>
         </Text>
         <ChildSelect onSelect={setSelectedChild} />
       </View>
 
-      <View style={styles.selectorWrapper}>
+      <View style={[styles.selectorWrapper, { zIndex: 3 }]}>
         <Text style={styles.label}>
           Periode<Text style={styles.asterisk}>*</Text>
         </Text>
@@ -62,14 +62,14 @@ export default function AddAbsenceScreen() {
         </View>
       </View>
 
-      <View style={styles.selectorWrapper}>
+      <View style={[styles.selectorWrapper, { zIndex: 2 }]}>
         <Text style={styles.label}>
           Årsak<Text style={styles.asterisk}>*</Text>
         </Text>
         <AbsenceReasonSelect onSelect={setSelectedReason} />
       </View>
 
-      <View style={styles.selectorWrapper}>
+      <View style={[styles.selectorWrapper, { zIndex: 1 }]}>
         <Text style={styles.label}>Kommentar</Text>
         <TextInput
           style={styles.input}
