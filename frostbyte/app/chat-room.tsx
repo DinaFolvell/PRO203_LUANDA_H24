@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import React, { useState, useRef } from 'react';
 import { 
   View, 
@@ -87,13 +88,16 @@ export default function ChatRoom() {
   );
 
   return (
-    <KeyboardAvoidingView 
+    <KeyboardAvoidingView
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
     >
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.push("/chatOverview")}
+        >
           <Text style={styles.backButtonText}>‹</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Lucas Fjongers</Text>
@@ -103,7 +107,7 @@ export default function ChatRoom() {
         ref={flatListRef}
         data={messages}
         renderItem={renderMessage}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         contentContainerStyle={styles.messageList}
         style={styles.messagesContainer}
         onContentSizeChange={() => flatListRef.current?.scrollToEnd()}
@@ -121,10 +125,12 @@ export default function ChatRoom() {
             maxLength={500}
           />
           <TouchableOpacity onPress={sendMessage} disabled={!inputText.trim()}>
-            <Text style={[
-              styles.sendButton,
-              !inputText.trim() && styles.sendButtonDisabled
-            ]}>
+            <Text
+              style={[
+                styles.sendButton,
+                !inputText.trim() && styles.sendButtonDisabled,
+              ]}
+            >
               Send
             </Text>
           </TouchableOpacity>
