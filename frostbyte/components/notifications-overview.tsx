@@ -22,6 +22,11 @@ interface NotificationsOverviewProps {
 
 export const mockNotifications: NotificationsProps[] = [
   {
+    name: "Lucas Fjongers",
+    message: "Sigurd har fått svineinfluensa🤧",
+    isSeen: false,
+  },
+  {
     name: "Ulrikke Amaliussen",
     message: "Amalie har med egen mat i dag☺️",
     isSeen: true,
@@ -50,11 +55,6 @@ export const mockNotifications: NotificationsProps[] = [
     name: "Line Ytterland",
     message: "Hvordan går det med Emma? Hun sov litt då...",
     isSeen: false,
-  },
-  {
-    name: "Lucas Fjongers",
-    message: "Sigurd har fått svineinfluensa🤧",
-    isSeen: true,
   },
 ];
 

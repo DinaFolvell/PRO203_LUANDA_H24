@@ -1,33 +1,59 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  KeyboardAvoidingView,
-  Platform,
+  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
+  View,
 } from "react-native";
-import { signIn } from "@/api/authApi";
-import { router } from "expo-router";
 
-export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+import { AbsenceButton } from "@/components/absence-button";
+import { AttendanceButton } from "@/components/attendance-button";
+import { CareButton } from "@/components/care-button";
+import DayPlanOverview from "@/components/day-plan-overview";
+import { MessagesButton } from "@/components/messages-button";
+import {
+  NotificationsOverview,
+  mockNotifications,
+} from "@/components/notifications-overview";
 
-  const handleLogin = async () => {
-    try {
-      const user = await signIn(username, password);
+const buttonLabels = {
+  attendance: "Oppmøte",
+  absence: "Fravær",
+  care: "Pleie",
+  messages: "Meldinger",
+};
 
-      if (user) {
-        router.push(
-          "/dashboard"
-        );
-      }
-    } catch (error) {
-      console.log("Login failed:", error);
+const screenHeight = Dimensions.get("window").height;
+const maxSectionHeight = screenHeight / 3;
+
+export default function HomeScreen() {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [visibleButtons, setVisibleButtons] = useState({
+    attendance: true,
+    absence: true,
+    care: true,
+    messages: true,
+  });
+
+  const handleEditPress = () => {
+    setIsEditMode(!isEditMode);
+  };
+
+  const toggleButton = (buttonKey: keyof typeof visibleButtons) => {
+    if (isEditMode) {
+      setVisibleButtons((prev) => ({
+        ...prev,
+        [buttonKey]: !prev[buttonKey],
+      }));
     }
   };
+
+  const hiddenButtons = Object.entries(visibleButtons)
+    .filter(([_, isVisible]) => !isVisible)
+    .map(([key]) => key as keyof typeof visibleButtons);
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -56,7 +82,7 @@ export default function Login() {
           </ScrollView>
         </View>
 
-        <View>
+        <View style={styles.shortcutsBox}>
           <View style={styles.shortcutsHeader}>
             <Text style={styles.shortcutsTitle}>Snarveier</Text>
             <TouchableOpacity
@@ -76,11 +102,11 @@ export default function Login() {
               {visibleButtons.attendance && (
                 <View style={styles.buttonWrapper}>
                   <TouchableOpacity
-                    onPress={() => toggleButton("absence")}
+                    onPress={() => toggleButton("attendance")}
                     disabled={!isEditMode}
                     style={styles.buttonTouchable}
                   >
-                    <AbsenceButton />
+                    <AttendanceButton />
                     {isEditMode && (
                       <View style={styles.removeIcon}>
                         <MaterialCommunityIcons
@@ -96,11 +122,11 @@ export default function Login() {
               {visibleButtons.absence && (
                 <View style={styles.buttonWrapper}>
                   <TouchableOpacity
-                    onPress={() => toggleButton("attendance")}
+                    onPress={() => toggleButton("absence")}
                     disabled={!isEditMode}
                     style={styles.buttonTouchable}
                   >
-                    <AttendanceButton />
+                    <AbsenceButton />
                     {isEditMode && (
                       <View style={styles.removeIcon}>
                         <MaterialCommunityIcons
@@ -185,48 +211,16 @@ export default function Login() {
           </View>
         </View>
 
-        <View>
+        <View
+          style={[
+            styles.notificationsContainer,
+            { maxHeight: maxSectionHeight },
+          ]}
+        >
           <NotificationsOverview notifications={mockNotifications} />
         </View>
       </View>
     </ScrollView>
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
-    >
-      <ScrollView
-        contentContainerStyle={styles.loginContainer}
-        keyboardShouldPersistTaps="handled"
-      >
-        <Text style={styles.title}>Bapa - ansatt</Text>
-        <Text style={styles.subtitle}>Logg inn med din bruker-ID</Text>
-        <Text>Brukernavn: 123@mail.no</Text>
-        <Text>Passord: passord123</Text>
-        <Text />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Bruker-ID"
-          value={username}
-          onChangeText={setUsername}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </KeyboardAvoidingView>
   );
 }
 
@@ -252,34 +246,56 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 16,
   },
-   shortcutsHeader: {
+
+  shortcutsBox: {
+    width: "100%",
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 12,
+    shadowColor: "rgba(0,0,0,0.15)",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 5,
+    marginBottom: 16,
+  },
+
+  shortcutsHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 10,
   },
+
   shortcutsTitle: {
     fontSize: 23,
     fontWeight: "700",
     textAlign: "left",
   },
+
   editButton: {
     padding: 4,
   },
+
   buttonContainer: {
     marginTop: 20,
   },
+
   buttonRow: {
     flexDirection: "row",
     justifyContent: "center",
     marginBottom: 16,
   },
+
   buttonWrapper: {
     flex: 1,
     paddingHorizontal: 8,
   },
+
   buttonTouchable: {
     position: "relative",
   },
+
   removeIcon: {
     position: "absolute",
     top: -8,
@@ -297,45 +313,44 @@ const styles = StyleSheet.create({
 
   hiddenButtonsTitle: {
     fontSize: 16,
-  loginContainer: {
-    flexGrow: 1,
-    justifyContent: "center",
-    paddingHorizontal: 30,
-    paddingVertical: 20,
-  },
-  title: {
-    fontSize: 32,
-    color: "#f54500",
-    marginBottom: 8,
-    textAlign: "center",
     fontWeight: "600",
+    marginBottom: 12,
+    color: "#333",
   },
-  subtitle: {
-    fontSize: 16,
-    color: "#666",
-    marginBottom: 40,
-    textAlign: "center",
+
+  hiddenButtonsList: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
   },
-  input: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    borderRadius: 8,
-    fontSize: 16,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: "#ddd",
-  },
-  button: {
-    backgroundColor: "#fff",
-    paddingVertical: 15,
-    borderRadius: 8,
+
+  addButton: {
+    flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
+    backgroundColor: "#f8f8f8",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "rgba(245, 69, 0, 0.3)",
+    gap: 6,
   },
-  buttonText: {
-    color: "#f54500",
-    fontSize: 16,
-    fontWeight: "600",
+
+  addButtonText: {
+    fontSize: 14,
+    color: "#333",
+    fontWeight: "500",
+  },
+
+  notificationsContainer: {
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 12,
+    shadowColor: "rgba(0,0,0,0.15)",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 5,
+    padding: 20,
   },
 });
