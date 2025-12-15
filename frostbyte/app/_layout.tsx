@@ -15,7 +15,7 @@ export default function RootLayout() {
         <Drawer.Screen
           name="index"
           options={{
-            title: 'Oversikt',
+            title: 'Logg inn',
             drawerLabel: 'Oversikt',
           }}
         />
@@ -47,8 +47,8 @@ export default function RootLayout() {
 
 /**
   Bruk denne når vi trenger å fjerne hambugermenyen fra log-in siden <3333
- 
- 
+ * 
+ * 
  * import { DayPlanProvider } from "@/context/dayplan-context";
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -87,7 +87,7 @@ export default function RootLayout() {
           <Drawer.Screen
             name="dashboard"
             options={{
-              title: "Oversikt",
+              title: "Logg inn",
               drawerLabel: "Oversikt",
             }}
           />
