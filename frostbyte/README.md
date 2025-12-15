@@ -20,7 +20,7 @@ Dette er et eksamesnprosjekt med .... fra startupen frostbyte
 
    W - Åpner i Web (fungerer på alle)  
    I - For IOS (fungerer bra på mac om du har installert en simulator før)  
-   A - Åpner android simulator om du har simulator gjennom android studios  
+   A - For andoid (Skal åpne android simulator om du har android studios)  
 
 
 ## Brukernavn og passord
