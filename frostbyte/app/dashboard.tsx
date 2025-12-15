@@ -82,7 +82,7 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        <View style={styles.shortcutsBox}>
+        <View >
           <View style={styles.shortcutsHeader}>
             <Text style={styles.shortcutsTitle}>Snarveier</Text>
             <TouchableOpacity
@@ -97,7 +97,7 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.buttonContainer}>
+          <View>
             <View style={styles.buttonRow}>
               {visibleButtons.attendance && (
                 <View style={styles.buttonWrapper}>
@@ -211,12 +211,7 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <View
-          style={[
-            styles.notificationsContainer,
-            { maxHeight: maxSectionHeight },
-          ]}
-        >
+        <View>
           <NotificationsOverview notifications={mockNotifications} />
         </View>
       </View>
@@ -246,20 +241,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 16,
   },
-
-  shortcutsBox: {
-    width: "100%",
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 12,
-    shadowColor: "rgba(0,0,0,0.15)",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-    marginBottom: 16,
-  },
-
+  
   shortcutsHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -276,11 +258,6 @@ const styles = StyleSheet.create({
   editButton: {
     padding: 4,
   },
-
-  buttonContainer: {
-    marginTop: 20,
-  },
-
   buttonRow: {
     flexDirection: "row",
     justifyContent: "center",
@@ -340,17 +317,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#333",
     fontWeight: "500",
-  },
-
-  notificationsContainer: {
-    width: "100%",
-    backgroundColor: "white",
-    borderRadius: 12,
-    shadowColor: "rgba(0,0,0,0.15)",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-    padding: 20,
   },
 });
