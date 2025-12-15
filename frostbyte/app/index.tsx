@@ -60,16 +60,21 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-
-        <View style={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between" }}>
-          <Text style={{ fontSize: 20, fontWeight: "700", marginBottom: 10,}}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: "700", marginBottom: 10 }}>
             Dagsplan
           </Text>
           <Text style={{ fontSize: 14, fontWeight: "300", marginBottom: 10 }}>
             onsdag 3.desember 2025
           </Text>
         </View>
-        
+
         <View style={[styles.dayPlanBox, { maxHeight: maxSectionHeight }]}>
           <ScrollView
             showsVerticalScrollIndicator={true}
@@ -77,11 +82,9 @@ export default function HomeScreen() {
           >
             <DayPlanOverview />
           </ScrollView>
-          
         </View>
 
-
-        <View style={styles.shortcutsBox}>
+        <View>
           <View style={styles.shortcutsHeader}>
             <Text style={styles.shortcutsTitle}>Snarveier</Text>
             <TouchableOpacity
@@ -101,11 +104,11 @@ export default function HomeScreen() {
               {visibleButtons.attendance && (
                 <View style={styles.buttonWrapper}>
                   <TouchableOpacity
-                    onPress={() => toggleButton("attendance")}
+                    onPress={() => toggleButton("absence")}
                     disabled={!isEditMode}
                     style={styles.buttonTouchable}
                   >
-                    <AttendanceButton />
+                    <AbsenceButton />
                     {isEditMode && (
                       <View style={styles.removeIcon}>
                         <MaterialCommunityIcons
@@ -121,11 +124,11 @@ export default function HomeScreen() {
               {visibleButtons.absence && (
                 <View style={styles.buttonWrapper}>
                   <TouchableOpacity
-                    onPress={() => toggleButton("absence")}
+                    onPress={() => toggleButton("attendance")}
                     disabled={!isEditMode}
                     style={styles.buttonTouchable}
                   >
-                    <AbsenceButton />
+                    <AttendanceButton />
                     {isEditMode && (
                       <View style={styles.removeIcon}>
                         <MaterialCommunityIcons
@@ -210,14 +213,8 @@ export default function HomeScreen() {
           </View>
         </View>
 
-
-        <View
-          style={[
-            styles.notificationsContainer,
-            { maxHeight: maxSectionHeight },
-          ]}
-        >
-            <NotificationsOverview notifications={mockNotifications} />
+        <View>
+          <NotificationsOverview notifications={mockNotifications} />
         </View>
       </View>
     </ScrollView>
@@ -246,56 +243,34 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 16,
   },
-
-  shortcutsBox: {
-    width: "100%",
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 12,
-    shadowColor: "rgba(0,0,0,0.15)",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-    marginBottom: 16,
-  },
-
-  shortcutsHeader: {
+   shortcutsHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10,
   },
-
   shortcutsTitle: {
     fontSize: 23,
     fontWeight: "700",
     textAlign: "left",
   },
-
   editButton: {
     padding: 4,
   },
-
   buttonContainer: {
     marginTop: 20,
   },
-
   buttonRow: {
     flexDirection: "row",
     justifyContent: "center",
     marginBottom: 16,
   },
-
   buttonWrapper: {
     flex: 1,
     paddingHorizontal: 8,
   },
-
   buttonTouchable: {
     position: "relative",
   },
-
   removeIcon: {
     position: "absolute",
     top: -8,
@@ -340,17 +315,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#333",
     fontWeight: "500",
-  },
-
-  notificationsContainer: {
-    width: "100%",
-    backgroundColor: "white",
-    borderRadius: 12,
-    shadowColor: "rgba(0,0,0,0.15)",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-    padding: 20,
   },
 });

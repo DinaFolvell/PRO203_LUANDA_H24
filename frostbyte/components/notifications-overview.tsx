@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: "rgba(254, 240, 235, 1)",
     justifyContent: "center",
     alignItems: "center",
     color: "",
@@ -143,10 +142,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#ffffff",
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
     minHeight: 76,
   },
   textContainer: {
@@ -166,7 +163,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "#007AFF",
+    backgroundColor: "dodgerblue",
     marginLeft: 12,
   },
 });

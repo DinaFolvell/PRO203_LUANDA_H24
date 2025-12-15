@@ -19,7 +19,7 @@ export function CareButton(props: CareButtonProps) {
       <View style={styles.button}>
         <MaterialCommunityIcons
           name="human-baby-changing-table"
-          size={40}
+          size={38}
           color="rgba(245, 69, 0, 1)"
           style={{ marginBottom: 8 }}
         />
@@ -32,19 +32,19 @@ export function CareButton(props: CareButtonProps) {
 const styles = StyleSheet.create({
   button: {
     width: 165,
-    height: 120,
+    height: 96,
     justifyContent: "center",
     alignItems: "center",
   },
   container: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(254, 240, 235, 1)",
-    borderRadius: 6,
-    shadowColor: "rgba(0, 0, 0, 0.25)",
-    shadowOffset: { width: 0, height: 4 },
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    shadowColor: "rgba(0, 0, 0, 0.20)",
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 1,
-    shadowRadius: 4,
+    shadowRadius: 2,
   },
   icon: {
     color: "rgba(0, 0, 0, 1)",
