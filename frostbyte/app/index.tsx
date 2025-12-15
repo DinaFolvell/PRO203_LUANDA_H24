@@ -1,9 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  Alert,
   Dimensions,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -60,16 +58,21 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-
-        <View style={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between" }}>
-          <Text style={{ fontSize: 20, fontWeight: "700", marginBottom: 10,}}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={{ fontSize: 20, fontWeight: "700", marginBottom: 10 }}>
             Dagsplan
           </Text>
           <Text style={{ fontSize: 14, fontWeight: "300", marginBottom: 10 }}>
             onsdag 3.desember 2025
           </Text>
         </View>
-        
+
         <View style={[styles.dayPlanBox, { maxHeight: maxSectionHeight }]}>
           <ScrollView
             showsVerticalScrollIndicator={true}
@@ -77,9 +80,7 @@ export default function HomeScreen() {
           >
             <DayPlanOverview />
           </ScrollView>
-          
         </View>
-
 
         <View style={styles.shortcutsBox}>
           <View style={styles.shortcutsHeader}>
@@ -210,14 +211,13 @@ export default function HomeScreen() {
           </View>
         </View>
 
-
         <View
           style={[
             styles.notificationsContainer,
             { maxHeight: maxSectionHeight },
           ]}
         >
-            <NotificationsOverview notifications={mockNotifications} />
+          <NotificationsOverview notifications={mockNotifications} />
         </View>
       </View>
     </ScrollView>
