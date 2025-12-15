@@ -18,9 +18,9 @@ Dette er et eksamesnprosjekt med .... fra startupen frostbyte
    
    I terminalen vil du få muligheter til å åpne appen i forskjellige OS!
 
-   W - Åpner i Web (fungerer på alle)
-   I - For IOS (fungerer bra på mac om du har installert en simulator før)
-   A - Åpner android simulator om du har simulator gjennom android studios
+   W - Åpner i Web (fungerer på alle)  
+   I - For IOS (fungerer bra på mac om du har installert en simulator før)  
+   A - Åpner android simulator om du har simulator gjennom android studios  
 
 
 ## Brukernavn og passord
