@@ -82,7 +82,7 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        <View >
+        <View>
           <View style={styles.shortcutsHeader}>
             <Text style={styles.shortcutsTitle}>Snarveier</Text>
             <TouchableOpacity
@@ -102,11 +102,11 @@ export default function HomeScreen() {
               {visibleButtons.attendance && (
                 <View style={styles.buttonWrapper}>
                   <TouchableOpacity
-                    onPress={() => toggleButton("attendance")}
+                    onPress={() => toggleButton("absence")}
                     disabled={!isEditMode}
                     style={styles.buttonTouchable}
                   >
-                    <AttendanceButton />
+                    <AbsenceButton />
                     {isEditMode && (
                       <View style={styles.removeIcon}>
                         <MaterialCommunityIcons
@@ -122,11 +122,11 @@ export default function HomeScreen() {
               {visibleButtons.absence && (
                 <View style={styles.buttonWrapper}>
                   <TouchableOpacity
-                    onPress={() => toggleButton("absence")}
+                    onPress={() => toggleButton("attendance")}
                     disabled={!isEditMode}
                     style={styles.buttonTouchable}
                   >
-                    <AbsenceButton />
+                    <AttendanceButton />
                     {isEditMode && (
                       <View style={styles.removeIcon}>
                         <MaterialCommunityIcons

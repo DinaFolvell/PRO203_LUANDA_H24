@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(0, 0, 0, 0.20)",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 1,
-    shadowRadius: 2,
+    shadowRadius: 1,
   },
   icon: {
     width: 40,
