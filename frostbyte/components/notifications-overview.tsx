@@ -106,6 +106,7 @@ export function NotificationsOverview({
 const styles = StyleSheet.create({
   root: {
     width: "100%",
+    flexShrink: 1,
   },
   header: {
     flexDirection: "row",
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     color: "rgba(245, 69, 0, 1)",
   },
   scrollContainer: {
-    maxHeight: 264,
+    flexGrow: 1,
   },
   notificationsList: {
     gap: 12,

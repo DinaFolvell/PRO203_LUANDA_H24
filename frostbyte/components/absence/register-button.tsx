@@ -1,14 +1,15 @@
-import { View, Text, StyleSheet, ViewStyle, StyleProp } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, StyleProp } from 'react-native';
 
 export interface RegisterButtonProps {
   style?: StyleProp<ViewStyle>;
+  onPress?: () => void;
 }
 
-export function RegisterButton({ style }: RegisterButtonProps) {
+export function RegisterButton({ style, onPress }: RegisterButtonProps) {
   return (
-    <View style={[styles.root, style]}>
+    <TouchableOpacity style={[styles.root, style]} onPress={onPress}>
       <Text style={styles.registerFravaer}>Registrer fravær</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 

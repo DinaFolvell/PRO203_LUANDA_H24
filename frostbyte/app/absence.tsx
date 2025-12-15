@@ -4,47 +4,68 @@ import { DayRow } from '@/components/absence/day-row';
 import { ChildrenColumn } from '@/components/absence/children-column';
 import { useState } from 'react';
 import { FloatingAddButton } from '@/components/absence/floating-add-button';
+import { AbsenceService, AbsenceRecord } from '@/services/absenceService';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
+
+function addDays(date: Date, days: number) {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+function getWeekStart(date: Date) {
+  const day = date.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  const monday = new Date(date);
+  monday.setDate(date.getDate() + diff);
+  return monday;
+}
 
 export default function AbsenceScreen() {
-  const [startDay, setStartDay] = useState(22);
-  const [week, setWeek] = useState(25);
-  const [absences, setAbsences] = useState<Record<string, number[]>>({});
+  const [currentWeekDate, setCurrentWeekDate] = useState(new Date());
+  const [absences, setAbsences] = useState<AbsenceRecord[]>([]);
 
-  const handleToggleAbsence = (childId: string, date: number) => {
-    console.log(`Clicked child ${childId} on day ${date}`);
+  useFocusEffect(
+    useCallback(() => {
+      const allAbsences = AbsenceService.getAllAbsences();
+      console.log('Screen focused - loading absences:', allAbsences);
+      setAbsences(allAbsences);
+    }, [])
+  );
+
+  const monday = getWeekStart(currentWeekDate);
+  const weekDates = Array.from({ length: 7 }, (_, i) => addDays(monday, i));
+
+  const handleToggleAbsence = (childId: string, date: Date) => {
+    console.log(`Clicked child ${childId} on ${date.toDateString()}`);
   };
 
-  const handleNextWeek = () => {
-    setWeek(prev => (prev === 52 ? 1 : prev + 1));
-    setStartDay(prev => {
-      const next = prev + 7;
-      return next > 31 ? ((next - 1) % 31) + 1 : next;
-    });
-  };
+  const handleNextWeek = () => setCurrentWeekDate(prev => addDays(prev, 7));
+  const handlePrevWeek = () => setCurrentWeekDate(prev => addDays(prev, -7));
 
-  const handlePrevWeek = () => {
-    setWeek(prev => (prev === 1 ? 52 : prev - 1));
-    setStartDay(prev => {
-      const next = prev - 7;
-      return next < 1 ? 31 - ((1 - next) % 31) : next;
-    });
+  const getWeekNumber = (date: Date) => {
+    const start = new Date(date.getFullYear(), 0, 1);
+    const diff = date.getTime() - start.getTime();
+    return Math.ceil((diff / (1000 * 60 * 60 * 24) + start.getDay() + 1) / 7);
   };
 
   return (
     <View style={styles.container}>
       <HeaderBar
-        week={week}
+        week={getWeekNumber(currentWeekDate)}
+        mondayDate={monday}
         onPrevWeek={handlePrevWeek}
         onNextWeek={handleNextWeek}
-        onNotifications={() => console.log('Notification bell clicked')}
+        onNotifications={() => console.log('Notification clicked')}
       />
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View>
-          <DayRow startDay={startDay} />
+          <DayRow startDate={weekDates[0]} />
           <ScrollView style={{ maxHeight: '100%' }}>
             <ChildrenColumn
-              startDay={startDay}
+              weekDates={weekDates}
               absences={absences}
               onToggleAbsence={handleToggleAbsence}
             />
@@ -58,14 +79,6 @@ export default function AbsenceScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 1)',
-  },
-  addButton: {
-    position: 'absolute',
-    bottom: 32,
-    right: 32,
-    zIndex: 100,
-  },
+  container: { flex: 1, backgroundColor: '#fff' },
+  addButton: { position: 'absolute', bottom: 32, right: 32, zIndex: 100 },
 });

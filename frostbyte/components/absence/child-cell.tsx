@@ -1,31 +1,29 @@
 import { StyleSheet, View, Text, Image } from 'react-native';
 import { AbsenceGrid } from './absence-grid';
+import { AbsenceRecord } from '@/services/absenceService';
 
 interface ChildCellProps {
   id: string;
   name: string;
   image: { uri: string; width: number; height: number };
-  startDay: number;
-  absences: number[];
-  onToggleAbsence: (childId: string, date: number) => void;
+  weekDates: Date[];
+  absences: AbsenceRecord[];
+  onToggleAbsence: (childId: string, date: Date) => void;
 }
 
-export function ChildCell({ id, name, image, startDay, absences, onToggleAbsence }: ChildCellProps) {
+export function ChildCell({ id, name, image, weekDates, absences, onToggleAbsence }: ChildCellProps) {
   return (
     <View style={styles.container}>
       <View style={styles.childInfo}>
-        <Image
-          source={{ uri: image.uri }}
-          style={styles.image}
-        />
+        <Image source={{ uri: image.uri }} style={styles.image} />
         <Text style={styles.name}>{name}</Text>
       </View>
 
       <AbsenceGrid
-        childId={id}
-        startDay={startDay}
-        absences={absences}
-        onToggleAbsence={(childId, date) => console.log(`Clicked child ${childId} on day ${date}`)}
+      childId={id}
+      weekDates={weekDates}
+      absences={absences}
+      onToggleAbsence={onToggleAbsence}
       />
     </View>
   );

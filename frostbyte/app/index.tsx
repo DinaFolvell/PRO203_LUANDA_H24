@@ -1,5 +1,4 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import ChatOverview from "@/app/chatOverview";
 import React, { useState } from "react";
 import {
   Alert,
@@ -61,7 +60,7 @@ export default function HomeScreen() {
   return (
     <ScrollView style={styles.scrollView}>
       <View style={styles.container}>
-        {/* Day Plan - Scrollable with max height */}
+
         <View style={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between" }}>
           <Text style={{ fontSize: 20, fontWeight: "700", marginBottom: 10,}}>
             Dagsplan
@@ -211,19 +210,14 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Notifications - Scrollable with max height */}
+
         <View
           style={[
             styles.notificationsContainer,
             { maxHeight: maxSectionHeight },
           ]}
         >
-          <ScrollView
-            showsVerticalScrollIndicator={true}
-            nestedScrollEnabled={true}
-          >
             <NotificationsOverview notifications={mockNotifications} />
-          </ScrollView>
         </View>
       </View>
     </ScrollView>

@@ -1,27 +1,23 @@
 import { StyleSheet, View, Text } from 'react-native';
 
-export interface DayRowProps {
-  startDay: number;
-}
-
-export function DayRow({ startDay }: DayRowProps) {
+export function DayRow({ startDate }: { startDate: Date }) {
   const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-  const days = Array.from({ length: 7 }, (_, i) => {
-    const date = ((startDay + i - 1) % 31) + 1;
-    return {
-      dayName: dayNames[i],
-      date,
-    };
+  const weekDates = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(startDate);
+    d.setDate(startDate.getDate() + i);
+    return d;
   });
 
   return (
     <View style={styles.container}>
       <View style={styles.childInfoPlaceholder} />
-      {days.map((day, index) => (
-        <View key={`day-cell-${index}`} style={styles.dayCell}>
-          <Text style={styles.dayName}>{day.dayName}</Text>
-          <Text style={styles.date}>{day.date}</Text>
+      {weekDates.map((date, index) => (
+        <View key={index} style={styles.dayCell}>
+          <Text style={styles.dayName}>
+            {dayNames[date.getDay() === 0 ? 6 : date.getDay() - 1]}
+          </Text>
+          <Text style={styles.date}>{date.getDate()}</Text>
         </View>
       ))}
     </View>
@@ -29,31 +25,9 @@ export function DayRow({ startDay }: DayRowProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    height: 80,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(224, 224, 224, 1)',
-    backgroundColor: 'rgba(245, 245, 245, 1)',
-  },
-  childInfoPlaceholder: {
-    width: 150,
-  },
-  dayCell: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    borderLeftWidth: 1,
-    borderLeftColor: 'rgba(224, 224, 224, 1)',
-    paddingLeft: 8,
-  },
-  dayName: {
-    fontWeight: '600',
-    fontSize: 14,
-  },
-  date: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: 'rgba(50, 50, 50, 1)',
-  },
+  container: { flexDirection: 'row', height: 80, borderBottomWidth: 1, borderBottomColor: '#e0e0e0', backgroundColor: '#f5f5f5' },
+  childInfoPlaceholder: { width: 150 },
+  dayCell: { flex: 1, justifyContent: 'center', alignItems: 'flex-start', borderLeftWidth: 1, borderLeftColor: '#e0e0e0', paddingLeft: 8 },
+  dayName: { fontWeight: '600', fontSize: 14 },
+  date: { fontSize: 20, fontWeight: '700', color: '#323232' },
 });

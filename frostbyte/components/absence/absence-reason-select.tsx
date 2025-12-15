@@ -30,7 +30,7 @@ export function AbsenceReasonSelect({ onSelect }: AbsenceReasonSelectProps) {
   };
 
   return (
-    <View style={{ width: '100%', maxWidth: 500, zIndex: 1000 }}>
+    <View style={{ width: '100%', maxWidth: 500, zIndex: dropdownVisible ? 2000 : 1 }}>
       <TouchableOpacity style={styles.root} onPress={() => setDropdownVisible(!dropdownVisible)}>
         <Text style={styles.text}>{selectedReason ? selectedReason.reason : 'Oppgi årsak'}</Text>
         <MaterialIcons name={dropdownVisible ? 'expand-less' : 'expand-more'} size={28} />
@@ -38,7 +38,7 @@ export function AbsenceReasonSelect({ onSelect }: AbsenceReasonSelectProps) {
 
       {dropdownVisible && (
         <View style={styles.dropdownWrapper}>
-          <Pressable style={styles.dropdown} onPress={() => setDropdownVisible(false)}>
+          <View style={styles.dropdown}>
             <FlatList
               data={reasons}
               keyExtractor={(item) => item.id}
@@ -48,7 +48,7 @@ export function AbsenceReasonSelect({ onSelect }: AbsenceReasonSelectProps) {
                 </TouchableOpacity>
               )}
             />
-          </Pressable>
+          </View>
         </View>
       )}
     </View>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   text: { color: '#333', fontSize: 18, fontWeight: '700' },
-  dropdownWrapper: { position: 'absolute', top: 56, width: '100%', zIndex: 1000 },
+  dropdownWrapper: { position: 'absolute', top: 56, width: '100%', zIndex: 2000 },
   dropdown: {
     backgroundColor: 'white',
     borderRadius: 6,

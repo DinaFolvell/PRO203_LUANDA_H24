@@ -1,5 +1,3 @@
-// app/dayplan/[id]/edit.tsx
-
 import { useDayPlan } from "@/context/dayplan-context";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -27,7 +25,7 @@ export default function EditDayPlanScreen() {
   const [showDiscardModal, setShowDiscardModal] = useState(false);
 
 
-  // ensure state updates when id changes:
+
   useEffect(() => {
     if (event) {
       setTitle(event.title);
@@ -71,7 +69,7 @@ export default function EditDayPlanScreen() {
       />
 
       <View style={styles.container}>
-        {/* Header with event color */}
+
         <View
           style={[
             styles.header,
@@ -85,7 +83,7 @@ export default function EditDayPlanScreen() {
           <View style={{ width: 24 }} />
         </View>
 
-        {/* Content + buttons (non-scrollable layout) */}
+
         <View className="content" style={styles.content}>
           {/* Tittel */}
           <View style={styles.section}>
@@ -294,7 +292,7 @@ const styles = StyleSheet.create({
   left: 0,
   right: 0,
   bottom: 0,
-  backgroundColor: "rgba(0,0,0,0.25)", // 25% opacity
+  backgroundColor: "rgba(0,0,0,0.25)", 
   justifyContent: "center",
   alignItems: "center",
   paddingHorizontal: 24,
