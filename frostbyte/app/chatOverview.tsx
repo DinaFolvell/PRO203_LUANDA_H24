@@ -71,7 +71,7 @@ export default function chatOverview() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("/")}>
+        <TouchableOpacity onPress={() => router.push("/dashboard")}>
           <Ionicons name="chevron-back-outline" size={30} color="black" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Meldinger</Text>

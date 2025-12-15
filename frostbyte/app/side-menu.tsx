@@ -53,7 +53,7 @@ export default function SideMenu(props: DrawerContentComponentProps) {
 
       <View style={styles.menuItemContainer}>
         <MenuItem
-          href="/"
+          href="/dashboard"
           label="Oversikt"
           isActive={isRouteActive("/")}
           icon={
@@ -78,28 +78,25 @@ export default function SideMenu(props: DrawerContentComponentProps) {
         />
       </View>
 
-
       <View style={styles.sectionDivider} />
 
-      {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
       <View style={styles.menuItemContainer}>
         <MenuItem
-          href="/"
+          href="/dashboard"
           label="Foreldre"
           isActive={false}
           icon={<Ionicons name="people" size={30} style={styles.icon} />}
         />
 
-        {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
         <MenuItem
-          href="/"
+          href="/dashboard"
           label="Barn"
           isActive={false}
           icon={<Ionicons name="body" size={30} style={styles.icon} />}
         />
-        {/* isActive -> må endres på når vi har sider å linke til!!!!*/}
+
         <MenuItem
-          href="/"
+          href="/dashboard"
           label="Ansatte"
           isActive={false}
           icon={<Ionicons name="person" size={30} style={styles.icon} />}
@@ -108,11 +105,10 @@ export default function SideMenu(props: DrawerContentComponentProps) {
 
       <View style={styles.bottomSectionDivider} />
 
-      
       <View style={styles.bottomSection}>
         <View style={styles.sectionDivider} />
         <MenuItem
-          href="/login"
+          href="/"
           label="Innstillinger"
           isActive={false}
           icon={<Feather name="settings" size={20} style={styles.icon} />}
