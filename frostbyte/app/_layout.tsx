@@ -79,7 +79,7 @@ export default function RootLayout() {
             name="index"
             options={{
               headerShown: false,
-              drawerItemStyle: { display: "none" }, // skjuler i drawer
+              drawerItemStyle: { display: "none" }, 
             }}
           />
 

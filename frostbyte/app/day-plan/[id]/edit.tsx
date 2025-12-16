@@ -54,9 +54,6 @@ export default function EditDayPlanScreen() {
     router.push("/dashboard");
   };
 
-  const handleDiscard = () => {
-    router.back();
-  };
 
   return (
     <>
@@ -81,7 +78,6 @@ export default function EditDayPlanScreen() {
         </View>
 
         <View className="content" style={styles.content}>
-          {/* Tittel */}
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>Tittel</Text>
             <TextInput
@@ -92,7 +88,6 @@ export default function EditDayPlanScreen() {
             />
           </View>
 
-          {/* Tidspunkt */}
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>Tidspunkt</Text>
             <View style={styles.timeRow}>
@@ -112,7 +107,6 @@ export default function EditDayPlanScreen() {
             </View>
           </View>
 
-          {/* Kommentar */}
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>Kommentar</Text>
             <TextInput
@@ -126,7 +120,6 @@ export default function EditDayPlanScreen() {
           </View>
         </View>
 
-        {/* Buttons at bottom */}
         <View
           style={[
             styles.buttonsContainer,
@@ -200,7 +193,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
 
-  // main content
   content: {
     flex: 1,
     padding: 20,
@@ -249,7 +241,6 @@ const styles = StyleSheet.create({
     minHeight: 120,
   },
 
-  // bottom buttons
   buttonsContainer: {
     paddingHorizontal: 20,
     paddingTop: 16,

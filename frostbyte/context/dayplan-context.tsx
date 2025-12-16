@@ -1,8 +1,6 @@
 import { dayPlanEvents as initialEvents } from "@/data/dayplan-events";
 import React, { createContext, useContext, useState } from "react";
 
-// TYPES ---------------------------------------------------------------
-
 export type DayPlanEvent = {
   id: string;
   title: string;
@@ -19,11 +17,9 @@ export type DayPlanContextType = {
   deleteEvent: (id: string) => void;
 };
 
-// CONTEXT -------------------------------------------------------------
 
 const DayPlanContext = createContext<DayPlanContextType | null>(null);
 
-// PROVIDER ------------------------------------------------------------
 
 export function DayPlanProvider({ children }: { children: React.ReactNode }) {
   const [events, setEvents] = useState<DayPlanEvent[]>(initialEvents);
@@ -50,8 +46,6 @@ export function DayPlanProvider({ children }: { children: React.ReactNode }) {
     </DayPlanContext.Provider>
   );
 }
-
-// HOOK ---------------------------------------------------------------
 
 export function useDayPlan() {
   const context = useContext(DayPlanContext);

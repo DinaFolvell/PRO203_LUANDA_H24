@@ -6,7 +6,6 @@ import {
   StyleProp,
   ViewStyle,
 } from "react-native";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 

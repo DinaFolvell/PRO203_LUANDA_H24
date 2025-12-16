@@ -22,7 +22,6 @@ export function HorizontalChildCard({
 }: ChildCardProps) {
   const [status, setStatus] = useState<StatusKey>(attendanceStatus);
 
-  // RIKTIG BILDEHÅNDTERING
   const imageSource = image ?? imageMap["noimage.png"];
 
   const statusColors: Record<StatusKey, string> = {

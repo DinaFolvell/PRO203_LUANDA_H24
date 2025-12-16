@@ -1,4 +1,3 @@
-// app/dayplan/[id].tsx
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -22,7 +21,6 @@ export default function DayPlanDetailScreen() {
 
   return (
     <>
-      {/* Set native header title to event title */}
       <Stack.Screen
         options={{
           headerShown: false,
@@ -30,7 +28,6 @@ export default function DayPlanDetailScreen() {
       />
 
       <View style={styles.container}>
-        {/* Header */}
         <View
           style={[
             styles.header,
@@ -44,7 +41,6 @@ export default function DayPlanDetailScreen() {
           <View style={{ width: 24 }} />
         </View>
 
-        {/* ✅ Main content (fills available space) */}
         <View style={styles.content}>
           <View style={styles.section}>
             <Text style={styles.sectionLabel}>Tidspunkt</Text>
@@ -59,7 +55,6 @@ export default function DayPlanDetailScreen() {
           </View>
         </View>
 
-        {/* ✅ Buttons pinned to bottom */}
         <View
           style={[
             styles.buttonsContainer,

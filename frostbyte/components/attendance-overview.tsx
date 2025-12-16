@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Child, AttendanceStatus } from "@/api/childApi";
-
 import { onSnapshot, collection } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 

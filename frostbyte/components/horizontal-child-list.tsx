@@ -6,13 +6,10 @@ import {
   ActivityIndicator,
   Text,
 } from "react-native";
-
 import { HorizontalChildCard } from "./horizontal-child-card";
 import { Child, AttendanceStatus } from "@/api/childApi";
-
 import { onSnapshot, collection } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
-
 import { imageMap } from "@/assets/images/imageMap";
 
 interface HorizontalChildListProps {
@@ -27,7 +24,6 @@ export function HorizontalChildList({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 🔥 Realtime listener
     const unsubscribe = onSnapshot(
       collection(db, "childData"),
       (snapshot) => {
@@ -39,7 +35,6 @@ export function HorizontalChildList({
             } as Child)
         );
 
-        // 🔥 Filter directly on realtime data
         const filtered =
           filterStatus != null
             ? allChildren.filter((c) => c.attendance === filterStatus)

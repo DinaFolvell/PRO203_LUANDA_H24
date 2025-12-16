@@ -3,7 +3,6 @@ import { StyleSheet, View, ActivityIndicator, Text } from "react-native";
 import { AttendanceOverview } from "@/components/attendance-overview";
 import { HorizontalChildList } from "@/components/horizontal-child-list";
 import { AttendanceStatus, Child } from "../api/childApi";
-
 import { onSnapshot, collection } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 
