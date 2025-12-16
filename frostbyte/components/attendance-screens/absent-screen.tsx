@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
 import { ChildList } from "../child-list";
 import { Child } from "@/api/childApi";
-
 import { onSnapshot, collection } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 

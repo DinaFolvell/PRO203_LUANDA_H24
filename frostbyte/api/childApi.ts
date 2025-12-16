@@ -1,11 +1,8 @@
 import {
   collection,
-  addDoc,
   getDocs,
   doc,
   updateDoc,
-  deleteDoc,
-  getDoc,
 } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { FirebaseError } from "firebase/app";

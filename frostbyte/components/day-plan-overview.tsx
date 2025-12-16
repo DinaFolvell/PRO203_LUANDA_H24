@@ -1,4 +1,3 @@
-
 import { useDayPlan } from "@/context/dayplan-context";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -32,7 +31,6 @@ export default function DayPlanOverview() {
     <View style={styles.container}>
       <ScrollView style={styles.scroll}>
         <View style={styles.timelineRow}>
-          {/* LEFT: time labels */}
           <View style={styles.timeColumn}>
             {hours.map((hour) => (
               <View key={hour} style={styles.timeRow}>
@@ -41,10 +39,8 @@ export default function DayPlanOverview() {
             ))}
           </View>
 
-          {/* RIGHT: schedule with absolutely positioned events */}
           <View style={styles.scheduleColumn}>
             <View style={{ height: TOTAL_HEIGHT }}>
-              {/* Optional subtle hour lines */}
               {hours.map((hour, index) => (
                 <View
                   key={`line-${hour}`}
@@ -55,7 +51,6 @@ export default function DayPlanOverview() {
                 />
               ))}
 
-              {/* Events */}
               {events.map((event) => {
   const startIndex = hours.indexOf(event.start);
   const endIndex = hours.indexOf(event.end);
@@ -115,7 +110,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 
-  // LEFT: time labels
   timeColumn: {
     width: 70,
     paddingRight: 10,
@@ -130,14 +124,12 @@ const styles = StyleSheet.create({
     color: "#444",
   },
 
-  // RIGHT: schedule area
   scheduleColumn: {
     flex: 1,
     paddingRight: 16,
     position: "relative",
   },
 
-  // faint horizontal lines per hour
   hourLine: {
     position: "absolute",
     left: 0,

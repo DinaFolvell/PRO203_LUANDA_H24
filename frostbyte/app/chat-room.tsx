@@ -171,7 +171,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 
-  /* wrappers */
   messageWrapper: {
     marginBottom: 18,
     maxWidth: '85%',
@@ -183,7 +182,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
 
-  /* Message-bubbles */
   messageBubble: {
     padding: 12,
     borderRadius: 12,

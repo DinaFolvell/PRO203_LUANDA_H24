@@ -4,12 +4,10 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  ActivityIndicator,
   Text,
   RefreshControl,
   TouchableOpacity,
 } from "react-native";
-
 import { ChildCard } from "./child-card";
 import { Child, AttendanceStatus } from "@/api/childApi";
 
