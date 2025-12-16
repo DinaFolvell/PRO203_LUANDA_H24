@@ -25,7 +25,7 @@ på Web.
    I - For IOS (fungerer bra på mac om du har installert en simulator før)  
    A - For andoid (Skal åpne android simulator om du har android studios)
 
-## Brukernavn og passord i appen
+### Brukernavn og passord i appen
 
 Brukernavnet er:
 123@mail.no
@@ -33,6 +33,8 @@ Brukernavnet er:
 Passordet er:
 passord123
 
+
+## Appens innhold
 ### Dashbord
 
 Når du har logget deg inn kommer du til dashbordet. Her ser du en oversikt over hva avdelingen skal gjøre den aktuelle dagen.
@@ -44,6 +46,18 @@ tilpasse sitt behov.
 Nederst på siden ser du en oversikt over varslinger som har kommet inn. Det kan være foreldre som har sent meldinger eller registrert planlagt fravær.
 
 ### Fravær
-
 På fraværsiden kan man finne en oversikt over hvilke barn som er planlagt fraværende.  
 Du kan også regisrere fravær.
+  
+### Oppmøte
+Inne i oppmøtesiden ligger den en oversikt over alle barn i avdelingen, samt hvilke barn som er tilstede, forventet, hentet og fraværende.  
+  
+Du får også et rutenett med bilder og navn av hvert barn. Klikker du inn på et barn kan du se et eventuelt notat som at barnet blir hentet tidligere den dagen. Du kan også registrere ankomst, fravær og henting. 
+  
+Du har også muligheten til å endre fra rutenett til listevisning.
+
+### Meldinger
+Her ser du en oversikt over meldinger. Klikker du inn på en melding kommer du til meldingsrommet mellom deg som ansatt og forelder Lucas Fjongers. Her kan du lese og sende meldinger. 
+
+### Instillinger
+Klikker du deg inn på innstilinger vil du for øyeblikket komme rett inn til Logg inn siden. 
