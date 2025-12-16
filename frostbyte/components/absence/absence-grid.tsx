@@ -54,6 +54,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 1)',
   },
   absenceCell: {
-    backgroundColor: 'rgba(245,69,0,0.6)',
+    backgroundColor: 'rgba(245,0,0)',
   },
 });

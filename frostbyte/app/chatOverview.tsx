@@ -1,9 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const groups = [
   {
@@ -66,74 +65,84 @@ const messages = [
   },
 ];
 
-export default function chatOverview() {
+export default function ChatOverview() {
   const router = useRouter();
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push("/dashboard")}>
-          <Ionicons name="chevron-back-outline" size={30} color="black" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Meldinger</Text>
-        <TouchableOpacity>
-          <MaterialIcons
-            name="add-comment"
-            size={30}
-            color="rgba(245, 69, 0, 1)"
-          />
-        </TouchableOpacity>
-      </View>
+  const insets = useSafeAreaInsets();
 
-      <ScrollView style={{ flex: 1 }}>
-        <Text style={styles.sectionTitle}>Grupper</Text>
-        <View style={styles.groupRow}>
-          {groups.map((group, index) => (
+  return (
+    <>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <View style={styles.container}>
+        <View style={[styles.header, { paddingTop: insets.top }]}>
+          <TouchableOpacity onPress={() => router.push("/dashboard")}>
+            <Text style={styles.backArrow}>←</Text>
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Meldinger</Text>
+          <View style={{ width: 24 }} />
+        </View>
+        <ScrollView
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+        >
+          <Text style={styles.sectionTitle}>Grupper</Text>
+          <View style={styles.groupRow}>
+            {groups.map((group, index) => (
+              <TouchableOpacity key={index} style={styles.groupCard}>
+                {group.images.map((_, i) => (
+                  <Image
+                    key={i}
+                    source={require("../assets/images/amalie.png")}
+                    style={[
+                      styles.groupImage,
+                      i === 1 && {
+                        position: "absolute",
+                        left: 16,
+                        top: 14,
+                      },
+                    ]}
+                  />
+                ))}
+
+                <View style={styles.groupNameWrapper}>
+                  <Text style={styles.groupName}>{group.name}</Text>
+                  {group.unread && <View style={styles.unreadDot} />}
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text style={styles.sectionTitle}>Meldinger</Text>
+
+          {messages.map((msg, index) => (
             <TouchableOpacity
               key={index}
-              style={styles.groupCard}
-              onPress={() => {}}
+              style={styles.messageRow}
+              onPress={() => router.push("/chat-room")}
             >
-              {group.images.map((img, i) => (
-                <Image
-                  key={i}
-                  source={require("../assets/images/amalie.png")}
-                  style={[
-                    styles.groupImage,
-                    i === 1 && { position: "absolute", left: 16, top: 14 },
-                  ]}
-                />
-              ))}
-              <View style={styles.groupNameWrapper}>
-                <Text style={styles.groupName}>{group.name}</Text>
-                {group.unread && <View style={styles.unreadDot} />}
+              <Image
+                source={require("../assets/images/amalie.png")}
+                style={styles.avatar}
+              />
+
+              <View style={styles.messageText}>
+                <Text style={styles.sender}>{msg.sender}</Text>
+                <Text style={styles.preview}>{msg.preview}</Text>
+              </View>
+
+              <View style={styles.dateWrapper}>
+                <Text style={styles.date}>{msg.date}</Text>
+                <View style={styles.unreadDot} />
               </View>
             </TouchableOpacity>
           ))}
-        </View>
-
-        <Text style={styles.sectionTitle}>Meldinger</Text>
-        {messages.map((msg, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.messageRow}
-            onPress={() => router.push("/chat-room")}
-          >
-            <Image
-              source={require("../assets/images/amalie.png")}
-              style={styles.avatar}
-            />
-            <View style={styles.messageText}>
-              <Text style={styles.sender}>{msg.sender}</Text>
-              <Text style={styles.preview}>{msg.preview}</Text>
-            </View>
-            <View style={styles.dateWrapper}>
-              <Text style={styles.date}>{msg.date}</Text>
-              <View style={styles.unreadDot} />
-            </View>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </>
   );
 }
 
@@ -141,27 +150,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fffdfc",
-    paddingTop: 10,
-    paddingHorizontal: 16,
   },
+
   header: {
+    paddingHorizontal: 16,
+    paddingBottom: 12,
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 14,
+    justifyContent: "space-between",
+    backgroundColor: "#fffdfc",
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: "500",
+    fontSize: 18,
+    fontWeight: "700",
   },
+  backArrow: {
+    fontSize: 22,
+  },
+
+  content: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 16,
+  },
+
   sectionTitle: {
     fontSize: 16,
     fontWeight: "700",
+    marginBottom: 8,
   },
+
   groupRow: {
     flexDirection: "row",
     justifyContent: "center",
-    marginBottom: 8,
+    marginBottom: 16,
   },
   groupCard: {
     marginTop: 13,
@@ -177,13 +199,15 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    resizeMode: "cover",
+  },
+  groupNameWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 8,
   },
   groupName: {
-    marginTop: 12,
     fontSize: 16,
     fontWeight: "500",
-    textAlign: "center",
   },
   messageRow: {
     flexDirection: "row",
@@ -223,11 +247,6 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     backgroundColor: "dodgerblue",
-    marginLeft: 2,
-  },
-  groupNameWrapper: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 4,
+    marginLeft: 4,
   },
 });

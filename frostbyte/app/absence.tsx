@@ -7,6 +7,7 @@ import { FloatingAddButton } from '@/components/absence/floating-add-button';
 import { AbsenceService, AbsenceRecord } from '@/services/absenceService';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
+import { Stack } from 'expo-router';
 
 function addDays(date: Date, days: number) {
   const result = new Date(date);
@@ -52,18 +53,19 @@ export default function AbsenceScreen() {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{ title: "Fravær" }} />
       <HeaderBar
         week={getWeekNumber(currentWeekDate)}
         mondayDate={monday}
         onPrevWeek={handlePrevWeek}
         onNextWeek={handleNextWeek}
-        onNotifications={() => console.log('Notification clicked')}
+        onNotifications={() => console.log("Notification clicked")}
       />
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View>
           <DayRow startDate={weekDates[0]} />
-          <ScrollView style={{ maxHeight: '100%' }}>
+          <ScrollView style={{ maxHeight: "100%" }}>
             <ChildrenColumn
               weekDates={weekDates}
               absences={absences}
