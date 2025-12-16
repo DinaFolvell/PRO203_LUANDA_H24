@@ -5,9 +5,9 @@ appen skal gjøre hverdagen til barnehageansatte litt lettere.
 Appen er kodet i ReactNative, noe som gjør den kryssplattform! Den skal fungere like bra på IOS og Android som  
 på Web.
 
-## For å komme i gang med appen
+## For å komme i gang med appen 💪🏼
 
-1. Install avhengigheter
+1. Installer avhengigheter
 
    ```bash
    npm install
@@ -25,16 +25,16 @@ på Web.
    I - For IOS (fungerer bra på mac om du har installert en simulator før)  
    A - For andoid (Skal åpne android simulator om du har android studios)
 
-### Brukernavn og passord i appen
+### Brukernavn og passord i appen 🤫
 
 Brukernavnet er:
-123@mail.no
+mari@hona.com
 
 Passordet er:
 passord123
 
 
-## Appens innhold
+## Appens innhold ✨
 ### Dashbord
 
 Når du har logget deg inn kommer du til dashbordet. Her ser du en oversikt over hva avdelingen skal gjøre den aktuelle dagen.
