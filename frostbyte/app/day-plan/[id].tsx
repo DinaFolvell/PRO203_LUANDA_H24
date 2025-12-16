@@ -37,7 +37,7 @@ export default function DayPlanDetailScreen() {
             { backgroundColor: event.color, paddingTop: insets.top },
           ]}
         >
-          <TouchableOpacity onPress={() => router.back()}>
+          <TouchableOpacity onPress={() => router.push("/dashboard")}>
             <Text style={styles.backArrow}>←</Text>
           </TouchableOpacity>
           <Text style={styles.headerTitle}>{event.title}</Text>
