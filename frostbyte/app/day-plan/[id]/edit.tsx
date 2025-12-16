@@ -2,11 +2,11 @@ import { useDayPlan } from "@/context/dayplan-context";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -23,8 +23,6 @@ export default function EditDayPlanScreen() {
   const [end, setEnd] = useState(event?.end ?? "");
   const [comment, setComment] = useState(event?.description ?? "");
   const [showDiscardModal, setShowDiscardModal] = useState(false);
-
-
 
   useEffect(() => {
     if (event) {
@@ -53,7 +51,7 @@ export default function EditDayPlanScreen() {
       description: comment,
     });
 
-    router.back();
+    router.push("/dashboard");
   };
 
   const handleDiscard = () => {
@@ -69,20 +67,18 @@ export default function EditDayPlanScreen() {
       />
 
       <View style={styles.container}>
-
         <View
           style={[
             styles.header,
             { backgroundColor: event.color, paddingTop: insets.top },
           ]}
         >
-          <TouchableOpacity onPress={() => router.back()}>
+          <TouchableOpacity onPress={() => router.push("/dashboard")}>
             <Text style={styles.backArrow}>←</Text>
           </TouchableOpacity>
           <Text style={styles.headerTitle}>{event.title}</Text>
           <View style={{ width: 24 }} />
         </View>
-
 
         <View className="content" style={styles.content}>
           {/* Tittel */}
@@ -142,43 +138,40 @@ export default function EditDayPlanScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
-  style={styles.secondaryButton}
-  onPress={() => setShowDiscardModal(true)}
->
-  <Text style={styles.secondaryButtonText}>Forkast endringer</Text>
-</TouchableOpacity>
-
+            style={styles.secondaryButton}
+            onPress={() => setShowDiscardModal(true)}
+          >
+            <Text style={styles.secondaryButtonText}>Forkast endringer</Text>
+          </TouchableOpacity>
         </View>
       </View>
       {showDiscardModal && (
-  <View style={styles.modalOverlay}>
-    <View style={styles.modalBox}>
-      <Text style={styles.modalTitle}>Forkast endringer?</Text>
-      <Text style={styles.modalSubtitle}>
-        Ved å bekrefte vil alle dine endringer gå tapt
-      </Text>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalBox}>
+            <Text style={styles.modalTitle}>Forkast endringer?</Text>
+            <Text style={styles.modalSubtitle}>
+              Ved å bekrefte vil alle dine endringer gå tapt
+            </Text>
 
-      <View style={styles.modalButtons}>
-        <TouchableOpacity
-          style={styles.modalCancel}
-          onPress={() => setShowDiscardModal(false)}
-        >
-          <Text style={styles.modalCancelText}>Avbryt</Text>
-        </TouchableOpacity>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={styles.modalCancel}
+                onPress={() => setShowDiscardModal(false)}
+              >
+                <Text style={styles.modalCancelText}>Avbryt</Text>
+              </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.modalConfirm}
-          onPress={() => router.back()}
-        >
-          <Text style={styles.modalConfirmText}>Bekreft</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  </View>
-)}
-
+              <TouchableOpacity
+                style={styles.modalConfirm}
+                onPress={() => router.push("/dashboard")}
+              >
+                <Text style={styles.modalConfirmText}>Bekreft</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
     </>
-    
   );
 }
 
@@ -287,73 +280,71 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   modalOverlay: {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: "rgba(0,0,0,0.25)", 
-  justifyContent: "center",
-  alignItems: "center",
-  paddingHorizontal: 24,
-},
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.25)",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24,
+  },
 
-modalBox: {
-  backgroundColor: "white",
-  borderRadius: 16,
-  padding: 24,
-  width: "100%",
-  maxWidth: 350,
-  alignItems: "center",
-},
+  modalBox: {
+    backgroundColor: "white",
+    borderRadius: 16,
+    padding: 24,
+    width: "100%",
+    maxWidth: 350,
+    alignItems: "center",
+  },
 
-modalTitle: {
-  fontSize: 20,
-  fontWeight: "700",
-  marginBottom: 8,
-  textAlign: "center",
-},
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    marginBottom: 8,
+    textAlign: "center",
+  },
 
-modalSubtitle: {
-  fontSize: 14,
-  color: "#444",
-  textAlign: "center",
-  marginBottom: 20,
-},
+  modalSubtitle: {
+    fontSize: 14,
+    color: "#444",
+    textAlign: "center",
+    marginBottom: 20,
+  },
 
-modalButtons: {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  width: "100%",
-  marginTop: 10,
-  gap: 12,
-},
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginTop: 10,
+    gap: 12,
+  },
 
-modalCancel: {
-  flex: 1,
-  backgroundColor: "#f5f5f5",
-  borderRadius: 8,
-  paddingVertical: 16,
-  alignItems: "center",
-},
+  modalCancel: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 8,
+    paddingVertical: 16,
+    alignItems: "center",
+  },
 
-modalCancelText: {
-  color: "#e85a1c",
-  fontWeight: "600",
-},
+  modalCancelText: {
+    color: "#e85a1c",
+    fontWeight: "600",
+  },
 
-modalConfirm: {
-  flex: 1,
-  backgroundColor: "#e85a1c",
-  borderRadius: 8,
-  paddingVertical: 16,
-  alignItems: "center",
-},
+  modalConfirm: {
+    flex: 1,
+    backgroundColor: "#e85a1c",
+    borderRadius: 8,
+    paddingVertical: 16,
+    alignItems: "center",
+  },
 
-modalConfirmText: {
-  color: "white",
-  fontWeight: "700",
-},
-
+  modalConfirmText: {
+    color: "white",
+    fontWeight: "700",
+  },
 });
-
