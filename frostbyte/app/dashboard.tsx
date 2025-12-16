@@ -18,6 +18,7 @@ import {
   NotificationsOverview,
   mockNotifications,
 } from "@/components/notifications-overview";
+import { Stack } from "expo-router";
 
 const buttonLabels = {
   attendance: "Oppmøte",
@@ -57,6 +58,7 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={styles.scrollView}>
+      <Stack.Screen options={{ title: "Oversikt" }} />
       <View style={styles.container}>
         <View
           style={{

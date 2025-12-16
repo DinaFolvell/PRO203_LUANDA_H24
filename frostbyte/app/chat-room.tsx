@@ -1,15 +1,16 @@
-import { router } from 'expo-router';
-import React, { useState, useRef } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  FlatList, 
+import { Stack, router } from "expo-router";
+import React, { useState, useRef } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
   KeyboardAvoidingView,
   Platform,
-  StyleSheet 
-} from 'react-native';
+  StyleSheet,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface Message {
   id: string;
@@ -19,67 +20,60 @@ interface Message {
 }
 
 export default function ChatRoom() {
+  const insets = useSafeAreaInsets();
+
   const [messages, setMessages] = useState<Message[]>([
-    { 
-      id: '1', 
-      text: 'Sigurd skal besøke Grisefjøset til hans onkel og tante i helga så han kommer ikke i barnehagen på fredag', 
-      sender: 'Lucas Fjongers', 
-      isMe: false 
+    {
+      id: "1",
+      text: "Sigurd skal besøke Grisefjøset til hans onkel og tante i helga så han kommer ikke i barnehagen på fredag",
+      sender: "Lucas Fjongers",
+      isMe: false,
     },
-    { 
-      id: '2', 
-      text: 'Den er grei! Før det gjerne inn i appens Fraværfunksjon', 
-      sender: 'Ansatt', 
-      isMe: true 
+    {
+      id: "2",
+      text: "Den er grei! Før det gjerne inn i appens Fraværfunksjon",
+      sender: "Ansatt",
+      isMe: true,
     },
-    { 
-      id: '3', 
-      text: 'Ok', 
-      sender: 'Lucas Fjongers', 
-      isMe: false 
-    },
-    { 
-      id: '4', 
-      text: 'Takk', 
-      sender: 'Ansatt', 
-      isMe: true 
-    },
-    { 
-      id: '5', 
-      text: 'Sigurd har fått svineinfluensa og kan dessverre ikke komme i barnehagen.', 
-      sender: 'Lucas Fjongers', 
-      isMe: false 
+    { id: "3", text: "Ok", sender: "Lucas Fjongers", isMe: false },
+    { id: "4", text: "Takk", sender: "Ansatt", isMe: true },
+    {
+      id: "5",
+      text: "Sigurd har fått svineinfluensa og kan dessverre ikke komme i barnehagen.",
+      sender: "Lucas Fjongers",
+      isMe: false,
     },
   ]);
 
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const flatListRef = useRef<FlatList>(null);
 
   const sendMessage = () => {
-    if (inputText.trim()) {
-      const newMessage: Message = {
-        id: Date.now().toString(),
-        text: inputText,
-        sender: 'Ansatt',
-        isMe: true,
-      };
-      setMessages([...messages, newMessage]);
-      setInputText('');
-      setTimeout(() => flatListRef.current?.scrollToEnd(), 100);
-    }
+    if (!inputText.trim()) return;
+
+    const newMessage: Message = {
+      id: Date.now().toString(),
+      text: inputText,
+      sender: "Ansatt",
+      isMe: true,
+    };
+
+    setMessages((prev) => [...prev, newMessage]);
+    setInputText("");
+    setTimeout(() => flatListRef.current?.scrollToEnd(), 100);
   };
 
   const renderMessage = ({ item }: { item: Message }) => (
     <View
       style={[
         styles.messageWrapper,
-        item.isMe ? styles.myWrapper : styles.theirWrapper
+        item.isMe ? styles.myWrapper : styles.theirWrapper,
       ]}
     >
       <View
         style={[
           styles.messageBubble,
-          item.isMe ? styles.myBubble : styles.theirBubble
+          item.isMe ? styles.myBubble : styles.theirBubble,
         ]}
       >
         <Text style={styles.messageText}>{item.text}</Text>
@@ -88,147 +82,161 @@ export default function ChatRoom() {
   );
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
-    >
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.push("/chatOverview")}
-        >
-          <Text style={styles.backButtonText}>‹</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Lucas Fjongers</Text>
-      </View>
-
-      <FlatList
-        ref={flatListRef}
-        data={messages}
-        renderItem={renderMessage}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.messageList}
-        style={styles.messagesContainer}
-        onContentSizeChange={() => flatListRef.current?.scrollToEnd()}
+    <>
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
       />
 
-      <View style={styles.inputContainer}>
-        <View style={styles.inputWrapper}>
-          <TextInput
-            style={styles.input}
-            value={inputText}
-            onChangeText={setInputText}
-            placeholder="Skriv en melding..."
-            placeholderTextColor="#999"
-            multiline
-            maxLength={500}
-          />
-          <TouchableOpacity onPress={sendMessage} disabled={!inputText.trim()}>
-            <Text
-              style={[
-                styles.sendButton,
-                !inputText.trim() && styles.sendButtonDisabled,
-              ]}
-            >
-              Send
-            </Text>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+      >
+        <View style={[styles.header, { paddingTop: insets.top }]}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => router.push("/chatOverview")}
+          >
+            <Text style={styles.backButtonText}>←</Text>
           </TouchableOpacity>
+
+          <Text style={styles.headerTitle}>Lucas Fjongers</Text>
+
+          <View style={{ width: 24 }} />
         </View>
-      </View>
-    </KeyboardAvoidingView>
+
+        <FlatList
+          ref={flatListRef}
+          data={messages}
+          renderItem={renderMessage}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.messageList}
+          style={styles.messagesContainer}
+          onContentSizeChange={() => flatListRef.current?.scrollToEnd()}
+        />
+
+        <View
+          style={[styles.inputContainer, { paddingBottom: insets.bottom + 16 }]}
+        >
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.input}
+              value={inputText}
+              onChangeText={setInputText}
+              placeholder="Skriv en melding..."
+              placeholderTextColor="#999"
+              multiline
+              maxLength={500}
+            />
+            <TouchableOpacity
+              onPress={sendMessage}
+              disabled={!inputText.trim()}
+            >
+              <Text
+                style={[
+                  styles.sendButton,
+                  !inputText.trim() && styles.sendButtonDisabled,
+                ]}
+              >
+                Send
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
-
   header: {
-    backgroundColor: '#fff',
-    paddingTop: 50,
-    paddingBottom: 16,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingBottom: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: "#e0e0e0",
   },
-  backButton: { marginRight: 16 },
-  backButtonText: { fontSize: 28, color: '#000', lineHeight: 28 },
+  backButton: {
+    paddingRight: 8,
+  },
+  backButtonText: {
+    fontSize: 22,
+  },
   headerTitle: {
-    fontSize: 20, fontWeight: '600', color: '#000', flex: 1, textAlign: 'center',
-    marginRight: 28,
+    fontSize: 18,
+    fontWeight: "700",
   },
-
   messagesContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: "#f5f5f5",
   },
   messageList: {
     padding: 20,
   },
-
   messageWrapper: {
     marginBottom: 18,
-    maxWidth: '85%',
+    maxWidth: "85%",
   },
   theirWrapper: {
-    alignSelf: 'flex-start',
+    alignSelf: "flex-start",
   },
   myWrapper: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
-
   messageBubble: {
     padding: 12,
     borderRadius: 12,
   },
   theirBubble: {
-    backgroundColor: '#FBB599',
+    backgroundColor: "#FBB599",
     borderTopLeftRadius: 2,
   },
   myBubble: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     borderTopRightRadius: 2,
   },
-
   messageText: {
     fontSize: 15,
     lineHeight: 20,
-    color: '#000',
+    color: "#000",
   },
-
   inputContainer: {
-    padding: 16,
-    paddingBottom: 24,
-    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    backgroundColor: "#fff",
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
+    borderTopColor: "#e0e0e0",
   },
   inputWrapper: {
-    flexDirection: 'row',
-    backgroundColor: '#f5f5f5',
+    flexDirection: "row",
+    backgroundColor: "#f5f5f5",
     borderRadius: 8,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   input: {
     flex: 1,
     fontSize: 15,
-    color: '#000',
+    color: "#000",
     maxHeight: 100,
   },
   sendButton: {
-    color: '#ff5722',
+    color: "#ff5722",
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: "600",
     marginLeft: 8,
   },
   sendButtonDisabled: {
-    color: '#ccc',
+    color: "#ccc",
   },
 });

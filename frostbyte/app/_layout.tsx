@@ -23,7 +23,7 @@ export default function RootLayout() {
         <Drawer.Screen
           name="check-in"
           options={{
-            title: "Innsjekk",
+            title: "Oppmøte",
             drawerLabel: "Innsjekk",
             headerRight: () => <ViewToggleButton />,
           }}
@@ -32,7 +32,7 @@ export default function RootLayout() {
         <Drawer.Screen
           name="attendance"
           options={{
-            title: "Innsjekk",
+            title: "Oppmøte",
             drawerLabel: "Innsjekk",
             headerRight: () => <ViewToggleButton />,
           }}
