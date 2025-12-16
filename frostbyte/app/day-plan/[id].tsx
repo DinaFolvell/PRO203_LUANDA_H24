@@ -1,19 +1,14 @@
 // app/dayplan/[id].tsx
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import React from "react";
-import {
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { dayPlanEvents } from "../../data/dayplan-events";
 
 export default function DayPlanDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-    const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsets();
 
   const event = dayPlanEvents.find((e) => e.id === id);
 
@@ -28,56 +23,66 @@ export default function DayPlanDetailScreen() {
   return (
     <>
       {/* Set native header title to event title */}
-      <Stack.Screen options={{
-    headerShown: false,}} />
+      <Stack.Screen
+        options={{
+          headerShown: false,
+        }}
+      />
 
       <View style={styles.container}>
-  {/* Header */}
-  <View
-    style={[
-      styles.header,
-      { backgroundColor: event.color, paddingTop: insets.top },
-    ]}
-  >
-    <TouchableOpacity onPress={() => router.back()}>
-      <Text style={styles.backArrow}>←</Text>
-    </TouchableOpacity>
-    <Text style={styles.headerTitle}>{event.title}</Text>
-    <View style={{ width: 24 }} />
-  </View>
+        {/* Header */}
+        <View
+          style={[
+            styles.header,
+            { backgroundColor: event.color, paddingTop: insets.top },
+          ]}
+        >
+          <TouchableOpacity onPress={() => router.back()}>
+            <Text style={styles.backArrow}>←</Text>
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>{event.title}</Text>
+          <View style={{ width: 24 }} />
+        </View>
 
-  {/* ✅ Main content (fills available space) */}
-  <View style={styles.content}>
-    <View style={styles.section}>
-      <Text style={styles.sectionLabel}>Tidspunkt</Text>
-      <Text style={styles.timeText}>
-        {event.start}–{event.end}
-      </Text>
-    </View>
+        {/* ✅ Main content (fills available space) */}
+        <View style={styles.content}>
+          <View style={styles.section}>
+            <Text style={styles.sectionLabel}>Tidspunkt</Text>
+            <Text style={styles.timeText}>
+              {event.start}–{event.end}
+            </Text>
+          </View>
 
-    <View style={styles.section}>
-      <Text style={styles.sectionLabel}>Kommentar</Text>
-      <Text style={styles.bodyText}>{event.description}</Text>
-    </View>
-  </View>
+          <View style={styles.section}>
+            <Text style={styles.sectionLabel}>Kommentar</Text>
+            <Text style={styles.bodyText}>{event.description}</Text>
+          </View>
+        </View>
 
-  {/* ✅ Buttons pinned to bottom */}
-  <View
-    style={[
-      styles.buttonsContainer,
-      { paddingBottom: insets.bottom + 16 },
-    ]}
-  >
-    <TouchableOpacity style={styles.primaryButton}>
-      <Text style={styles.primaryButtonText}>Endre på aktivitet</Text>
-    </TouchableOpacity>
+        {/* ✅ Buttons pinned to bottom */}
+        <View
+          style={[
+            styles.buttonsContainer,
+            { paddingBottom: insets.bottom + 16 },
+          ]}
+        >
+          <TouchableOpacity
+            style={styles.primaryButton}
+            onPress={() =>
+              router.push({
+                pathname: "/day-plan/[id]/edit",
+                params: { id: event.id },
+              })
+            }
+          >
+            <Text style={styles.primaryButtonText}>Endre på aktivitet</Text>
+          </TouchableOpacity>
 
-    <TouchableOpacity style={styles.secondaryButton}>
-      <Text style={styles.secondaryButtonText}>Slett aktivitet</Text>
-    </TouchableOpacity>
-  </View>
-</View>
-
+          <TouchableOpacity style={styles.secondaryButton}>
+            <Text style={styles.secondaryButtonText}>Slett aktivitet</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </>
   );
 }
@@ -138,11 +143,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   buttonsContainer: {
-  paddingHorizontal: 20,
-  paddingTop: 16,
-  backgroundColor: "#f7f7f7",
-  gap: 12,
-},
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    backgroundColor: "#f7f7f7",
+    gap: 12,
+  },
 
   primaryButton: {
     backgroundColor: "#e85a1c",
