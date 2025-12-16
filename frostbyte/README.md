@@ -5,7 +5,6 @@ appen skal gjøre hverdagen til barnehageansatte litt lettere.
 Appen er kodet i ReactNative, noe som gjør den kryssplattform! Den skal fungere like bra på IOS og Android som  
 på Web.
 
-
 ## For å komme i gang med appen
 
 1. Install avhengigheter
@@ -34,4 +33,17 @@ Brukernavnet er:
 Passordet er:
 passord123
 
-##
+### Dashbord
+
+Når du har logget deg inn kommer du til dashbordet. Her ser du en oversikt over hva avdelingen skal gjøre den aktuelle dagen.
+
+Du finner også noen snarveier som tar deg til fraværsregistrering, oppmøteliste, meldinger og pleie (som for tiden er en tom knapp).  
+Avdelinger kan ha forskjellige behov og av den grunn kan man fjerne og legge til snareveier for å  
+tilpasse sitt behov.
+
+Nederst på siden ser du en oversikt over varslinger som har kommet inn. Det kan være foreldre som har sent meldinger eller registrert planlagt fravær.
+
+### Fravær
+
+På fraværsiden kan man finne en oversikt over hvilke barn som er planlagt fraværende.  
+Du kan også regisrere fravær.
