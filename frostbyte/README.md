@@ -5,6 +5,7 @@ appen skal gjøre hverdagen til barnehageansatte litt lettere.
 Appen er kodet i ReactNative, noe som gjør den kryssplattform! Den skal fungere like bra på IOS og Android som  
 på Web.
 
+
 ## For å komme i gang med appen 💪🏼
 
 1. Installer avhengigheter
