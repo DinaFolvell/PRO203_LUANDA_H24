@@ -1,55 +1,4 @@
-import { DayPlanProvider } from '@/context/dayplan-context';
-import { Drawer } from 'expo-router/drawer';
-import React from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import SideMenu from './side-menu'; 
-import ViewToggleButton from '@/components/attendance-view-btn';
-
-export default function RootLayout() {
-  return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <DayPlanProvider>
-      <Drawer
-        drawerContent={(props) => <SideMenu {...props} />}
-      >
-        <Drawer.Screen
-          name="index"
-          options={{
-            title: 'Logg inn',
-            drawerLabel: 'Oversikt',
-          }}
-        />
-        
-        <Drawer.Screen
-          name="check-in"
-          options={{
-            title: "Oppmøte",
-            drawerLabel: "Innsjekk",
-            headerRight: () => <ViewToggleButton />,
-          }}
-        />
-
-        <Drawer.Screen
-          name="attendance"
-          options={{
-            title: "Oppmøte",
-            drawerLabel: "Innsjekk",
-            headerRight: () => <ViewToggleButton />,
-          }}
-        />
-
-      </Drawer>
-      </DayPlanProvider>
-    </GestureHandlerRootView>
-  );
-}
-
-
-/**
-  Bruk denne når vi trenger å fjerne hambugermenyen fra log-in siden <3333
- * 
- * 
- * import { DayPlanProvider } from "@/context/dayplan-context";
+import { DayPlanProvider } from "@/context/dayplan-context";
 import { Drawer } from "expo-router/drawer";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import SideMenu from "./side-menu";
@@ -116,5 +65,3 @@ export default function RootLayout() {
     </GestureHandlerRootView>
   );
 }
-
- */

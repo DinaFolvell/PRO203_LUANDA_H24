@@ -71,7 +71,7 @@ export default function HomeScreen() {
             Dagsplan
           </Text>
           <Text style={{ fontSize: 14, fontWeight: "300", marginBottom: 10 }}>
-            onsdag 3.desember 2025
+            Onsdag 17. desember 2025
           </Text>
         </View>
 
