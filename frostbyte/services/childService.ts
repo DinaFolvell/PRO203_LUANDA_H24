@@ -1,5 +1,3 @@
-//Denne brukes der vi ikke enda har laget kobling til api <3
-// Statisk "dummy" innhold
 export type AttendanceStatus = "present" | "expected" | "picked_up" | "absent";
 
 export interface Child {

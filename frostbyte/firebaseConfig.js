@@ -5,8 +5,6 @@ import { getFirestore } from "firebase/firestore";
 import firebaseConfig from "./firebaseEnv";
 import { Platform } from "react-native";
 
-
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 export const auth = initializeAuth(app, {
