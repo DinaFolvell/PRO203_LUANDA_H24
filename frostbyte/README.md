@@ -3,7 +3,7 @@
 Dette er en app som er laget til eksamen i PRO203 - smidig prosjekt. Oppdragsgiver i prosjektet er frostbyte og  
 appen skal gjøre hverdagen til barnehageansatte litt lettere.  
 Appen er kodet i ReactNative, noe som gjør den kryssplattform! 
-Den skal fungere like bra på IOS og Android som  på Web.
+Den skal fungere like bra på IOS og Android som  på Web.  
 Som backend-løsning har vi brukt Firebase til både datalagring og autentisering
 
 
